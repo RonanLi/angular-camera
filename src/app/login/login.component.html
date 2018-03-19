@@ -1,14 +1,15 @@
 
   <div class="login container-fluid">
-    <img class="userImg" src="" alt="">
+    <img class="userImg" src='../../assets/imgs/logoBig.png' alt="">
 
-    <div class="row" *ngIf="!this.apiKey">
+    <div class="row" *ngIf="!this.cameraService.isLoggedIn">
       <form #form="ngForm" (ngSubmit)="form.form.valid && submit(form.value)" novalidate  role="form" class="form col-sm-12 col-md-4 col-md-offset-4 ">
         <div class="form-group" [ngClass]="{ 'has-error': form.submitted && !userName.valid }">
           <!--<label class="col-sm-2 control-label">用户名：</label>-->
           <div >
-            <input required name="userName" [(ngModel)]="user.userName" #userName="ngModel" type="text" class="form-control input" placeholder="请输入用户名" autocomplete="off">
-            <div *ngIf="form.submitted && !userName.valid" class="text-danger">用户名必须输入！</div>
+            <input required name="userName" [(ngModel)]="user.userName" #userName="ngModel" type="text" class="form-control input" placeholder="请输入手机号或公司名称" autocomplete="off">
+            <div *ngIf="form.submitted && !userName.valid" class="text-danger">手机号或用户名必须输入！</div>
+            <div *ngIf="!isPhone" class="text-danger">手机号格式有误！</div>
           </div>
         </div>
         <div class="form-group">
@@ -25,13 +26,13 @@
             <div *ngIf='form.submitted &&!(vode==user.code)' class="text-danger">验证码有误</div>
           </div>
         </div>
-        <input type="submit" value="登录" class="btn btn-info"  [disabled]="!password.valid||!userName.valid||!mark"/>
+        <!--<input type="submit" value="登录" class="btn btn-info"  [disabled]="!password.valid||!userName.valid||!mark"/>-->
+        <input type="submit" value="登录" class="btn btn-info"  [disabled]="!userName.valid||!password.valid"/>
 
       </form>
     </div>
-    <div class="rowM" *ngIf="this.apiKey">
+    <div class="rowM" *ngIf="this.cameraService.isLoggedIn">
       <div>您已经登录</div>
-      <div><a routerLink="/index">去首页看看</a></div>
+      <div><a routerLink="/smartHome/customer">去首页看看</a></div>
     </div>
-
   </div>
