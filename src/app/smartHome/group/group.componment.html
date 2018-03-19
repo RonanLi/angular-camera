@@ -82,7 +82,7 @@
                         <input type="text" class="form-control search" placeholder="请输入设备名称" #box  (keyup.enter)="searchDeviceList(box.value)">
                       </div>
                       <div class="list">
-                        虚拟占位设备{{none}}
+                        虚拟占位设备
                         <b class="deviceAdd" (click)="addDevice(none,page,grad,list.groupContent);none=none-1"></b>
                       </div>
                       <div class="list" draggable="true" *ngFor="let listL of deviceList">
@@ -155,7 +155,7 @@
                     <input type="text" class="form-control search" placeholder="请设备名称" #box  (keyup.enter)="searchDeviceList(box.value)">
                   </div>
                   <div class="list">
-                    虚拟占位设备{{none}}
+                    虚拟占位设备
                     <b class="deviceAdd" (click)="addDevice(none,page,grad,deviceListCheck);none=none-1"></b>
                   </div>
                   <div class="list" draggable="true" *ngFor="let list of deviceList">

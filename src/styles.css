@@ -114,13 +114,13 @@ p select.form-control:not([size]):not([multiple]){display:inline-block;height:ca
 .btnBox .btn{float: right;margin-left:10px;}
 .customer .searchBox.row{margin:0;}
 /*客户管理添加客户 子账户管理添加客户*/
-.customer .addForm,.deviceGL .addForm{position:absolute;width:550px;top:30%;left:calc(50% - 340px); padding: 1% 0; border: 1px solid #e3e3e3;background:#fff;z-index: 11;}
+.customer .addForm,.deviceGL .addForm{position:absolute;width:550px;top:-64px;left:calc(50% - 340px); padding: 1% 0; border: 1px solid #e3e3e3;background:#fff;z-index: 11;}
 .customer .addForm form,.deviceGL .addForm form{margin:auto;padding:3%;}
 .customer .addForm form input,.customer .addForm form label,.deviceGL .addForm form input,.deviceGL .addForm form label{display: inline-block;width:40%;height:35px;line-height:30px;margin:0 4%;}
 .customer .addForm form label,.deviceGL .addForm form label{width:25%;text-align: right;}
 /*编辑客户*/
 /*.customer .list-group-item .editForm{position:absolute;width: 36%;top:45%;right:35%; padding: 1% 0; border: 1px solid #e3e3e3;background:#fff;z-index: 10;}*/
-.customer .list-group-item .editForm{position:absolute;width: 45%;top:5%;right:35%; padding: 1% 0; border: 1px solid #e3e3e3;background:#fff;z-index: 10;}
+.customer .list-group-item .editForm{position:absolute;width: 45%;top:-64px;right:35%; padding: 1% 0; border: 1px solid #e3e3e3;background:#fff;z-index: 10;}
 .customer .editForm form{margin:auto;padding:3%;}
 .customer .editForm form input,.customer .editForm form label{display: inline-block;width:40%;height:35px;line-height:30px;margin:0 4%;text-indent: 1rem;}
 .customer .editForm form label{ padding-right:2%;text-align: right;}
@@ -164,7 +164,7 @@ thead{background: #f6f8fa;}
 .deviceGL .deviceListT>div,.deviceGL .deviceListC .list-group-item>div{width:10.2%;font-size: 12px;}
 .deviceGL .deviceListT .longDiv,.deviceGL .deviceListC .list-group-item .longDiv{width:21.5%;}
 .deviceGL .deviceListT .short,.deviceGL .deviceListC .list-group-item .short{width:5%;}
-.deviceGL .deviceListC .list-group-item .editForm{position:absolute;width: 45%;top:5%;right:35%; padding: 1% 0; border: 1px solid #e3e3e3;background:#fff;z-index: 10;}
+.deviceGL .deviceListC .list-group-item .editForm{position:absolute;width: 45%;top:-64px;right:35%; padding: 1% 0; border: 1px solid #e3e3e3;background:#fff;z-index: 10;}
 .deviceGL .editForm form{margin:auto;padding:3%;}
 .deviceGL .editForm form input,.deviceGL .editForm form label{display: inline-block;width:40%;height:35px;line-height:30px;margin:0 4%;text-indent: 1rem;}
 .deviceGL .editForm form label{ padding-right:2%;text-align: right;}
@@ -197,7 +197,7 @@ thead{background: #f6f8fa;}
 .rolesListC .list-group-item>div{height:100px;line-height: 100px;}
 .list-group-item .permission p{line-height: 14px;margin:5px 0; font-size: 12px; text-align: left;}
 .list-group-item .permission p b{font-size: 12px;font-weight: normal;}
-.rolesListC .list-group-item .editForm{position: absolute;width:630px;left:calc(50% - 430px);z-index: 9;}
+.rolesListC .list-group-item .editForm{position: absolute;width:630px;top:-64px;left:calc(50% - 430px);z-index: 9;}
 .rolesListC .list-group-item .editForm form{padding:5% 0;background:#fff;border:1px solid #e3e3e3;}
 .rolesListC .editForm form div{line-height: 50px;}
 .rolesListC .editForm form input,.deviceGL .editForm form label{display: inline-block;width:40%;height:35px;line-height:30px;margin:0 4%;text-indent: 1rem;}
@@ -210,7 +210,7 @@ thead{background: #f6f8fa;}
 .rolesListC .editForm form .pr input{display: inline-block;width: 10px;vertical-align: middle;}
 .rolesListC .editForm form .pr b{display: inline-block;width: 28px;font-weight: normal;}
 
-.roles .addForm{position: absolute;width:630px;top:27%;left:calc(50% - 430px);z-index: 9;}
+.roles .addForm{position: absolute;width:630px;top:-64px;left:calc(50% - 430px);z-index: 9;}
 .roles .addForm form{padding:5% 0;background:#fff;border:1px solid #e3e3e3;}
 .roles .addForm form input,.roles .addForm form label{display: inline-block;width:30%;height:35px;line-height:28px;text-indent: 1rem;}
 .roles .addForm form label{text-align: center;}
@@ -223,7 +223,7 @@ thead{background: #f6f8fa;}
 .roles .addForm form .pr b{display:inline-block;font-weight: normal;text-indent: 0;vertical-align: middle;}
 .roles .addForm form .btn{margin: 5% 5% 0 12%;}
 /*子账户管理*/
-.deviceGL .addForm{top:22%;}
+.deviceGL .addForm{top:-64px;}
 .deviceGL .addForm form label,.deviceGL .editForm form label{vertical-align: top;}
 .deviceGL .addForm form .labBox,.deviceGL .editForm form .labBox{display: inline-block;width:40%;min-height:40px;max-height:180px;margin:0 4%;text-align:left;border:1px solid #d2d2d2;overflow-y: scroll;}
 .deviceGL .addForm form .lab input,.deviceGL .editForm form .lab input{width:20px;display: inline-block;vertical-align: middle}

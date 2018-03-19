@@ -506,7 +506,7 @@
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <input type="button" value="取消" class="btn btn-info" (click)="list.editName=false;this.mask=false"/>
-                      <input type="submit" value="提交" class="btn btn-info" [disabled]="!location.valid"/>
+                      <input type="submit" value="提交" class="btn btn-info" [disabled]="!containerName.valid"/>
                     </div>
                   </div>
                 </form>
@@ -616,7 +616,7 @@
                 {{(list.remainDays>10)?"未到期":(list.endTime|date:'yyyy-MM-dd')}}&nbsp;
               </div>-->
               <div>
-                <a class="pointer" style="display:inline-block;width: 100%;height:36px;line-height:36px;text-overflow: ellipsis;overflow:hidden;white-space:nowrap;text-decoration: underline;" (click)="list.editName=!list.editName;">{{list.containerName}}&nbsp;</a>
+                <a class="pointer" style="display:inline-block;width: 100%;height:36px;line-height:36px;text-overflow: ellipsis;overflow:hidden;white-space:nowrap;text-decoration: underline;" (click)="list.editName=!list.editName;this.mask=!this.mask;">{{list.containerName}}&nbsp;</a>
               </div>
               <div>{{list.customerName}}&nbsp;</div>
               <div>
@@ -625,7 +625,7 @@
                 </p>&nbsp;
               </div>
               <div class="longDiv" style="width:25%">
-                 <a class="pointer" style="display:inline-block;width: 100%;height:36px;line-height:36px;text-overflow: ellipsis;overflow:hidden;white-space:nowrap;text-decoration: underline;" (click)="list.loca=!list.loca;">{{list.location?list.location:'未设置'}}</a>
+                 <a class="pointer" style="display:inline-block;width: 100%;height:36px;line-height:36px;text-overflow: ellipsis;overflow:hidden;white-space:nowrap;text-decoration: underline;" (click)="list.loca=!list.loca;this.mask=!this.mask;">{{list.location?list.location:'未设置'}}</a>
               </div>
               <div class="short">{{list.statusCode}}</div>
               <div class="fun">
