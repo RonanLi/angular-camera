@@ -48,7 +48,7 @@
               <div>{{list.displayMode}}</div>
               <div>{{list.switchInterval}}</div>
               <div>
-                <button class="btn btn-primary" (click)="list.editgroup=!list.editgroup; editDateNew(list.groupContent);this.mask=true;addData.select=grad=gradChang(list.displayMode)">{{list.editgroup?'取消':'编辑'}}</button>
+                <button class="btn btn-primary" (click)="list.editgroup=!list.editgroup; editDateNew(list.groupContent);this.mask=true;addData.select=grad=gradChang(list.displayMode);editDeviceList(list.groupContent)">{{list.editgroup?'取消':'编辑'}}</button>
                 <button class="btn btn-danger" (click)="delGroup(list.groupId)">删除</button>
               </div>
               <!--<div><a href="{{'/smartHome/groupVideo/:'+list.groupId}}" target="_blank">查看</a></div>-->
@@ -69,7 +69,7 @@
                   </div>
                   <div class="form-group ">
                     <label class="control-label">排列方式：</label>
-                    <select  #select="ngModel" [(ngModel)]="addData.select" name="select" (change)="grad=select.value">
+                    <select  #select="ngModel" [(ngModel)]="addData.select" name="select" (change)="grad=select.value;page=1;this.onGroupList=gradChange(grad,this.onGroupList)">
                       <option value="4">四宫格</option>
                       <option value="9">九宫格</option>
                       <option value="16">十六宫格</option>
@@ -83,15 +83,16 @@
                       </div>
                       <div class="list">
                         虚拟占位设备
-                        <b class="deviceAdd" (click)="addDevice(none,page,grad,list.groupContent);none=none-1"></b>
+                        <!--<b class="deviceAdd" (click)="addDevice(none,page,grad,list.groupContent);none=none-1"></b>-->
+                        <b class="deviceAdd" (click)="addDevice(none,page,grad,this.onGroupList);none=none-1"></b>
                       </div>
                       <div class="list" draggable="true" *ngFor="let listL of deviceList">
-                        {{listL.containerName}} <b class="deviceAdd" (click)="addDevice(listL.containerId,page,grad,list.groupContent)"></b>
+                        {{listL.containerName}} <b class="deviceAdd" (click)="addDevice(listL.containerId,page,grad,this.onGroupList)"></b>
                       </div>
                     </div>
                     <!--已选列表-->
                     <div id="" class="groupEditBoxR">
-                      <div class="divPage" draggable="true" *ngFor="let sub of onGroupList">
+                      <div class="divPage" draggable="true" *ngFor="let sub of this.onGroupList">
                         <div *ngIf="sub.page==page">
                           <p class="divPageTop">
                             第{{page}}屏(共{{onGroupList.length}}屏)
