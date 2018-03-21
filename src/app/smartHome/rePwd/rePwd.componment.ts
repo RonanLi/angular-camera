@@ -20,7 +20,7 @@ export class RePwdComponent {
   ngOnInit() {}
 
   updatePwd(ele){
-    this.userSafeHttp.post('/v1.0/password/update?'+new Date(),ele,).subscribe(
+    this.userSafeHttp.post('/api/v1.0/password/update?'+new Date(),ele,).subscribe(
       req => {
         if(req['message']=="OK"){ alert('修改成功,请重新登录!');
           window.localStorage.removeItem('smartContent');

@@ -50,7 +50,7 @@ export class SubaccountComponent {
   /*查看用户客户列表*/
   getSubList(pageIndex){
     const params = new HttpParams().set('pageIndex', pageIndex).set('pageIndex', pageIndex).set('pageSize', '10').set('customerType', this.cameraService.userDetial.customerType);
-    this.subaccountHttp.get('/v1.0/customer/list'+this.timer,{params}).subscribe(req => {
+    this.subaccountHttp.get('/api/v1.0/customer/list'+this.timer,{params}).subscribe(req => {
       if(req['code']=='200'){
         this.subList=req['data'];
         this.paramList=req['data'];
@@ -72,7 +72,7 @@ export class SubaccountComponent {
   public roleNameList:any;
   getSubDetail(){
     const params = new HttpParams().set('customerId', this.cameraService.userDetial.customerId);
-    this.subaccountHttp.get('/v1.0/customer/detail',{params}).subscribe(req => {
+    this.subaccountHttp.get('/api/v1.0/customer/detail',{params}).subscribe(req => {
     this.roleNameList=req['data'];
       // console.log(this.roleNameList.roleNameArray)
     });
@@ -99,7 +99,7 @@ export class SubaccountComponent {
     // console.log(params);
     // console.log(this.obj);
     this.subaccountHttp
-      .post('/v1.0/customers/update',params)
+      .post('/api/v1.0/customers/update',params)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('批量' +ele2+'成功'); }
@@ -128,7 +128,7 @@ export class SubaccountComponent {
     }
     const params = new HttpParams().set('customerList', JSON.stringify(this.obj));
     this.subaccountHttp
-      .post('/v1.0/customers/update',params)
+      .post('/api/v1.0/customers/update',params)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('批量编辑成功'); }
@@ -149,7 +149,7 @@ export class SubaccountComponent {
     var params = new HttpParams().set('customerId', edt1).set('statusCode',ele);
     // console.log('单个禁用启用功能'+params);
     this.subaccountHttp
-      .post('/v1.0/customer/update',params)
+      .post('/api/v1.0/customer/update',params)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('操作成功');this.getSubList(this.page);}
@@ -169,7 +169,7 @@ export class SubaccountComponent {
     urlSearchParams.append('customerId',id);
     let params=urlSearchParams.toString();
     this.subaccountHttp
-      .post('/v1.0/password/reset',params)
+      .post('/api/v1.0/password/reset',params)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('子账户密码重置成功！默认密码为手机号'); }
@@ -189,7 +189,7 @@ export class SubaccountComponent {
     if(form.description){urlSearchParams.append('description', form.description); }
     let paramEdit = urlSearchParams.toString();
     this.subaccountHttp
-      .post('/v1.0/customer/update',paramEdit)
+      .post('/api/v1.0/customer/update',paramEdit)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('编辑成功');
@@ -220,7 +220,7 @@ export class SubaccountComponent {
     urlSearchParams.append('phone', form.phone);
     let paramAdd = urlSearchParams.toString();
     this.subaccountHttp
-      .post('/v1.0/customer/add',paramAdd)
+      .post('/api/v1.0/customer/add',paramAdd)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('添加成功');this.getSubList(this.page)}
@@ -235,14 +235,14 @@ export class SubaccountComponent {
 
   /*导出数据*/
   exportData(){
-    let url= 'https://camera.5itianyuan.com/api/v1.0/customer/export?apiKey='+this.cameraService.userDetial.apiKey;
+    let url= 'http://camera.t2.5itianyuan.com/api/v1.0/customer/export?apiKey='+this.cameraService.userDetial.apiKey;
     let urlNew=url.replace(/`/g, "%60");
     window.location.href = urlNew;
   }
 
   /*模版下载*/
   exportDemo(ele){/*导出数据*/
-    let url= 'https://camera.5itianyuan.com/api/v1.0/template?apiKey='+this.cameraService.userDetial.apiKey+'&templateName='+ele;
+    let url= 'http://camera.t2.5itianyuan.com/api/v1.0/template?apiKey='+this.cameraService.userDetial.apiKey+'&templateName='+ele;
     let urlNew=url.replace(/`/g, "%60");
     window.location.href = urlNew;
   }
@@ -278,7 +278,7 @@ export class SubaccountComponent {
   public fileOverAnother(e:any):void { this.hasAnotherDropZoneOver = e; }
   //初始化定义uploader变量,用来配置input中的uploader属性
   public uploader:FileUploader = new FileUploader({
-    url: "/v1.0/customer/import",
+    url: "/api/v1.0/customer/import",
     method: "post",
     removeAfterUpload:true,
     itemAlias: "excelFile",

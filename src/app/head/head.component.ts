@@ -22,7 +22,7 @@ export class HeadComponent {
   /*退出登录*/
   logout() {
     this.logoutHttp
-      .post('/v1.0/customer/signout', {headers: new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded'})})
+      .post('/api/v1.0/customer/signout', {headers: new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded'})})
       .subscribe(
         req => {
           if(req['code']=="200"||req['code']=="401"){
@@ -44,7 +44,7 @@ export class HeadComponent {
   /*获取角色权限*/
   getRoleList(ele){
     const params = new HttpParams().set('customerId', ele)
-    this.logoutHttp.get('/v1.0/function/list',{params}).subscribe(req => {
+    this.logoutHttp.get('/api/v1.0/function/list',{params}).subscribe(req => {
       if(req['code']==401){
         window.localStorage.removeItem('smartContent');
         this.cameraService.isLoggedIn=false

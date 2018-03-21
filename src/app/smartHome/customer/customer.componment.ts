@@ -58,7 +58,7 @@ export class CustomerComponent {
   getCustomerList(pageIndex){
     var params=new HttpParams();
     params = new HttpParams().set('pageIndex', pageIndex).set('pageSize', '10').set('customerType', this.cusType);
-    this.customertHttp.get('/v1.0/customer/list'+this.timer,{params}).subscribe(req => {
+    this.customertHttp.get('/api/v1.0/customer/list'+this.timer,{params}).subscribe(req => {
       if(req['code']=='200'){
         this.searchStatu=false;
         this.customerList=req['data'];
@@ -96,7 +96,7 @@ export class CustomerComponent {
           .set('pageIndex', pageIndex)
           .set('pageSize', '10').set('customerType', this.cusType);
       }
-       this.customertHttp.get('/v1.0/customer/list',{params}).subscribe(req => {
+       this.customertHttp.get('/api/v1.0/customer/list',{params}).subscribe(req => {
          if(req['code']=="200"){
            this.searchStatu=true;
            this.customerList=req['data'];
@@ -118,7 +118,7 @@ export class CustomerComponent {
         params=new HttpParams().set('searchText', searchText)
           .set('pageIndex', pageIndex)
           .set('pageSize', '10').set('customerType', this.cusType);
-         this.customertHttp.get('/v1.0/customer/list',{params}).subscribe(req => {
+         this.customertHttp.get('/api/v1.0/customer/list',{params}).subscribe(req => {
            if(req['code']=="200"){
              this.searchStatu=true;
              this.customerList=req['data'];
@@ -161,7 +161,7 @@ export class CustomerComponent {
     // console.log(this.obj);
 
     this.customertHttp
-      .post('/v1.0/customers/update',params)
+      .post('/api/v1.0/customers/update',params)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('批量'+ele2+'成功');}
@@ -182,7 +182,7 @@ export class CustomerComponent {
     var params = new HttpParams().set('customerId', edt1).set('statusCode',ele);
     // console.log('单个禁用启用功能'+params);
     this.customertHttp
-      .post('/v1.0/customer/update',params)
+      .post('/api/v1.0/customer/update',params)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('操作成功');this.getCustomerList(this.page);}
@@ -205,7 +205,7 @@ export class CustomerComponent {
     if(form.description){urlSearchParams.append('description', form.description); }
     let paramEdit = urlSearchParams.toString();
     this.customertHttp
-    .post('/v1.0/customer/update',paramEdit)
+    .post('/api/v1.0/customer/update',paramEdit)
     .subscribe(
      req => {
        if(req['code']=="200"){ alert('编辑成功');this.getCustomerList(this.page);}
@@ -225,7 +225,7 @@ export class CustomerComponent {
     urlSearchParams.append('customerId',id);
     let params=urlSearchParams.toString();
     this.customertHttp
-      .post('/v1.0/password/reset',params)
+      .post('/api/v1.0/password/reset',params)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('密码重置成功！默认密码为手机号'); }
@@ -236,7 +236,7 @@ export class CustomerComponent {
 
   /*添加账户*/
   addCustomer(form){
-    var url='/v1.0/customer/add';
+    var url='/api/v1.0/customer/add';
     let urlSearchParams = new URLSearchParams();
     if(!form.customerName){alert('公司名称不能为空');return;}
     if(!form.passwd){alert('账号密码');return;}
@@ -262,7 +262,7 @@ export class CustomerComponent {
 
   /*绑定账户*/
   bindCustomer(form){
-    var url = '/v1.0/customer/binding';
+    var url = '/api/v1.0/customer/binding';
     let urlSearchParams = new URLSearchParams();
     urlSearchParams.append('roleIdArray', '['+this.grad+']');
     urlSearchParams.append('customerName', form.customerName);
@@ -327,7 +327,7 @@ export class CustomerComponent {
   public fileOverAnother(e:any):void { this.hasAnotherDropZoneOver = e; }
   //初始化定义uploader变量,用来配置input中的uploader属性
   public uploader:FileUploader = new FileUploader({
-    url: "/v1.0/customer/import",
+    url: "/api/v1.0/customer/import",
     method: "post",
     removeAfterUpload:true,
     itemAlias: "excelFile",

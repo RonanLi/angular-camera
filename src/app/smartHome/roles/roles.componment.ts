@@ -31,7 +31,7 @@ export class RolesComponent {
   /*获取角色列表*/
   getRoleList(ele){
     const params = new HttpParams().set('customerId', ele)
-    this.rolesHttp.get('/v1.0/role/list'+this.timer,{params}).subscribe(req => {
+    this.rolesHttp.get('/api/v1.0/role/list'+this.timer,{params}).subscribe(req => {
       if(req['code']=='200'){
         this.roleList=req['data'];
       }
@@ -55,7 +55,7 @@ export class RolesComponent {
     let param = urlSearchParams.toString();
     // console.log(param);
         this.rolesHttp
-       .post('/v1.0/role/delete',param)
+       .post('/api/v1.0/role/delete',param)
        .subscribe(
        req => {
          if(req['code']=="200"){
@@ -86,7 +86,7 @@ export class RolesComponent {
     if(form.description){ urlSearchParams.append('description', form.description); }
     let paramEdit = urlSearchParams.toString();
     this.rolesHttp
-      .post('/v1.0/role/update',paramEdit,)
+      .post('/api/v1.0/role/update',paramEdit,)
       .subscribe(
         req => {
           if(req['code']=="200"){
@@ -106,7 +106,7 @@ export class RolesComponent {
 
   getRoleInfo(id){
     const params = new HttpParams().set('roleId', id);
-    this.rolesHttp.get('/v1.0/role/info',{params}).subscribe(req => {
+    this.rolesHttp.get('/api/v1.0/role/info',{params}).subscribe(req => {
         this.power=JSON.parse(req['data'].permission);
         this.roleId=req['data'].roleId;
     });
@@ -138,7 +138,7 @@ export class RolesComponent {
     let paramEdit = urlSearchParams.toString();
     // console.log(paramEdit);
     this.rolesHttp
-      .post('/v1.0/role/add',paramEdit,)
+      .post('/api/v1.0/role/add',paramEdit,)
       .subscribe(
         req => {
           if(req['code']=="200"){

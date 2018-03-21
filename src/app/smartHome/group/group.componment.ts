@@ -60,7 +60,7 @@ export class GroupComponent {
     urlSearchParams.append('pageIndex', pageIndex);
     urlSearchParams.append('pageSize', '10');
     let params=urlSearchParams.toString();
-    this.groupHttp.post('/v1.0/groups/list'+this.timer,params)
+    this.groupHttp.post('/api/v1.0/groups/list'+this.timer,params)
       .subscribe(
         req => {
           if(req['code']=="200"){
@@ -89,14 +89,14 @@ export class GroupComponent {
   /*获取设备可选列表*/
   public deviceList:any=[];
   getDeviceList(){
-    this.groupHttp.get('/v1.0/container/group'+this.timer).subscribe(req => {
+    this.groupHttp.get('/api/v1.0/container/group'+this.timer).subscribe(req => {
       this.deviceList=req['data'];
     });
   }
 
   /*编辑筛选设备列表*/
   filterDeviceList(){
-    this.groupHttp.get('/v1.0/container/group'+this.timer).subscribe(req => {
+    this.groupHttp.get('/api/v1.0/container/group'+this.timer).subscribe(req => {
       this.deviceList=req['data'];
     });
   }
@@ -110,7 +110,7 @@ export class GroupComponent {
     urlSearchParams.append('pageSize', '10');
     let params=urlSearchParams.toString();
     // console.log(params);
-    this.groupHttp.post('/v1.0/groups/list',params).subscribe(req => {
+    this.groupHttp.post('/api/v1.0/groups/list',params).subscribe(req => {
       if(req['code']=="200"){
         this.searchStatu=true;
         this.groupList=req['data'];
@@ -142,7 +142,7 @@ export class GroupComponent {
     if(name){
       var params=new HttpParams();
       params = new HttpParams().set('containerName' , name);
-      this.groupHttp.get('/v1.0/container/group',{params}).subscribe(req => {
+      this.groupHttp.get('/api/v1.0/container/group',{params}).subscribe(req => {
         this.deviceList=req['data'];
       });
     }
@@ -351,7 +351,7 @@ export class GroupComponent {
     urlSearchParams.append('groupContent',JSON.stringify(eleList));
     let params=urlSearchParams.toString();
     // console.log(params);
-    this.groupHttp.post('/v1.0/groups/add',params)
+    this.groupHttp.post('/api/v1.0/groups/add',params)
       .subscribe(
         req => {
           if(req['code']=="200"){  this.getList(1);this.addData.select=this.grad=4; this.getDeviceList();alert('添加分组成功');}
@@ -396,7 +396,7 @@ export class GroupComponent {
     urlSearchParams.append('groupContent',JSON.stringify(eleList));
     let params=urlSearchParams.toString();
     // console.log(params);
-    this.groupHttp.put('/v1.0/groups/update',params)
+    this.groupHttp.put('/api/v1.0/groups/update',params)
       .subscribe(
         req => {
           if(req['code']=="200"){
@@ -420,7 +420,7 @@ export class GroupComponent {
   /*删除分组*/
   delGroup(groupId:string){
     const params = new HttpParams().set('groupId',groupId);
-    this.groupHttp.delete('/v1.0/groups/delete',{params})
+    this.groupHttp.delete('/api/v1.0/groups/delete',{params})
       .subscribe(
         req => {
           if(req['code']=="200"){

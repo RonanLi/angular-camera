@@ -38,26 +38,26 @@ export class DeviceComponent {
     /*获取设备权限*/
     this.power=this.cameraService.getQx('1002');
     if(this.cameraService.customerType=='A'){
-      this.listUrl='/v1.0/device/list';
-      this.infoUrl='/v1.0/device/info';
-      this.lockUrl='/v1.0/device/lock';
-      this.locksUrl='/v1.0/devices/lock';
+      this.listUrl='/api/v1.0/device/list';
+      this.infoUrl='/api/v1.0/device/info';
+      this.lockUrl='/api/v1.0/device/lock';
+      this.locksUrl='/api/v1.0/devices/lock';
       this.exportUrl='/v1.0/device/export';
       this.cusType='运营公司';
     }
     else if(this.cameraService.customerType=='B'){
-      this.listUrl='/v1.0/container/list';
-      this.infoUrl='/v1.0/container/info';
-      this.lockUrl='/v1.0/container/lock';
-      this.locksUrl='/v1.0/containers/lock';
+      this.listUrl='/api/v1.0/container/list';
+      this.infoUrl='/api/v1.0/container/info';
+      this.lockUrl='/api/v1.0/container/lock';
+      this.locksUrl='/api/v1.0/containers/lock';
       this.exportUrl='/v1.0/container/export';
       this.cusType='租赁公司';
     }
     else if(this.cameraService.customerType=='C'){
-      this.listUrl='/v1.0/container/list';
-      this.infoUrl='/v1.0/container/info';
-      this.lockUrl='/v1.0/container/lock';
-      this.locksUrl='/v1.0/containers/lock';
+      this.listUrl='/api/v1.0/container/list';
+      this.infoUrl='/api/v1.0/container/info';
+      this.lockUrl='/api/v1.0/container/lock';
+      this.locksUrl='/api/v1.0/containers/lock';
       this.exportUrl='/v1.0/container/export';
       this.cusType='终端用户';
     }
@@ -107,7 +107,7 @@ export class DeviceComponent {
     if(form.childCompany){ urlSearchParams.append('childCompany', form.childCompany); }
     if(form.roleDict){ urlSearchParams.append('roleDict', form.roleDict); }
     let paramAdd = urlSearchParams.toString();
-    this.deviceHttp.post('/v1.0/customer/signup',paramAdd)
+    this.deviceHttp.post('/api/v1.0/customer/signup',paramAdd)
      .subscribe(
      req => {
      if(req['code']=="200"){ alert('添加成功');}
@@ -131,7 +131,7 @@ export class DeviceComponent {
 
   getGiveList(){
     var params = new HttpParams().set('customerType', this.cameraService.userDetial.customerType);
-    this.deviceHttp.get('/v1.0/customer/list'+this.timer,{params}).subscribe(req => {
+    this.deviceHttp.get('/api/v1.0/customer/list'+this.timer,{params}).subscribe(req => {
       if(req['code']=='200'){
         this.giveList=req['data'];
         var newList=[];
@@ -160,7 +160,7 @@ export class DeviceComponent {
   public shareList:any;
   getShareList(){
     var params = new HttpParams().set('customerType',this.cusType);
-    this.deviceHttp.get('/v1.0/customer/list'+this.timer,{params}).subscribe(req => {
+    this.deviceHttp.get('/api/v1.0/customer/list'+this.timer,{params}).subscribe(req => {
       this.shareList=req['data'];
       var newList=[];
       for(var i=0;i<this.shareList.length;i++){
@@ -342,7 +342,7 @@ export class DeviceComponent {
     let urlSearchParams = new URLSearchParams();
     urlSearchParams.append('deviceSn', id);
     let params = urlSearchParams.toString();
-    this.deviceHttp.post('/v1.0/device/recycle ',params)
+    this.deviceHttp.post('/api/v1.0/device/recycle ',params)
       .subscribe(
         req => {if(req['code']=="200"){ alert('取消授权成功');this.getDeviceList(this.page);} else{ alert(req['message']);}}
       );
@@ -371,7 +371,7 @@ export class DeviceComponent {
       urlSearchParams.append('containerId', id);
       urlSearchParams.append('customerList', JSON.stringify(this.singleShareList));
       let params=urlSearchParams.toString();
-      this.deviceHttp.post('/v1.0/container/shares',params)
+      this.deviceHttp.post('/api/v1.0/container/shares',params)
         .subscribe(
           req => {if(req['code']=="200"){ alert('操作成功');this.getDeviceList(this.page);} else{ alert(req['message']);}}
         );
@@ -415,7 +415,7 @@ export class DeviceComponent {
     urlSearchParams.append('containerList', JSON.stringify(containerList));
     let params=urlSearchParams.toString();
     this.deviceHttp
-      .post('/v1.0/containers/shares',params, {headers: new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded'})})
+      .post('/api/v1.0/containers/shares',params, {headers: new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded'})})
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('批量分享成功');this.empowerList('分享',this.page)}
@@ -438,7 +438,7 @@ export class DeviceComponent {
     urlSearchParams.append('customerId', form.select);
     urlSearchParams.append('containerList', JSON.stringify([tmp]));
     let params=urlSearchParams.toString();
-    this.deviceHttp.post('/v1.0/containers/share',params)
+    this.deviceHttp.post('/api/v1.0/containers/share',params)
       .subscribe(
         req => {if(req['code']=="200"){ alert('操作成功');this.getDeviceList(this.page);} else{ alert(req['message']);}}
       );
@@ -500,7 +500,7 @@ export class DeviceComponent {
     urlSearchParams.append('customerId', form.select);
     urlSearchParams.append('containerList', JSON.stringify(containerList));
     let params=urlSearchParams.toString();
-    this.deviceHttp.post('/v1.0/containers/share',params)
+    this.deviceHttp.post('/api/v1.0/containers/share',params)
       .subscribe(
         req => {this.getDeviceList(this.page);if(req['code']=="200"){this.select=false; this.getDeviceList(this.page);alert('全部操作成功');}else if(req['code']=="403"){ alert('可授权设备操作成功');} else{ alert(req['message']);}}
       );
@@ -509,7 +509,7 @@ export class DeviceComponent {
 /*删除单个分享或授权:/container/delete*/
   singleDelete(id){
     const params = new HttpParams().set('containerId',id);
-    this.deviceHttp.post('/v1.0/container/delete',params)
+    this.deviceHttp.post('/api/v1.0/container/delete',params)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('移除成功');this.getDeviceList(this.page);}
@@ -546,7 +546,7 @@ export class DeviceComponent {
     }
     const params = new HttpParams().set('containerIdList',JSON.stringify(dels));
     this.deviceHttp
-      .post('/v1.0/containers/delete',params)
+      .post('/api/v1.0/containers/delete',params)
       .subscribe(
         req => {
           if(req['code']=="200"){this.getDeviceList(this.page); alert('批量取消授权成功'); }
@@ -578,7 +578,7 @@ export class DeviceComponent {
     if(form.statusCode){ urlSearchParams.append('statusCode', form.statusCode); }
     let paramEdit = urlSearchParams.toString();
     this.deviceHttp
-      .post('/v1.0/container/lifetime',paramEdit,)
+      .post('/api/v1.0/container/lifetime',paramEdit,)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('编辑成功');this.getDeviceList(this.page)}
@@ -601,7 +601,7 @@ export class DeviceComponent {
     if(form.description){ urlSearchParams.append('description', form.description); }
     let paramEdit = urlSearchParams.toString();
     this.deviceHttp
-      .post('/v1.0/container/lifetime',paramEdit,)
+      .post('/api/v1.0/container/lifetime',paramEdit,)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('编辑成功');this.getDeviceList(this.page)}
@@ -621,7 +621,7 @@ export class DeviceComponent {
     urlSearchParams.append('containerName', form.containerName);
     let paramEdit = urlSearchParams.toString();
     this.deviceHttp
-      .post('/v1.0/container/update',paramEdit,)
+      .post('/api/v1.0/container/update',paramEdit,)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('编辑成功');this.getDeviceList(this.page)}
@@ -642,7 +642,7 @@ export class DeviceComponent {
     urlSearchParams.append('location', form.location);
     let paramEdit = urlSearchParams.toString();
     this.deviceHttp
-      .post('/v1.0/device/update',paramEdit,)
+      .post('/api/v1.0/device/update',paramEdit,)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('编辑成功');this.getDeviceList(this.page)}
@@ -724,7 +724,7 @@ export class DeviceComponent {
     // console.log(containerList);
     urlSearchParams.append('containerList', JSON.stringify(containerList));
     let params=urlSearchParams.toString();
-    this.deviceHttp.post('/v1.0/containers/update',params)
+    this.deviceHttp.post('/api/v1.0/containers/update',params)
       .subscribe(
         req => {this.getDeviceList(this.page);if(req['code']=="200"){ alert('全部操作成功');}else if(req['code']=="403"){ alert('可授权设备操作成功');} else{ alert(req['message']);}}
       );
@@ -834,7 +834,7 @@ export class DeviceComponent {
   erImg(id){
     var imgData;
     var params = new HttpParams().set('containerId', id);
-    this.deviceHttp.get('/v1.0/container/link',{params})
+    this.deviceHttp.get('/api/v1.0/container/link',{params})
       .subscribe(
         req => {if(req['code']=="200"){
           this.img='http://qr.liantu.com/api.php?text='+req['data'].replace(/&/g, "%26");
@@ -854,7 +854,7 @@ export class DeviceComponent {
   public fileOverAnother(e:any):void { this.hasAnotherDropZoneOver = e; }
   //初始化定义uploader变量,用来配置input中的uploader属性
   public uploader:FileUploader = new FileUploader({
-    url: "/v1.0/device/import",
+    url: "/api/v1.0/device/import",
     method: "post",
     removeAfterUpload:true,
     itemAlias: "excelFile",

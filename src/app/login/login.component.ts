@@ -60,7 +60,7 @@ export class LoginComponent {
     if (ele.length< 23) { return false; }
     else {
       this.loginHttp
-        .post('/v1.0/customer/signin',ele)
+        .post('/api/v1.0/customer/signin',ele)
         .subscribe(
           req => {
             this.mark=true;

@@ -42,7 +42,7 @@ export class LeasedLogComponent {
 
   getLogList(pageIndex){
     const params = new HttpParams().set('pageIndex', pageIndex).set('pageSize', '10');
-    this.LogHttp.post('/v1.0/log/list'+this.timer,params).subscribe(req => {
+    this.LogHttp.post('/api/v1.0/log/list'+this.timer,params).subscribe(req => {
       if(req['code']=='200'){
         this.searchStatu=false;
         this.logList=req['data']=req['data'];
@@ -76,7 +76,7 @@ export class LeasedLogComponent {
     urlSearchParams.append('pageIndex', pageIndex);
     urlSearchParams.append('pageSize', '10');
     let params = urlSearchParams.toString();
-    this.LogHttp.post('/v1.0/log/list',params).subscribe(req => {
+    this.LogHttp.post('/api/v1.0/log/list',params).subscribe(req => {
       if(req['code']=='200'){
         if(req['data'].length>0){
           this.searchStatu=true;
