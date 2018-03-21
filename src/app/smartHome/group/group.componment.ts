@@ -449,6 +449,25 @@ export class GroupComponent {
     return gradC;
   }
 
+  /*编辑的设备列表处理*/
+  editDeviceList(eleList){
+    this.groupHttp.get('/api/v1.0/container/group'+this.timer).subscribe(req => {
+      if(req['code']==200&&req['data'].length>0){
+        this.deviceList=req['data'];
+        if(eleList[0].value[0]||eleList.length>1) {
+          for (var i = 0; i < eleList.length; i++) {
+            for (var j = 0; j < eleList[i].value.length; j++) {
+              if(eleList[i].value[j].containerId>0){
+                this.deviceList= this.deleteData(this.deviceList,eleList[i].value[j].containerId);//设备列表删除设备
+              }
+            }
+          }
+        }
+      }
+    });
+    return this.deviceList;
+  }
+
   /*刷新添加选中列表*/
   freshAdd(){
     this.deviceListCheck=[
