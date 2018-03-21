@@ -284,14 +284,14 @@ export class CustomerComponent {
 
   /*导出数据*/
   exportData(){
-    let url= 'http://apis.t2.5itianyuan.com/smarthome-camera/v1.0/customer/export?apiKey='+this.cameraService.userDetial.apiKey;
+    let url= 'http://camera.t2.5itianyuan.com/api/customer/export?apiKey='+this.cameraService.userDetial.apiKey;
     let urlNew=url.replace(/`/g, "%60");
     window.location.href = urlNew;
   }
 
   /*模版下载*/
   exportDemo(ele){/*导出数据*/
-    let url= 'http://apis.t2.5itianyuan.com/smarthome-camera/v1.0/template?apiKey='+this.cameraService.userDetial.apiKey+'&templateName='+ele;
+    let url= 'http://camera.t2.5itianyuan.com/api/template?apiKey='+this.cameraService.userDetial.apiKey+'&templateName='+ele;
     let urlNew=url.replace(/`/g, "%60");
     window.location.href = urlNew;
   }

@@ -42,7 +42,7 @@ export class DeviceComponent {
       this.infoUrl='/api/v1.0/device/info';
       this.lockUrl='/api/v1.0/device/lock';
       this.locksUrl='/api/v1.0/devices/lock';
-      this.exportUrl='/v1.0/device/export';
+      this.exportUrl='/api/v1.0/device/export';
       this.cusType='运营公司';
     }
     else if(this.cameraService.customerType=='B'){
@@ -50,7 +50,7 @@ export class DeviceComponent {
       this.infoUrl='/api/v1.0/container/info';
       this.lockUrl='/api/v1.0/container/lock';
       this.locksUrl='/api/v1.0/containers/lock';
-      this.exportUrl='/v1.0/container/export';
+      this.exportUrl='/api/v1.0/container/export';
       this.cusType='租赁公司';
     }
     else if(this.cameraService.customerType=='C'){
@@ -58,7 +58,7 @@ export class DeviceComponent {
       this.infoUrl='/api/v1.0/container/info';
       this.lockUrl='/api/v1.0/container/lock';
       this.locksUrl='/api/v1.0/containers/lock';
-      this.exportUrl='/v1.0/container/export';
+      this.exportUrl='/api/v1.0/container/export';
       this.cusType='终端用户';
     }
 
@@ -314,21 +314,21 @@ export class DeviceComponent {
 
 /*设备导出 this.exportUrl */
   exportData(){/*导出数据*/
-    let url= 'http://apis.t2.5itianyuan.com/smarthome-camera'+this.exportUrl+'?apiKey='+this.cameraService.userDetial.apiKey;
+    let url= 'http://camera.t2.5itianyuan.com'+this.exportUrl+'?apiKey='+this.cameraService.userDetial.apiKey;
     let urlNew=url.replace(/`/g, "%60");
     window.location.href = urlNew;
   }
 
 /*模版下载*/
   exportDemo(ele){/*导出数据*/
-    let url= 'http://apis.t2.5itianyuan.com/smarthome-camera/v1.0/template?apiKey='+this.cameraService.userDetial.apiKey+'&templateName='+ele;
+    let url= 'http://camera.t2.5itianyuan.com/api/template?apiKey='+this.cameraService.userDetial.apiKey+'&templateName='+ele;
     let urlNew=url.replace(/`/g, "%60");
     window.location.href = urlNew;
   }
 
 /*导出二维码*/
   exportER(id){
-    let url= 'http://apis.t2.5itianyuan.com/smarthome-camera/v1.0/export/qrcode?apiKey='+this.cameraService.userDetial.apiKey;
+    let url= 'http://camera.t2.5itianyuan.com/api/export/qrcode?apiKey='+this.cameraService.userDetial.apiKey;
     let urlNew=url.replace(/`/g, "%60");
     window.location.href = urlNew;
 
