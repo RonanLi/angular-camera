@@ -359,6 +359,7 @@ export class GroupComponent {
           }
           else{ alert(req['message']);}}
       );
+    this.getDeviceList();this.freshAdd();
   }
 
   /*编辑分组*/

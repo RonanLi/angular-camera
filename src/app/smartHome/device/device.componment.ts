@@ -560,9 +560,10 @@ export class DeviceComponent {
       );
   }
 
-/*单个编辑:/container/update*/
+  /*单个编辑:/container/update*/
   singleEdit(form,id,lendTime){ /*单个编辑*/
     let urlSearchParams = new URLSearchParams();
+
     urlSearchParams.append('containerId', id);
     if(Date.parse(form.startTime)>lendTime){alert('分享起始时间不能大于设备租赁时间！');return;}
     if(Date.parse(form.endTime)>lendTime){alert('分享结束时间不能大于设备租赁时间！');return;}
@@ -570,25 +571,47 @@ export class DeviceComponent {
     if(!form.startTime&&this.cameraService.customerType=='C'){alert('请选择起始时间');return;}
     if(Date.parse(form.startTime)>(Date.parse(form.endTime)+86399000)){alert('开始时间不能大于结束时间！');return;}
     if(this.cameraService.customerType=='C'){ urlSearchParams.append('startTime', String(Date.parse(form.startTime)));}
-     // urlSearchParams.append('startTime', String(Date.parse(form.startTime)));
     if(form.endTime){ urlSearchParams.append('endTime', String(Date.parse(form.endTime))) }
-    // if(form.location){ urlSearchParams.append('location', form.location); }
+    if(form.location){ urlSearchParams.append('location', form.location); }
     if(form.description){ urlSearchParams.append('description', form.description); }
     if(form.permissionType){ urlSearchParams.append('permissionType', form.permissionType); }
     if(form.statusCode){ urlSearchParams.append('statusCode', form.statusCode); }
     let paramEdit = urlSearchParams.toString();
-     this.deviceHttp
-     .post('/v1.0/container/update',paramEdit,)
-     .subscribe(
-       req => {
-         if(req['code']=="200"){ alert('编辑成功');this.getDeviceList(this.page)}
-         else{ alert('编辑失败'); }
-       },
-       (err: HttpErrorResponse) => {
-         if (err.error instanceof Error) { /*console.log( err.error.message);*/ }
-         else { alert(`服务器异常，请稍后再试！`); }
-       }
-     )
+    this.deviceHttp
+      .post('/v1.0/container/lifetime',paramEdit,)
+      .subscribe(
+        req => {
+          if(req['code']=="200"){ alert('编辑成功');this.getDeviceList(this.page)}
+          else{ alert('编辑失败'); }
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) { /*console.log( err.error.message); */}
+          else { alert(`服务器异常，请稍后再试！`); }
+        }
+      )
+  }
+
+  /*B类单个编辑:/container/lifetime*/
+  singleBEdit(form,id,startTime){ /*单个编辑*/
+
+    let urlSearchParams = new URLSearchParams();
+    urlSearchParams.append('containerId', id);
+    urlSearchParams.append('startTime', startTime);
+    if(form.endTime){ urlSearchParams.append('endTime', String(Date.parse(form.endTime))) }
+    if(form.description){ urlSearchParams.append('description', form.description); }
+    let paramEdit = urlSearchParams.toString();
+    this.deviceHttp
+      .post('/v1.0/container/lifetime',paramEdit,)
+      .subscribe(
+        req => {
+          if(req['code']=="200"){ alert('编辑成功');this.getDeviceList(this.page)}
+          else{ alert('编辑失败'); }
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) { /*console.log( err.error.message);*/ }
+          else { alert(`服务器异常，请稍后再试！`); }
+        }
+      )
   }
 
 /*C类编辑设备名称*/

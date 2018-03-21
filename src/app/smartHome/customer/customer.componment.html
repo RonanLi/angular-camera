@@ -66,6 +66,8 @@
               <!--编辑表单-->
               <div class="editForm" *ngIf="list.edt">
                 <form #form="ngForm" (ngSubmit)="form.form.valid && singleEdit(form.value,list.customerId);list.edt=!list.edt;this.mask=false" novalidate  role="form" class="form">
+                  <h3 class="formName">编辑客户 <i class="formClose" (click)="list.edt=!list.edt;this.mask=!this.mask">X</i></h3>
+
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                        <label class="control-label"><i class="red">*</i>用户名称：</label>
@@ -109,6 +111,7 @@
           <!--添加客户-->
           <div class="addForm" *ngIf="this.add">
             <form #form="ngForm" (ngSubmit)="form.form.valid && addCustomer(form.value);this.add=!this.add;this.mask=false" novalidate  role="form" class="form">
+              <h3 class="formName">添加客户 <i class="formClose" (click)="this.add=!this.add;this.mask=!this.mask">X</i></h3>
               <div class="form-group ">
                 <div>
                   <label class="control-label"><i class="red">*</i>{{this.cameraService.customerType!=='C'?'公司名称':'客户账号'}}：</label>
@@ -164,6 +167,7 @@
           <!--导入-->
           <div class="addForm" *ngIf="excel">
             <form #form="ngForm" enctype="multipart/form-data" novalidate>
+              <h3 class="formName">导入客户 <i class="formClose" (click)="excel=!excel;this.mask=false">X</i></h3>
               <input type="file"  ng2FileSelect [uploader]="uploader" (change)="selectedFileOnChanged($event)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
               <span class="btn btn-success btn-lg" (click)="exportDemo('customer')">模版下载</span>
               <span class="btn btn-info  btn-lg" (click)="excel=!excel;this.mask=false">关闭</span>

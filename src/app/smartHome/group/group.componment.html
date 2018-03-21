@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="btnBox">分组管理
-          <button class="btn btn-primary" (click)="this.addgroup=!this.addgroup;this.mask=!this.mask">{{this.addgroup?'取消添加':'添加分组'}}</button>
+          <button class="btn btn-primary" (click)="this.addgroup=!this.addgroup;this.mask=true;">{{this.addgroup?'取消添加':'添加分组'}}</button>
         </div>
 
         <div class="panel panel-default">
@@ -48,14 +48,14 @@
               <div>{{list.displayMode}}</div>
               <div>{{list.switchInterval}}</div>
               <div>
-                <button class="btn btn-primary" (click)="list.editgroup=!list.editgroup; editDateNew(list.groupContent);this.mask=!this.mask;addData.select=grad=gradChang(list.displayMode)">{{list.editgroup?'取消':'编辑'}}</button>
+                <button class="btn btn-primary" (click)="list.editgroup=!list.editgroup; editDateNew(list.groupContent);this.mask=true;addData.select=grad=gradChang(list.displayMode)">{{list.editgroup?'取消':'编辑'}}</button>
                 <button class="btn btn-danger" (click)="delGroup(list.groupId)">删除</button>
               </div>
               <!--<div><a href="{{'/smartHome/groupVideo/:'+list.groupId}}" target="_blank">查看</a></div>-->
               <div><a href="{{'http://camera.t2.5itianyuan.com/groupVideo.html?data='+cameraService.apiKey+'&m='+list.groupId}}" target="_blank">查看</a></div>
               <!--编辑分组-->
               <div class="editForm" *ngIf="list.editgroup">
-                <form #form="ngForm" (ngSubmit)="form.form.valid && editGroup(form.value,grad,onGroupList,list.groupId);list.editgroup=false;page=1;this.mask=false" novalidate  role="form" class="form">
+                <form #form="ngForm" (ngSubmit)="list.editgroup=false;page=1;this.mask=false;form.form.valid && editGroup(form.value,grad,onGroupList,list.groupId);" novalidate  role="form" class="form">
                   <h3 class="formName">编辑分组  <i class="formClose" (click)="list.editgroup=false;page=1;this.mask=false;getDeviceList();">X</i></h3>
                   <div class="form-group ">
                     <label class="control-label">分组名称：</label>
@@ -127,7 +127,7 @@
           <!--TODO 添加分组不用考虑删除虚拟设备从-1开始编号，编辑中虚拟设备containerId都为-1-->
           <!--添加分组-->
           <div class="addForm" *ngIf="this.addgroup">
-            <form #form="ngForm" (ngSubmit)="form.form.valid && addGroup(form.value,grad,deviceListCheck);this.addgroup=false;page=1;this.mask=false" novalidate  role="form" class="form">
+            <form #form="ngForm" (ngSubmit)="form.form.valid && addGroup(form.value,grad,deviceListCheck);this.addgroup=false;page=1;this.mask=false;" novalidate  role="form" class="form">
               <h3 class="formName">添加分组 <i class="formClose" (click)="this.addgroup=!this.addgroup;page=1;this.mask=false;getDeviceList();freshAdd();">X</i></h3>
               <div class="form-group ">
                   <label class="control-label"><i class="red">*</i>分组名称：</label>

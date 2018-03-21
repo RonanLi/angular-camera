@@ -52,6 +52,7 @@
               <!--角色编辑-->
               <div class="editForm" *ngIf="list.edt">
                 <form #form="ngForm" (ngSubmit)="form.form.valid && editRole(form.value);list.edt=!list.edt;this.mask=false" novalidate  role="form" class="form">
+                  <h3 class="formName">编辑角色 <i class="formClose" (click)="list.edt=false;this.mask=!this.mask">X</i></h3>
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label"><i class="red">*</i>角色名称：</label>
@@ -177,6 +178,7 @@
           <!--添加角色-->
           <div class="addForm" *ngIf="this.add">
             <form #form="ngForm" (ngSubmit)="form.form.valid && createRoleList(form.value);this.add=!this.add;this.mask=false" novalidate  role="form" class="form">
+              <h3 class="formName">添加角色 <i class="formClose" (click)="this.add=!this.add;this.mask=!this.mask">X</i></h3>
               <div class="form-group ">
                 <div>
                   <label class="control-label"><i class="red">*</i>角色名称：</label>

@@ -61,7 +61,6 @@
             </li>
           </ul>
 
-
           <ul class="list-group deviceListC">
             <li class="list-group-item" *ngFor="let list of deviceList">
               <div class="sel">
@@ -89,13 +88,13 @@
           <!--导入-->
           <div class="addForm" *ngIf="excel">
             <form #form="ngForm" enctype="multipart/form-data" novalidate>
+              <h3 class="formName">导入设备<i class="formClose" (click)="excel=!excel;this.mask=false">X</i></h3>
               <input type="file"  ng2FileSelect [uploader]="uploader" (change)="selectedFileOnChanged($event)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
               <span class="btn btn-success btn-lg" (click)="exportDemo('device')">模版下载</span>
               <span class="btn btn-info btn-lg" (click)="excel=!excel;this.mask=false">关闭</span>
             </form>
           </div>
         </div>
-
 
         <nav *ngIf="page&&!searchStatu" aria-label="Page navigation">
           <ul class="pagination">
@@ -193,7 +192,8 @@
             <li class="list-group-item" *ngFor="let list of deviceList">
               <!--编辑表单-->
               <div class="editForm" *ngIf="list.edt">
-                <form #form="ngForm" (ngSubmit)="form.form.valid && singleEdit(form.value,list.childrenList[0].containerId);list.edt=false;this.mask=false" novalidate  role="form" class="form">
+                <form #form="ngForm" (ngSubmit)="form.form.valid && singleBEdit(form.value,list.childrenList[0].containerId,list.childrenList[0].startTime);list.edt=false;this.mask=false" novalidate  role="form" class="form">
+                  <h3 class="formName">编辑信息<i class="formClose" (click)="list.edt=false;this.mask=false">X</i></h3>
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">设备序号：</label>
@@ -215,13 +215,13 @@
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label"><i class="red">*</i>设备租用时间：</label>
-                      <input type="text" name="permissionType" [value]="list.childrenList[0].startTime|date:'yyyy-MM-dd'" disabled>
+                      <input type="text"  #startTime="ngModel" [(ngModel)]="editData.startTime" name="startTime"  [value]="list.childrenList[0].startTime|date:'yyyy-MM-dd'" disabled>
                     </div>
                   </div>
-                  <div class="form-group Btime">
+                  <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">&nbsp;</label>
-                      <p-calendar [(ngModel)]="editData.endTime" name="endTime" dataType='string' [inline]="false" inputId="endTime" [locale]="ch" yearNavigator="true" yearRange="2018:2038" dateFormat="yy-mm-dd" showButtonBar='true' todayButtonStyleClass="todayTime" clearButtonStyleClass="clearTime" placeholder="原结束日期{{list.childrenList[0].endTime|date:'yyyy-MM-dd'}}"></p-calendar>
+                      <p-calendar class="Btime" [(ngModel)]="editData.endTime" name="endTime" dataType='string' [inline]="false" inputId="endTime" [locale]="ch" yearNavigator="true" yearRange="2018:2038" dateFormat="yy-mm-dd" showButtonBar='true' todayButtonStyleClass="todayTime" clearButtonStyleClass="clearTime" placeholder="原结束日期{{list.childrenList[0].endTime|date:'yyyy-MM-dd'}}"></p-calendar>
                     </div>
                   </div>
                   <div class="form-group ">
@@ -241,6 +241,8 @@
               <!--授权表单-->
               <div class="editForm" *ngIf="list.give">
                 <form #form="ngForm" (ngSubmit)="form.form.valid && toGive(form.value,list.containerId,editData.startTime,editData.endTime);list.give=false;this.mask=false" novalidate  role="form" class="form">
+                  <h3 class="formName">添加授权<i class="formClose" (click)="list.give=false;this.mask=false">X</i></h3>
+
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label"><i class="red">*</i>设备授权：</label>
@@ -287,10 +289,10 @@
 
               <div class="fun">
                 <input *ngIf='list.childrenList&&list.statusCode=="正常"' type="button" class="btn btn-success btn-xs" value="取消授权" (click)="singleDelete(list.childrenList[0].containerId);">
-                <input *ngIf='!list.childrenList&&list.statusCode=="正常"' type="button" class="btn btn-info btn-xs" value="授权" (click)="list.give=!list.give">
+                <input *ngIf='!list.childrenList&&list.statusCode=="正常"' type="button" class="btn btn-info btn-xs" value="授权" (click)="list.give=!list.give;this.mask=!this.mask">
                 <input *ngIf="list.childrenList&&list.statusCode=='正常'" type="button" class="btn btn-danger btn-xs" value="锁定" (click)="singleBatch('锁定',list.containerId)">
                 <input *ngIf="list.statusCode=='锁定'" type="button" class="btn btn-primary btn-xs" value="解锁" (click)="singleBatch('正常',list.containerId)">
-                <input *ngIf='list.childrenList&&list.statusCode=="正常"' type="button" class="btn btn-warning fff btn-xs" value="{{this.edt?'取消':'编辑'}}" (click)="list.edt=!list.edt;;this.mask=!this.mask;timeTo(list.childrenList[0].endTime);">
+                <input *ngIf='list.childrenList&&list.statusCode=="正常"' type="button" class="btn btn-warning fff btn-xs" value="{{this.edt?'取消':'编辑'}}" (click)="list.edt=!list.edt;this.mask=!this.mask;timeTo(list.childrenList[0].endTime);">
               </div>
             </li>
           </ul>
@@ -298,6 +300,7 @@
           <!--批量授权表单-->
           <div class="addForm" *ngIf="this.give">
             <form #form="ngForm" (ngSubmit)="form.form.valid && toGives(select,form.value,editData.startTime,editData.endTime);this.give=false;empower=!empower;this.mask=false" novalidate  role="form" class="form">
+              <h3 class="formName">批量授权<i class="formClose" (click)="this.give=!this.give;this.mask=false">X</i></h3>
               <div class="form-group ">
                 <div class="codeBox clearfix">
                   <label class="control-label"><i class="red">*</i>设备授权：</label>
@@ -330,6 +333,7 @@
           <!--批量编辑表单-->
           <div class="addForm" *ngIf="this.edit">
             <form #form="ngForm" (ngSubmit)="form.form.valid && toEdit(select,form.value,editData.endTime);this.edit=false;this.give=false;this.mask=false;select=false;empowerEdit=false" novalidate  role="form" class="form">
+              <h3 class="formName">批量编辑<i class="formClose" (click)="this.edit=!this.edit;this.mask=false">X</i></h3>
               <div class="form-group ">
                 <div class="codeBox clearfix">
                   <label class="control-label">租用设备时间：</label>
@@ -347,6 +351,7 @@
           <!--导入-->
           <div class="addForm" *ngIf="excel">
             <form #form="ngForm" enctype="multipart/form-data" novalidate>
+              <h3 class="formName">导入设备<i class="formClose" (click)="excel=!excel;this.mask=false">X</i></h3>
               <input type="file"  ng2FileSelect [uploader]="uploader" (change)="selectedFileOnChanged($event)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
               <span class="btn btn-success  btn-lg" (click)="exportDemo('device')">模版下载</span>
               <span class="btn btn-info btn-lg" (click)="excel=!excel;this.mask=false">关闭</span>
@@ -454,6 +459,7 @@
               <!--编辑表单-->
               <div class="editForm" *ngIf="list.edt">
                 <form #form="ngForm" (ngSubmit)="form.form.valid && singleEdit(form.value,subID.value,list.endTime);list.edt=false;this.mask=false" novalidate  role="form" class="form">
+                  <h3 class="formName">编辑信息 <i class="formClose" (click)="list.edt=!list.edt;this.mask=false">X</i></h3>
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">设备序号：</label>
@@ -466,7 +472,6 @@
                       <input type="text" name="containerName" value={{list.containerName}} disabled>
                     </div>
                   </div>
-
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">管理账号：</label>
@@ -497,6 +502,7 @@
               <!--修改名称表单-->
               <div class="editForm" *ngIf="list.editName">
                 <form #form="ngForm" (ngSubmit)="form.form.valid && editDeviceName(form.value,list.containerId);list.editName=false;this.mask=false" novalidate  role="form" class="form">
+                  <h3 class="formName">修改名称 <i class="formClose" (click)="list.editName=false;this.mask=false">X</i></h3>
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">设备名称：</label>
@@ -514,6 +520,7 @@
               <!--修改位置表单-->
               <div class="editForm" *ngIf="list.loca">
                 <form #form="ngForm" (ngSubmit)="form.form.valid && locationEdit(form.value,list.deviceSn);list.loca=false;this.mask=false" novalidate  role="form" class="form">
+                  <h3 class="formName">修改安装位置 <i class="formClose" (click)="list.loca=false;this.mask=false">X</i></h3>
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">安装位置：</label>
@@ -531,6 +538,7 @@
               <!--授权表单-->
               <div class="editForm" *ngIf="list.give">
                 <form #form="ngForm" (ngSubmit)="form.form.valid && toGive(form.value,list.containerId,list.startTime,list.endTime);list.give=false;;this.mask=false" novalidate  role="form" class="form">
+                  <h3 class="formName">添加授权 <i class="formClose" (click)="list.give=!list.give;this.mask=false">X</i></h3>
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">设备授权：</label>
@@ -552,6 +560,7 @@
               <!--分享表单-->
               <div class="editForm" *ngIf="list.share">
                 <form #form="ngForm" (ngSubmit)="form.form.valid && toShares(form.value,list.containerId,list.endTime);list.share=false;this.mask=false" novalidate  role="form" class="form">
+                  <h3 class="formName">添加分享 <i class="formClose" (click)="list.share=!list.share;singleShareList=[];this.mask=false">X</i></h3>
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">设备序列号：</label>
@@ -611,6 +620,8 @@
                 <img class="dateIcon" *ngIf="list.remainDays>=10" src="../../../assets/imgs/inDate.png"/>
                 <img class="dateIcon" *ngIf="list.remainDays>0&&10>list.remainDays" src="../../../assets/imgs/tenDay.png"/>
                 {{list.deviceSn}}
+                <img class="dateIcon" *ngIf="list.onLine" src="../../../assets/imgs/onLine.png"/>
+                <img class="dateIcon" *ngIf="!list.onLine" src="../../../assets/imgs/unLine.png"/>
               </p></div>
               <!--<div>
                 {{(list.remainDays>10)?"未到期":(list.endTime|date:'yyyy-MM-dd')}}&nbsp;
@@ -645,6 +656,7 @@
           <!--批量授权表单-->
           <div class="addForm" *ngIf="this.give">
             <form #form="ngForm" (ngSubmit)="form.form.valid && toGives(selcet,form.value,editData.startTime,editData.endTime);obj=[];this.give=false;this.mask=false;empower=false;" novalidate  role="form" class="form">
+              <h3 class="formName">批量授权 <i class="formClose" (click)="this.give=!this.give;this.mask=false">X</i></h3>
               <div class="form-group ">
                 <div class="codeBox clearfix">
                   <label class="control-label">设备授权：</label>
@@ -662,10 +674,11 @@
               </div>
             </form>
           </div>
+
           <!--批量分享表单 -->
           <div class="addForm" *ngIf="this.shareForm">
             <form #form="ngForm" (ngSubmit)="form.form.valid && sharesTo(select,form.value,editData.startTime,editData.endTime);this.shareForm=false;select=false;this.singleShareList=[];this.mask=false" novalidate  role="form" class="form">
-
+              <h3 class="formName">批量分享 <i class="formClose" (click)="this.shareForm=false;this.mask=false">X</i></h3>
               <div class="form-group ">
                 <div class="codeBox clearfix">
                   <label class="control-label">选择分享账号：</label>
@@ -697,9 +710,11 @@
               </div>
             </form>
           </div>
+
           <!--批量编辑表单-->
           <div class="addForm" *ngIf="this.edit">
             <form #form="ngForm" (ngSubmit)="form.form.valid && toEdit(select,form.value,editData.endTime);obj=[];this.edit=false;this.give=false;this.mask=false" novalidate  role="form" class="form">
+              <h3 class="formName">批量编辑 <i class="formClose" (click)="this.edit=!this.edit;this.mask=false">X</i></h3>
               <div class="form-group ">
                 <div class="codeBox clearfix">
                   <label class="control-label">设备分享时间：</label>
