@@ -36,6 +36,7 @@ export class customerAdd {
   phone: string;
   description: string;
   select=1001;
+  selectName=true;
   excel: any;
 }
 

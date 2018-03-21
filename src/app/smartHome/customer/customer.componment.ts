@@ -16,6 +16,8 @@ export class CustomerComponent {
   constructor(public customertHttp: HttpClient,public cameraService: CameraService,public router: Router) { }
   /*定义页面参数*/
   public add;
+  public nameType:boolean;
+  public addBind;
   public mask;
   public timer='?m='+Date.parse(String(new Date()));
 
@@ -234,36 +236,18 @@ export class CustomerComponent {
 
   /*添加账户*/
   addCustomer(form){
-    var url;
+    var url='/v1.0/customer/add';
     let urlSearchParams = new URLSearchParams();
-    if(this.cameraService.customerType=='A'){
-      if(!form.customerName){alert('公司名称不能为空');return;}
-      if(!form.passwd){alert('账号密码');return;}
-      urlSearchParams.append('customerName', form.customerName);
-      url='/v1.0/customer/add';
-      urlSearchParams.append('passwd', form.passwd);
-      urlSearchParams.append('roleIdArray', '[1003]');
-      urlSearchParams.append('linkman', form.linkman);
-    }
-    else if(this.cameraService.customerType=='B'){
-      if(!form.customerName){alert('公司名称不能为空');return;}
-      if(!form.passwd){alert('账号密码');return;}
-      url='/v1.0/customer/add';
-      urlSearchParams.append('customerName', form.customerName);
-      urlSearchParams.append('passwd', form.passwd);
-      urlSearchParams.append('roleIdArray', '[1004]');
-      urlSearchParams.append('linkman', form.linkman);
-    }
-    else{
-      url = '/v1.0/customer/binding';
-      urlSearchParams.append('roleIdArray', '['+this.grad+']');
-      urlSearchParams.append('customerName', form.customerName);
-      urlSearchParams.append('linkman', form.linkman);
-    }
+    if(!form.customerName){alert('公司名称不能为空');return;}
+    if(!form.passwd){alert('账号密码');return;}
+    urlSearchParams.append('customerName', form.customerName);
+    urlSearchParams.append('passwd', form.passwd);
+    if(this.cameraService.customerType=='A'){ urlSearchParams.append('roleIdArray', '[1003]'); }
+    else if(this.cameraService.customerType=='B'){ urlSearchParams.append('roleIdArray', '[1004]'); }
+    urlSearchParams.append('linkman', form.linkman);
     urlSearchParams.append('phone', form.phone);
     if(form.description){ urlSearchParams.append('description', form.description); }
     let paramAdd = urlSearchParams.toString();
-    // console.log(paramAdd);
     this.customertHttp .post(url,paramAdd) .subscribe(
       req => {
         if(req['code']=="200"){ alert('添加成功');this.getCustomerList(this.page)}
@@ -271,6 +255,28 @@ export class CustomerComponent {
       },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) { /*console.log( err.error.message);*/ }
+        else { alert(`服务器异常，请稍后再试！`); }
+      }
+    )
+  }
+
+  /*绑定账户*/
+  bindCustomer(form){
+    var url = '/v1.0/customer/binding';
+    let urlSearchParams = new URLSearchParams();
+    urlSearchParams.append('roleIdArray', '['+this.grad+']');
+    urlSearchParams.append('customerName', form.customerName);
+    urlSearchParams.append('linkman', form.linkman);
+    if(form.phone){ urlSearchParams.append('phone', form.phone);}
+    if(form.description){ urlSearchParams.append('description', form.description); }
+    let paramAdd = urlSearchParams.toString();
+    this.customertHttp .post(url,paramAdd) .subscribe(
+      req => {
+        if(req['code']=="200"){ alert('绑定成功');this.getCustomerList(this.page)}
+        else{ alert(req['message']); }
+      },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {  }
         else { alert(`服务器异常，请稍后再试！`); }
       }
     )

@@ -31,20 +31,14 @@ export class LeasedLogComponent {
   //select 下拉选择
   public optionList:any=[
     {name:'登录'},{name:'登出'},
-    {name:'客户添加'},{name:'客户更新'},{name:'客户删除'},
-    {name:'设备添加'},{name:'设备更新'},{name:'设备删除'},
-    {name:'子账户添加'},{name:'子账户更新'},{name:'子账户删除'},
-    {name:'角色添加'},{name:'角色更新'},{name:'角色删除'},
-    {name:'分组添加'},{name:'分组更新'},{name:'分组删除'},
+    {name:'添加客户'},{name:'更新客户'},{name:'删除客户'},
+    {name:'添加设备'},{name:'更新设备'},{name:'删除设备'},
+    {name:'添加子账户'},{name:'更新子账户'},{name:'删除子账户'},
+    {name:'添加角色'},{name:'更新角色'},{name:'删除角色'},
+    {name:'添加分组'},{name:'更新分组'},{name:'删除分组'},
   ];
   public optionL:any='登录';
   public info:any='登录';
-
-  public optionList1:any=[
-    {name:'成功'},{name:'失败'},
-  ];
-  public optionL1:any='成功';
-  public info1:any='成功';
 
   getLogList(pageIndex){
     const params = new HttpParams().set('pageIndex', pageIndex).set('pageSize', '10');
@@ -68,17 +62,16 @@ export class LeasedLogComponent {
   }
 
   public searchStatu:boolean;
-  searchLogList(startTime,endTime,master,slave,searchText,pageIndex){
+  searchLogList(startTime,endTime,master,searchText,pageIndex){
     var dayStart=Date.parse(startTime);
     var dayEnd=Date.parse(endTime)+86399000;
     if(dayEnd-dayStart>=604800000){alert('起止时间不能超过7天！');return;}
-    if(!startTime&&!endTime&&!master&&!slave){return}
+    if(!startTime&&!endTime&&!master){return}
     if(startTime>endTime){return}
     let urlSearchParams = new URLSearchParams();
     if(startTime){ urlSearchParams.append('startTime', String(dayStart)); }
     if(endTime){ urlSearchParams.append('endTime', String(dayEnd)); }
     if(master){ urlSearchParams.append('type', master); }
-    if(slave){ urlSearchParams.append('result', slave); }
     if(searchText){ urlSearchParams.append('searchText', searchText); }
     urlSearchParams.append('pageIndex', pageIndex);
     urlSearchParams.append('pageSize', '10');
