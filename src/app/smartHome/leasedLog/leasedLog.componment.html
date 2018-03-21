@@ -9,18 +9,26 @@
     <div class="leasedLog">
       <h3 class="title">租用日志</h3>
 
-      <div class="table-responsive device">
+      <div class="device">
         <div class="searchBox row">
-          <p class="col-xs-7 col-sm-7 col-md-6 col-lg-5">
+          <p class="col-xs-7 col-sm-7 col-md-7 col-lg-6">
             <p-calendar class="calendar"  [(ngModel)]="startTime" [inline]="false" inputId="time1" [locale]="ch" dataType='string' yearNavigator="true" yearRange="2018:2038" dateFormat="yy-mm-dd"  showButtonBar='true' todayButtonStyleClass="todayTime" clearButtonStyleClass="clearTime" placeholder="起始时间"></p-calendar>
             <span>至：</span>
             <p-calendar class="calendar"  [(ngModel)]="endTime" [inline]="false" inputId="time2" [locale]="ch" dataType='string' yearNavigator="true" yearRange="2018:2038" dateFormat="yy-mm-dd" showButtonBar='true' todayButtonStyleClass="todayTime" clearButtonStyleClass="clearTime" placeholder="结束时间"></p-calendar>
           </p>
           <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
             <div class="input-group">
-              <input style="margin-right: 10px;" type="text" class="form-control search" placeholder="管理账号" #master>
-              <input type="text" class="form-control search" placeholder="客户账号" #slave>
-              <span style="margin:0 10px;"> <button class="btn btn-success searchBg" type="button" (click)=" searchLogList(startTime,endTime,master.value,slave.value,1)">查询</button> </span>
+              <!--<input style="margin-right: 10px;" type="text" class="form-control search" placeholder="操作类型" #master>-->
+              <select class="select form-control " style="height: 35px;" [ngModel]="optionL" (ngModelChange)="optionL=$event;info=optionL;">
+                <option *ngFor="let item of optionList" [value]='item.name' [ngClass]="item.name">{{item.name}}</option>
+              </select>&nbsp;
+              <select class="select form-control " style="height: 35px;" [ngModel]="optionL1" (ngModelChange)="optionL1=$event;info1=optionL1;">
+                <option *ngFor="let item of optionList1" [value]='item.name' [ngClass]="item.name">{{item.name}}</option>
+              </select>&nbsp;
+              <!--<input type="text" class="form-control search" placeholder="操作结果" #slave>-->
+              <input type="text" class="form-control search" placeholder="模糊搜索关键字" #searchText>
+              <!--<span style="margin:0 10px;"> <button class="btn btn-success searchBg" type="button" (click)=" searchLogList(startTime,endTime,master.value,slave.value,searchText.value,1)">查询</button> </span>-->
+              <span style="margin:0 10px;"> <button class="btn btn-success searchBg" type="button" (click)=" searchLogList(startTime,endTime,info,info1,searchText.value,1)">查询</button> </span>
               <span> <button class="btn btn-default searchBg" type="button" (click)="getLogList(page)">清除查询!</button> </span>
             </div>
           </div>
@@ -33,16 +41,18 @@
         <div class="panel panel-default">
           <ul class="list-group">
             <li class="list-group-item borderBN leasedLogListT">
-              <div>管理账户</div>
-              <div>客户账户</div>
-              <div class="logL">事件</div>
-              <div>时间</div>
+              <div>操作类型</div>
+              <div>日志描述</div>
+              <div class="logL">操作结果</div>
+              <div>操作时间</div>
             </li>
           </ul>
           <ul class="list-group leasedLogListC">
             <li class="list-group-item"  *ngFor="let list of logList">
-              <div>{{list.logMaster}}&nbsp;</div>
-              <div>{{list.logSlaves}}&nbsp;</div>
+              <!--<div>{{list.logMaster}}&nbsp;</div>-->
+              <div>{{list.type}}&nbsp;</div>
+              <!--<div>{{list.logSlaves}}&nbsp;</div>-->
+              <div>{{list.result}}&nbsp;</div>
               <div class="logL">&nbsp;<span>{{list.logContext}}</span></div>
               <div>{{list.updateTime|date:'yyyy-MM-dd'}}&nbsp;</div>
             </li>

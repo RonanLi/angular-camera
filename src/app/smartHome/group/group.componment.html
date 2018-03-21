@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="btnBox">分组管理
-          <button class="btn btn-primary" (click)="this.addgroup=!this.addgroup;this.mask=true;">{{this.addgroup?'取消添加':'添加分组'}}</button>
+          <button class="btn btn-primary" (click)="this.addgroup=!this.addgroup;this.mask=true;getDeviceList();">{{this.addgroup?'取消添加':'添加分组'}}</button>
         </div>
 
         <div class="panel panel-default">

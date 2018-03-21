@@ -94,6 +94,13 @@ export class GroupComponent {
     });
   }
 
+  /*编辑筛选设备列表*/
+  filterDeviceList(){
+    this.groupHttp.get('/v1.0/container/group'+this.timer).subscribe(req => {
+      this.deviceList=req['data'];
+    });
+  }
+
   /*分组列表查询*/
   searchList(key,info,pageIndex){
     let urlSearchParams = new URLSearchParams();
@@ -315,7 +322,6 @@ export class GroupComponent {
   /*处理编辑数据*/
   editDateNew(eleList){
     this.onGroupList=eleList;
-    // console.log(this.onGroupList)
   }
 
   /*添加分组*/
@@ -442,8 +448,8 @@ export class GroupComponent {
     else if(ele=='十六宫格'){ gradC=16 }
     return gradC;
   }
-/*刷新添加选中列表*/
 
+  /*刷新添加选中列表*/
   freshAdd(){
     this.deviceListCheck=[
       {
@@ -451,11 +457,6 @@ export class GroupComponent {
         page:1,
       },
     ];
-  }
-
-  freshEdit(ele1,ele2){
-    // console.log(ele1)
-    // console.log(ele2)
   }
 
 
@@ -466,7 +467,6 @@ public recycle;
 public locked;
 
 
-  // public currentStyles = { 'min-height': (window.screen.height)+'px',};
   public currentStyles = { 'min-height': (window.screen.height)+'px','height': (window.screen.height)+'px',overflow:'visible'};
 
 

@@ -28,7 +28,23 @@ export class LeasedLogComponent {
   ngOnInit() {
     this.getLogList(1)
   }
+  //select 下拉选择
+  public optionList:any=[
+    {name:'登录'},{name:'登出'},
+    {name:'客户添加'},{name:'客户更新'},{name:'客户删除'},
+    {name:'设备添加'},{name:'设备更新'},{name:'设备删除'},
+    {name:'子账户添加'},{name:'子账户更新'},{name:'子账户删除'},
+    {name:'角色添加'},{name:'角色更新'},{name:'角色删除'},
+    {name:'分组添加'},{name:'分组更新'},{name:'分组删除'},
+  ];
+  public optionL:any='登录';
+  public info:any='登录';
 
+  public optionList1:any=[
+    {name:'成功'},{name:'失败'},
+  ];
+  public optionL1:any='成功';
+  public info1:any='成功';
 
   getLogList(pageIndex){
     const params = new HttpParams().set('pageIndex', pageIndex).set('pageSize', '10');
@@ -52,7 +68,7 @@ export class LeasedLogComponent {
   }
 
   public searchStatu:boolean;
-  searchLogList(startTime,endTime,master,slave,pageIndex){
+  searchLogList(startTime,endTime,master,slave,searchText,pageIndex){
     var dayStart=Date.parse(startTime);
     var dayEnd=Date.parse(endTime)+86399000;
     if(dayEnd-dayStart>=604800000){alert('起止时间不能超过7天！');return;}
@@ -61,8 +77,9 @@ export class LeasedLogComponent {
     let urlSearchParams = new URLSearchParams();
     if(startTime){ urlSearchParams.append('startTime', String(dayStart)); }
     if(endTime){ urlSearchParams.append('endTime', String(dayEnd)); }
-    if(master){ urlSearchParams.append('master', master); }
-    if(slave){ urlSearchParams.append('slave', slave); }
+    if(master){ urlSearchParams.append('type', master); }
+    if(slave){ urlSearchParams.append('result', slave); }
+    if(searchText){ urlSearchParams.append('searchText', searchText); }
     urlSearchParams.append('pageIndex', pageIndex);
     urlSearchParams.append('pageSize', '10');
     let params = urlSearchParams.toString();
