@@ -1,6 +1,9 @@
 {
   "/api/v1.0": {
     "target":"http://10.2.10.43:8096",
-    "secure": "false"
+    "secure": "false",
+    "pathRewrite": {
+      "^/api": ""
+    }
   }
 }
