@@ -30,6 +30,7 @@ export class LeasedLogComponent {
   }
   //select 下拉选择
   public optionList:any=[
+    {name:'全部'},
     {name:'登录'},{name:'登出'},
     {name:'添加客户'},{name:'更新客户'},{name:'删除客户'},
     {name:'添加设备'},{name:'更新设备'},{name:'删除设备'},
@@ -37,8 +38,8 @@ export class LeasedLogComponent {
     {name:'添加角色'},{name:'更新角色'},{name:'删除角色'},
     {name:'添加分组'},{name:'更新分组'},{name:'删除分组'},
   ];
-  public optionL:any='登录';
-  public info:any='登录';
+  public optionL:any='全部';
+  public info:any='全部';
 
   getLogList(pageIndex){
     const params = new HttpParams().set('pageIndex', pageIndex).set('pageSize', '10');
@@ -71,7 +72,7 @@ export class LeasedLogComponent {
     let urlSearchParams = new URLSearchParams();
     if(startTime){ urlSearchParams.append('startTime', String(dayStart)); }
     if(endTime){ urlSearchParams.append('endTime', String(dayEnd)); }
-    if(master){ urlSearchParams.append('type', master); }
+    if(master&&master!=='全部'){ urlSearchParams.append('type', master); }
     if(searchText){ urlSearchParams.append('searchText', searchText); }
     urlSearchParams.append('pageIndex', pageIndex);
     urlSearchParams.append('pageSize', '10');
@@ -80,11 +81,13 @@ export class LeasedLogComponent {
       if(req['code']=='200'){
         if(req['data'].length>0){
           this.searchStatu=true;
-          this.logList=req['data']=req['data'];
+          this.logList=req['data'];
           this.page=req['pageing'].pageIndex;
           this.totalPages=Math.ceil(req['pageing'].totalNums/10) ;
         }
         else{
+          this.searchStatu=true;
+          this.logList=req['data'];
           this.page=1;
           this.totalPages=1 ;
           alert('查询结果为空');
@@ -101,7 +104,6 @@ export class LeasedLogComponent {
       else{  alert(req['message'])}
     });
   }
-
 
   /*导出日志*/
   exportData(){

@@ -87,7 +87,7 @@
                         <b class="deviceAdd" (click)="addDevice(none,page,grad,this.onGroupList);none=none-1"></b>
                       </div>
                       <div class="list" draggable="true" *ngFor="let listL of deviceList">
-                        {{listL.containerName}} <b class="deviceAdd" (click)="addDevice(listL.containerId,page,grad,this.onGroupList)"></b>
+                        {{listL.viewId==1052?listL.containerName:listL.containerName+'(不支持)'}}<b *ngIf="listL.viewId==1052" class="deviceAdd" (click)="addDevice(listL.containerId,page,grad,this.onGroupList)"></b>
                       </div>
                     </div>
                     <!--已选列表-->
@@ -160,7 +160,7 @@
                     <b class="deviceAdd" (click)="addDevice(none,page,grad,deviceListCheck);none=none-1"></b>
                   </div>
                   <div class="list" draggable="true" *ngFor="let list of deviceList">
-                    {{list.containerName}} <b class="deviceAdd" (click)="addDevice(list.containerId,page,grad,deviceListCheck)"></b>
+                    {{list.viewId==1052?list.containerName:list.containerName+'(不支持)'}}<b *ngIf="list.viewId==1052" class="deviceAdd" (click)="addDevice(list.containerId,page,grad,deviceListCheck)"></b>
                   </div>
                 </div>
                 <!--已选列表-->

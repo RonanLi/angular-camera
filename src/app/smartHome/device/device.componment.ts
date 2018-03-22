@@ -18,6 +18,9 @@ export class DeviceComponent {
   /*定义页面参数*/
   // public img;
   public mask;
+  public shareForm;
+  public give;
+  public edit;
   public timer='?m='+Date.parse(String(new Date()));
 
   /*设备权限*/
@@ -178,12 +181,22 @@ export class DeviceComponent {
     this.today=Date.now();
     var params = new HttpParams().set('pageIndex',pageIndex).set('pageSize','10');
     this.deviceHttp.get(this.listUrl+this.timer,{params}).subscribe(req => {
-      this.searchStatu=false;
-      this.deviceList=req['data'];
-      this.paramList=req['data'];
-      this.page=req['pageing'].pageIndex;
-      this.totalPages=Math.ceil(req['pageing'].totalNums/10) ;
-      this.totalNums=req['pageing'].totalNums;
+      if(req['data'].length>0){
+        this.searchStatu=false;
+        this.deviceList=req['data'];
+        this.paramList=req['data'];
+        this.page=req['pageing'].pageIndex;
+        this.totalPages=Math.ceil(req['pageing'].totalNums/10) ;
+        this.totalNums=req['pageing'].totalNums;
+      }else{
+        this.searchStatu=false;
+        this.deviceList=req['data'];
+        this.paramList=req['data'];
+        this.page=1;
+        this.totalPages=1;
+        this.totalNums=0;
+      }
+
     });
   }
 
@@ -236,10 +249,20 @@ export class DeviceComponent {
     urlSearchParams.append('pageSize', '10');
     const params = new HttpParams({fromString: urlSearchParams.toString()});
     this.deviceHttp.get(this.listUrl,{params}).subscribe(req => {
-      this.deviceList=req['data'];
-      this.paramList=req['data'];
-      this.page=req['pageing'].pageIndex;
-      this.totalPages=Math.ceil(req['pageing'].totalNums/10) ;
+      if(req['data'].length>0) {
+        this.deviceList = req['data'];
+        this.paramList = req['data'];
+        this.page = req['pageing'].pageIndex;
+        this.totalPages = Math.ceil(req['pageing'].totalNums / 10);
+        this.totalNums=req['pageing'].totalNums;
+      }
+      else{
+        this.deviceList = req['data'];
+        this.paramList = req['data'];
+        this.page = 1;
+        this.totalPages = 1;
+        this.totalNums=0;
+      }
     });
   }
 
@@ -251,15 +274,27 @@ export class DeviceComponent {
     urlSearchParams.append('pageSize', '10');
     const params = new HttpParams({fromString: urlSearchParams.toString()});
     this.deviceHttp.get(this.listUrl,{params}).subscribe(req => {
-      this.deviceList=req['data'];
-      this.paramList=req['data'];
-      this.page=req['pageing'].pageIndex;
-      this.totalPages=Math.ceil(req['pageing'].totalNums/10) ;
+      if(req['data'].length>0){
+        this.deviceList=req['data'];
+        this.paramList=req['data'];
+        this.page=req['pageing'].pageIndex;
+        this.totalPages=Math.ceil(req['pageing'].totalNums/10) ;
+      }else{
+        this.deviceList=req['data'];
+        this.paramList=req['data'];
+        this.page=1;
+        this.totalPages=1;
+        this.totalNums=0;
+      }
     });
   }
 
 /*批量启用禁用this.locksUrl*/
   batch(ele1,ele2){//ele1判断是否全选；ele2的值为禁用或启用或授权
+    if(ele2=='锁定'){
+      var realy=confirm('进行该操作后，所有已经分享/授权给下级的设备，将被禁止使用，可以通过解锁功能进行恢复，是否继续？');
+      if(!realy){return;}
+    }
     if(ele1){//全选状态
       for(var i=0;i<this.paramList.length;i++){ this.paramList[i].statusCode=ele2; }
     }
@@ -277,7 +312,8 @@ export class DeviceComponent {
       .post(this.locksUrl,params)
       .subscribe(
         req => {
-          if(req['code']=="200"){ this.obj=[]; alert('批量'+ele2+'成功'); this.select=false;   this.getDeviceList(this.page);}
+          if(req['code']=="200"&&ele2=='锁定'){ this.obj=[]; alert('批量锁定成功'); this.select=false;   this.getDeviceList(this.page);}
+          else if(req['code']=="200"&&ele2=='正常'){  this.obj=[];alert('批量解锁成功'); this.select=false;   this.getDeviceList(this.page);}
           else{ alert(req['message']); }
         },
         (err: HttpErrorResponse) => {
@@ -287,8 +323,34 @@ export class DeviceComponent {
       )
   }
 
+/*提示编辑*/
+  alertEdit(){
+    if(this.obj.length<=0){alert('请选择设备!'); return; }
+    this.edit=!this.edit;
+    this.mask=!this.mask
+  }
+
+/*提示授权*/
+  alertGive(){
+
+    if(this.obj.length<=0){alert('请选择设备!'); return; }
+    this.give=!this.give;
+    this.mask=!this.mask
+  }
+
+/*提示分享*/
+  alertObj(){
+    if(this.obj.length<=0){alert('请选择设备！');return; }
+    this.shareForm=!this.shareForm;
+    this.mask=!this.mask
+  }
+
 /*单个解锁；单个锁定 this.lockUrl */
   singleBatch(ele,edt1){//ele的值为禁用／启用；ele1:containerId
+    if(ele=='锁定'){
+      var realy=confirm('进行该操作后，所有已经分享/授权给下级的设备，将被禁止使用，可以通过解锁功能进行恢复，是否继续？');
+      if(!realy){return;}
+    }
     var params ;
     if(this.cameraService.customerType=='A'){
       params = new HttpParams().set('deviceSn', edt1).set('statusCode',ele);
@@ -301,7 +363,8 @@ export class DeviceComponent {
       .post( this.lockUrl,params,)
       .subscribe(
         req => {
-          if(req['code']=="200"){ alert(ele+'成功');this.getDeviceList(this.page);}
+          if(req['code']=="200"&&ele=='锁定'){ alert('锁定成功');this.getDeviceList(this.page); }
+          else if(req['code']=="200"&&ele=='正常'){ alert('解锁成功');this.getDeviceList(this.page); }
           else{ alert(req['message']); }
         },
         (err: HttpErrorResponse) => {
@@ -339,15 +402,17 @@ export class DeviceComponent {
 /*-------------A类函数开始----------------*/
   /*A取消授权:/device/recycle*/
   recycle(id){
-    let urlSearchParams = new URLSearchParams();
-    urlSearchParams.append('deviceSn', id);
-    let params = urlSearchParams.toString();
-    this.deviceHttp.post('/api/v1.0/device/recycle ',params)
-      .subscribe(
-        req => {if(req['code']=="200"){ alert('取消授权成功');this.getDeviceList(this.page);} else{ alert(req['message']);}}
-      );
+    var realy=confirm('回收用于对故障设备进行召回处理，该操作将对所有已售出给下级的设备进行回收，并将同时删除已经授权/分享的给终端客户的设备，此操作不可恢复。是否继续');
+    if(realy){
+      let urlSearchParams = new URLSearchParams();
+      urlSearchParams.append('deviceSn', id);
+      let params = urlSearchParams.toString();
+      this.deviceHttp.post('/api/v1.0/device/recycle ',params)
+        .subscribe(
+          req => {if(req['code']=="200"){ alert('回收成功');this.getDeviceList(this.page);} else{ alert(req['message']);}}
+        );
+    }
   }
-
 
 /*-------------A类函数结束----------------*/
 
@@ -448,7 +513,7 @@ export class DeviceComponent {
   toGives(ele,form,Sele,Eele){//ele1判断是否全选；ele2的值为禁用或启用或授权
     var containerList=[];
     let urlSearchParams = new URLSearchParams();
-
+    if(!form.select){alert('请选择授权子账户！');return;}
     if(this.cameraService.customerType!=='C'){
       if(!form.select||!Sele){ alert('请选择授权账户或起始时间！'); return; }
       if(Sele>Eele){ alert('起始时间不能大于结束时间！'); return; }
@@ -494,20 +559,20 @@ export class DeviceComponent {
         }
       }
     }
-
-
     // console.log(containerList);
     urlSearchParams.append('customerId', form.select);
     urlSearchParams.append('containerList', JSON.stringify(containerList));
     let params=urlSearchParams.toString();
     this.deviceHttp.post('/api/v1.0/containers/share',params)
       .subscribe(
-        req => {this.getDeviceList(this.page);if(req['code']=="200"){this.select=false; this.getDeviceList(this.page);alert('全部操作成功');}else if(req['code']=="403"){ alert('可授权设备操作成功');} else{ alert(req['message']);}}
+        req => {this.getDeviceList(this.page);if(req['code']=="200"){this.obj=[];this.select=false; this.getDeviceList(this.page);alert('全部操作成功');}else if(req['code']=="403"){ this.obj=[];alert('可授权设备操作成功');} else{ alert(req['message']);}}
       );
   }
 
 /*删除单个分享或授权:/container/delete*/
   singleDelete(id){
+    var realy=confirm('进行该操作后，已经授权/分享给下级的设备，将被禁止使用，可以通过重新授权方式恢复使用，是否继续？');
+    if(!realy){return;}
     const params = new HttpParams().set('containerId',id);
     this.deviceHttp.post('/api/v1.0/container/delete',params)
       .subscribe(
@@ -523,7 +588,9 @@ export class DeviceComponent {
   }
 
 /*批量取消授权:/containers/delete todo 尚未开始*/
-  deletes(ele1){//ele1判断是否全选；ele2的值为禁用或启用或授权
+  deletes(ele1){//ele1判断是否全选；
+    var realy=confirm('进行该操作后，所有已经授权给下级的设备，将被禁止使用，可以通过重新授权方式恢复使用，是否继续？');
+    if(!realy){return;}
     var dels=[];
     if(ele1){//全选状态
       for(var i=0;i<this.paramList.length;i++){
@@ -560,7 +627,7 @@ export class DeviceComponent {
       );
   }
 
-  /*单个编辑:/container/update*/
+/*单个编辑:/container/update*/
   singleEdit(form,id,lendTime){ /*单个编辑*/
     let urlSearchParams = new URLSearchParams();
 
@@ -591,7 +658,7 @@ export class DeviceComponent {
       )
   }
 
-  /*B类单个编辑:/container/lifetime*/
+/*B类单个编辑:/container/lifetime*/
   singleBEdit(form,id,startTime){ /*单个编辑*/
 
     let urlSearchParams = new URLSearchParams();
@@ -701,32 +768,11 @@ export class DeviceComponent {
         }
       }
     }
-
-/*    if(this.select){//全选状态
-      for(var i=0;i<this.paramList.length;i++){
-        // containerList.push({containerId:this.paramList[i].containerId,startTime:this.paramList[i].startTime,endTime:this.paramList[i].endTime});
-        containerList.push({containerId:this.paramList[i].containerId,endTime:Date.parse(Eele)});
-      }
-    }
-    else{//非全选状态
-      if(this.obj.length<=0){ alert('请选择设备！');return; }
-      else {
-        for (var i=0;i<this.obj.length;i++){
-          for(var j=0;j<this.paramList.length;j++){
-            if(this.obj[i].containerId==this.paramList[j].containerId){
-              let tmp={containerId:this.paramList[j].containerId,endTime:Date.parse(Eele)};
-              containerList.push(tmp);
-            }
-          }
-        }
-      }
-    }*/
-    // console.log(containerList);
     urlSearchParams.append('containerList', JSON.stringify(containerList));
     let params=urlSearchParams.toString();
     this.deviceHttp.post('/api/v1.0/containers/update',params)
       .subscribe(
-        req => {this.getDeviceList(this.page);if(req['code']=="200"){ alert('全部操作成功');}else if(req['code']=="403"){ alert('可授权设备操作成功');} else{ alert(req['message']);}}
+        req => {this.getDeviceList(this.page);if(req['code']=="200"){this.obj=[]; alert('全部操作成功');}else if(req['code']=="403"){ this.obj=[];alert('可授权设备操作成功');} else{ alert(req['message']);}}
       );
   }
 
@@ -741,7 +787,6 @@ export class DeviceComponent {
   /*选中或移除数据*/
   isChecked(ele,ele1){
     if(ele){
-      // var temp = { containerId: ele1}
       var temp;
 
       if(this.cameraService.customerType=='A'){
@@ -751,12 +796,10 @@ export class DeviceComponent {
         temp = { containerId: ele1}
       }
       this.obj.push(temp);
-      // console.log(this.obj);
     }
     else {
       if(this.obj[1]&&this.obj[1].deviceSn){ this.obj=[] }
       else{ this.obj=this.deleteData(this.obj,ele1); }
-      // console.log(this.obj)
     }
   }
 
@@ -774,17 +817,9 @@ export class DeviceComponent {
     if(id=='all'){
       this.obj=[];
       newObj=this.paramList;
-    /*  for(var i=0;i<this.paramList.length;i++){
-        let msg={containerId:this.paramList[i].containerId}
-        newObj.push(msg);
-      }*/
-      // console.log(newObj)
     }
     else if(id=='clear'){this.obj=[]; }
     else{
-    /*  this.obj=[];
-      for (var i = 0; i < ele.length; i++) { if (ele[i].containerId !== id) { newObj.push(ele[i]); } }
-*/
       if(this.cameraService.customerType=='A'){
         this.obj=[];
         for (var i = 0; i < ele.length; i++) { if (ele[i].deviceSn!== id) { newObj.push(ele[i]); } }
@@ -792,9 +827,7 @@ export class DeviceComponent {
       else{
         this.obj=[];
         for (var i = 0; i < ele.length; i++) { if (ele[i].containerId !== id) { newObj.push(ele[i]); } }
-
       }
-
     }
     return newObj
   }

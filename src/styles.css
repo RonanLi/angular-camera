@@ -244,7 +244,7 @@ thead{background: #f6f8fa;}
 
 .groupEditBoxL{ float: left; width: 20%; height: 100%; min-width: 180px; border:1px solid #d2d2d2;background: #fff;  overflow-y: scroll; }
 .groupEditBoxL .groupSearch{padding:5px;}
-.groupEditBoxL .list{ padding:0 5px;height: 30px;line-height: 20px; }
+.groupEditBoxL .list{ padding:0 5px;height: 30px;line-height: 20px;text-align: left; }
 .groupEditBoxL .list .deviceAdd{ float: right;cursor: pointer;width: 20px;height:20px;background: url("./assets/imgs/add.png")no-repeat center;}
 
 .groupEditBoxR{ float: right;    height: 100%;background: #fff; }

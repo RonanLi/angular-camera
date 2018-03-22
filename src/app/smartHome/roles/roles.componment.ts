@@ -49,7 +49,8 @@ export class RolesComponent {
 
   /*删除角色*/
   delet(ele){
-    // console.log(ele);
+    var realy=confirm('角色删除后将无法恢复，是否继续？');
+    if(!realy){return;}
     let urlSearchParams = new URLSearchParams();
     urlSearchParams.append('roleId', ele);
     let param = urlSearchParams.toString();

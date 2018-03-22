@@ -62,7 +62,8 @@
               <div>
                 <input *ngIf="power.forbidden&&list.statusCode=='正常'" class="btn btn-danger btn-xs" type="button" value="锁定" (click)="single('禁用',list.customerId)">
                 <input *ngIf="power.active&&list.statusCode=='禁用'" class="btn btn-warning fff btn-xs" type="button" value="解锁" (click)="single('正常',list.customerId)">
-                <input *ngIf="power.edit&&list.statusCode=='正常'" type="button" class="btn btn-success btn-xs" [value]="list.edt?'取消':'编辑'" (click)="list.edt=!list.edt;this.mask=!this.mask">
+                <input *ngIf="power.edit&&list.statusCode=='正常'&&cameraService.customerType!=='C'" type="button" class="btn btn-success btn-xs" [value]="list.edt?'取消':'编辑'" (click)="list.edt=!list.edt;this.mask=!this.mask">
+                <input *ngIf="power.edit&&list.statusCode=='正常'&&cameraService.customerType=='C'" type="button" class="btn btn-success btn-xs" [value]="list.edtc?'取消':'编辑'" (click)="list.edtc=!list.edtc;this.mask=!this.mask">
               </div>
               <!--编辑表单-->
               <div class="editForm" *ngIf="list.edt">
@@ -107,6 +108,49 @@
                   </div>
                 </form>
               </div>
+              <!--C编辑表单-->
+              <div class="editForm" *ngIf="list.edtc">
+                <form #form="ngForm" (ngSubmit)="form.form.valid && singleEdit(form.value,list.customerId);list.edtc=!list.edtc;this.mask=false" novalidate  role="form" class="form">
+                  <h3 class="formName">编辑客户 <i class="formClose" (click)="list.edtc=!list.edtc;this.mask=!this.mask">X</i></h3>
+
+                  <div class="form-group ">
+                    <div class="codeBox clearfix">
+                      <label class="control-label"><i class="red">*</i>用户名称：</label>
+                      <input type="text" [value]="list.customerName" disabled autocomplete="off">
+                    </div>
+                  </div>
+                  <div class="form-group" *ngIf="this.cameraService.customerType!=='C'">
+                    <div class="codeBox clearfix">
+                      <label class="control-label">账户密码：</label>
+                      <input  class="btn btn-success btn-xs"  value="重置密码" (click)="resetPwd(list.customerId)" style="line-height: 30px;margin: 0;padding: 0;text-indent: 0;">
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <div class="codeBox clearfix">
+                      <label class="control-label"><i class="red">*</i>联系人：</label>
+                      <input required type="text" #linkman="ngModel" [(ngModel)]="editData.linkman" name="linkman" [value]='list.linkman' autocomplete="off">
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <div class="codeBox clearfix">
+                      <label class="control-label">联系电话：</label>
+                      <input type="text" #phone="ngModel" [(ngModel)]="editData.phone" name="phone" [value]='list.phone' autocomplete="off">
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <div class="codeBox clearfix">
+                      <label class="control-label">备注：</label>
+                      <input type="text" #description="ngModel" [(ngModel)]="editData.description" name="description" [value]='list.description' autocomplete="off">
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <div class="codeBox clearfix">
+                      <input type="button" value="取消" class="btn btn-info" (click)="list.edtc=!list.edtc;this.mask=!this.mask"/>
+                      <input type="submit" value="提交" class="btn btn-info" [disabled]="!phone.valid||!linkman.valid"/>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </li>
           </ul>
           <!--添加客户-->
@@ -116,7 +160,7 @@
               <div class="form-group ">
                 <div>
                   <label class="control-label"><i class="red">*</i>公司名称：</label>
-                  <input required type="text" #customerName="ngModel" [(ngModel)]="addData.customerName" name="customerName" placeholder="请输入公司名称" autocomplete="off">
+                  <input required type="text" #customerName="ngModel" [(ngModel)]="addData.customerName" name="customerName"  placeholder="公司名称长度不超过8位" maxlength="8" autocomplete="off">
                   <div *ngIf='form.submitted && (!customerName.valid)' class="text-danger">公司名称不能为空</div>
                 </div>
               </div>

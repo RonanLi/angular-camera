@@ -68,7 +68,7 @@ export class deviceEdit {
   description:string;
   permissionType:string;
   excel:any;
-  select:any;
+  select='';
   share:any;
 }
 /*角色创建信息类*/

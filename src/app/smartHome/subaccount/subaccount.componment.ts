@@ -86,6 +86,10 @@ export class SubaccountComponent {
 
   /*批量启用禁用*/
   batch(ele1,ele2){//ele1判断是否全选；ele2的值为禁用或启用
+    if(ele2=='禁用'){
+      var realy=confirm('进行该操作后，所有已经分享/授权给下级的设备，将被禁止使用，可以通过解锁功能进行恢复，是否继续？');
+      if(!realy){return;}
+    }
     if(ele1){//全选状态
       for(var i=0;i<this.paramList.length;i++){
         this.paramList[i].statusCode=ele2;
@@ -96,13 +100,12 @@ export class SubaccountComponent {
       else { for (var i=0;i<this.obj.length;i++){ this.obj[i].statusCode=ele2; } }
     }
     const params = new HttpParams().set('customerList', JSON.stringify(this.obj)).set('statusCode', ele2);
-    // console.log(params);
-    // console.log(this.obj);
     this.subaccountHttp
       .post('/api/v1.0/customers/update',params)
       .subscribe(
         req => {
-          if(req['code']=="200"){ alert('批量' +ele2+'成功'); }
+          if(req['code']=="200"&&ele2=='禁用'){ alert('批量锁定成功'); }
+          else if(req['code']=="200"&&ele2=='正常'){ alert('批量解锁成功'); }
           else{ alert(req['message']); }
           this.getSubList(this.page);
         },
@@ -146,14 +149,20 @@ export class SubaccountComponent {
 
   /*单个启用、禁用*/
   single(ele,edt1){//ele的值为禁用／启用；ele1:accoundID
+    if(ele=='禁用'){
+      var realy=confirm('进行该操作后，所有已经分享/授权给下级的设备，将被禁止使用，可以通过解锁功能进行恢复，是否继续？');
+      if(!realy){return;}
+    }
+
     var params = new HttpParams().set('customerId', edt1).set('statusCode',ele);
     // console.log('单个禁用启用功能'+params);
     this.subaccountHttp
       .post('/api/v1.0/customer/update',params)
       .subscribe(
         req => {
-          if(req['code']=="200"){ alert('操作成功');this.getSubList(this.page);}
-          else{ alert(ele+'失败'); }
+          if(req['code']=="200"&&ele=='禁用'){ alert('锁定成功');this.getSubList(this.page); }
+          else if(req['code']=="200"&&ele=='正常'){ alert('解锁成功');this.getSubList(this.page); }
+          else{ alert('操作失败'); }
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) { /*console.log( err.error.message); */}
@@ -165,17 +174,24 @@ export class SubaccountComponent {
 
   /*重置密码*/
   resetPwd(id){
-    let urlSearchParams = new URLSearchParams();
-    urlSearchParams.append('customerId',id);
-    let params=urlSearchParams.toString();
-    this.subaccountHttp
-      .post('/api/v1.0/password/reset',params)
-      .subscribe(
-        req => {
-          if(req['code']=="200"){ alert('子账户密码重置成功！默认密码为手机号'); }
-          else {alert(req['message'])}
-        }
-      );
+    var realy=confirm('进行该操作后，子账户的登录密码将被恢复初始化状态，默认密码为子账户联系电话，是否继续？');
+    if(realy) {
+      let urlSearchParams = new URLSearchParams();
+      urlSearchParams.append('customerId', id);
+      let params = urlSearchParams.toString();
+      this.subaccountHttp
+        .post('/api/v1.0/password/reset', params)
+        .subscribe(
+          req => {
+            if (req['code'] == "200") {
+              alert('子账户密码重置成功！默认密码为手机号');
+            }
+            else {
+              alert(req['message'])
+            }
+          }
+        );
+    }
   }
 
   /*单个编辑*/
@@ -233,6 +249,11 @@ export class SubaccountComponent {
       )
   }
 
+  /*提示*/
+  alertObj(){
+    if(this.obj.length<=0){alert('请选择客户账号！');return; }
+    this.editBatch=!this.editBatch;this.mask=!this.mask;
+  }
   /*导出数据*/
   exportData(){
     let url= 'http://camera.t2.5itianyuan.com/api/v1.0/customer/export?apiKey='+this.cameraService.userDetial.apiKey;

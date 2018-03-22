@@ -28,9 +28,9 @@ export class GroupComponent {
   public timer='?m='+Date.parse(String(new Date()));
 
   //select 下拉选择
-  public optionList:any=[ {name:'四宫格'}, {name:'九宫格'},{name:'十六宫格'}];
-  public optionL:any='四宫格';
-  public info:any='四宫格';
+  public optionList:any=[{name:'全部'}, {name:'四宫格'}, {name:'九宫格'},{name:'十六宫格'}];
+  public optionL:any='全部';
+  public info:any='全部';
 
   public addData=new groupAdd;
   public grad=4;
@@ -104,7 +104,7 @@ export class GroupComponent {
   /*分组列表查询*/
   searchList(key,info,pageIndex){
     let urlSearchParams = new URLSearchParams();
-    if(info!=='分组方式'){ urlSearchParams.append('displayMode', info); }
+    if(info!=='全部'){ urlSearchParams.append('displayMode', info); }
     if(key){ urlSearchParams.append('groupName', key); }
     urlSearchParams.append('pageIndex', pageIndex);
     urlSearchParams.append('pageSize', '10');
@@ -419,6 +419,8 @@ export class GroupComponent {
 
   /*删除分组*/
   delGroup(groupId:string){
+    var realy=confirm('分组删除后将无法恢复，是否继续？');
+    if(!realy){return;}
     const params = new HttpParams().set('groupId',groupId);
     this.groupHttp.delete('/api/v1.0/groups/delete',{params})
       .subscribe(
@@ -426,7 +428,7 @@ export class GroupComponent {
           if(req['code']=="200"){
             this.getList(1);
             this.getDeviceList();
-            alert('操作成功');
+            alert('删除分组成功');
           }
           else if(req['code']=="401"){
             window.localStorage.removeItem('smartContent');
