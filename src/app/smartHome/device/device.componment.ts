@@ -291,6 +291,7 @@ export class DeviceComponent {
 
 /*批量启用禁用this.locksUrl*/
   batch(ele1,ele2){//ele1判断是否全选；ele2的值为禁用或启用或授权
+    if(this.obj.length<=0){alert('请选择设备！'); return; }
     if(ele2=='锁定'){
       var realy=confirm('进行该操作后，所有已经分享/授权给下级的设备，将被禁止使用，可以通过解锁功能进行恢复，是否继续？');
       if(!realy){return;}
@@ -299,8 +300,9 @@ export class DeviceComponent {
       for(var i=0;i<this.paramList.length;i++){ this.paramList[i].statusCode=ele2; }
     }
     else{//非全选状态
-      if(this.obj.length<=0){alert('请选择设备！'); return; }
-      else { for (var i=0;i<this.obj.length;i++){ this.obj[i].statusCode=ele2; } }
+      /*if(this.obj.length<=0){alert('请选择设备！'); return; }
+      else { for (var i=0;i<this.obj.length;i++){ this.obj[i].statusCode=ele2; } }*/
+      for (var i=0;i<this.obj.length;i++){ this.obj[i].statusCode=ele2; }
     }
     var params;
     if(this.cameraService.customerType=='A'){
@@ -589,6 +591,7 @@ export class DeviceComponent {
 
 /*批量取消授权:/containers/delete todo 尚未开始*/
   deletes(ele1){//ele1判断是否全选；
+    if(this.obj.length<=0){alert('请选择设备!'); return; }
     var realy=confirm('进行该操作后，所有已经授权给下级的设备，将被禁止使用，可以通过重新授权方式恢复使用，是否继续？');
     if(!realy){return;}
     var dels=[];
@@ -600,13 +603,20 @@ export class DeviceComponent {
       }
     }
     else{//非全选状态
-      if(this.obj.length<=0){alert('请选择设备!'); return; }
+      /*if(this.obj.length<=0){alert('请选择设备!'); return; }
       else {
         for (var i=0;i<this.obj.length;i++){
           for(var j=0;j<this.paramList.length;j++){
             if(this.obj[i].containerId==this.paramList[j].containerId&&this.paramList[j].childrenList){
               dels.push(this.paramList[j].childrenList[0].containerId);
             }
+          }
+        }
+      }*/
+      for (var i=0;i<this.obj.length;i++){
+        for(var j=0;j<this.paramList.length;j++){
+          if(this.obj[i].containerId==this.paramList[j].containerId&&this.paramList[j].childrenList){
+            dels.push(this.paramList[j].childrenList[0].containerId);
           }
         }
       }

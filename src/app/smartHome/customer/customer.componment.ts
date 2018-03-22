@@ -147,6 +147,8 @@ export class CustomerComponent {
 
   /*批量启用禁用*/
   batch(ele1,ele2){//ele1判断是否全选；ele2的值为禁用或启用
+    if(this.obj.length<=0){alert('请选择账户!');return; }
+
     if(ele2=='禁用'){
       var realy=confirm('进行该操作后，所有已经分享/授权给下级的设备，将被禁止使用，可以通过解锁功能进行恢复，是否继续？');
       if(!realy){return;}
@@ -157,8 +159,9 @@ export class CustomerComponent {
       }
     }
     else{//非全选状态
-      if(this.obj.length<=0){alert('请选择账户!');return; }
-      else { for (var i=0;i<this.obj.length;i++){ this.obj[i].statusCode=ele2; } }
+      /*if(this.obj.length<=0){alert('请选择账户!');return; }
+      else { for (var i=0;i<this.obj.length;i++){ this.obj[i].statusCode=ele2; } }*/
+      for (var i=0;i<this.obj.length;i++){ this.obj[i].statusCode=ele2; }
     }
     const params = new HttpParams().set('customerList', JSON.stringify(this.obj)).set('statusCode', ele2);
 
