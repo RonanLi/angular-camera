@@ -107,7 +107,7 @@ export class LeasedLogComponent {
 
   /*导出日志*/
   exportData(){
-    let url= 'http://camera.t2.5itianyuan.com/api/log/export?apiKey='+this.cameraService.userDetial.apiKey;
+    let url= 'http://camera.t2.5itianyuan.com/api/v1.0/log/export?apiKey='+this.cameraService.userDetial.apiKey;
     let urlNew=url.replace(/`/g, "%60");
     window.location.href = urlNew;
   }
