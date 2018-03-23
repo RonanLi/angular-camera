@@ -89,7 +89,7 @@ export class SubaccountComponent {
     if(this.obj.length<=0){alert('请选择客户账号！');return; }
 
     if(ele2=='禁用'){
-      var realy=confirm('进行该操作后，所有已经分享/授权给下级的设备，将被禁止使用，可以通过解锁功能进行恢复，是否继续？');
+      var realy=confirm('进行锁定操作后，客户及其下级账户将无法再次通过网站/APP登录系统，解锁功能进行恢复，是否继续？');
       if(!realy){return;}
     }
     if(ele1){//全选状态
@@ -153,7 +153,7 @@ export class SubaccountComponent {
   /*单个启用、禁用*/
   single(ele,edt1){//ele的值为禁用／启用；ele1:accoundID
     if(ele=='禁用'){
-      var realy=confirm('进行该操作后，所有已经分享/授权给下级的设备，将被禁止使用，可以通过解锁功能进行恢复，是否继续？');
+      var realy=confirm('进行锁定操作后，该客户及其下级账户将无法再次通过网站/APP登录系统，解锁功能进行恢复，是否继续？');
       if(!realy){return;}
     }
 

@@ -175,7 +175,6 @@ export class DeviceComponent {
     });
   }
 
-
 /*获取设备列表 this.listUrl */
   getDeviceList(pageIndex){/*查看用户设备列表*/
     this.today=Date.now();
@@ -183,6 +182,7 @@ export class DeviceComponent {
     this.deviceHttp.get(this.listUrl+this.timer,{params}).subscribe(req => {
       if(req['data'].length>0){
         this.searchStatu=false;
+        this.batchStatu=false;
         this.deviceList=req['data'];
         this.paramList=req['data'];
         this.page=req['pageing'].pageIndex;
@@ -190,6 +190,7 @@ export class DeviceComponent {
         this.totalNums=req['pageing'].totalNums;
       }else{
         this.searchStatu=false;
+        this.batchStatu=false;
         this.deviceList=req['data'];
         this.paramList=req['data'];
         this.page=1;
@@ -224,6 +225,7 @@ export class DeviceComponent {
     // console.log(params);
     this.deviceHttp.get(this.listUrl,{params}).subscribe(req => {
       if(req['code']=="200"){
+        this.batchStatu=false;
         this.searchStatu=true;
         this.deviceList=req['data'];
         this.paramList=req['data'];
@@ -242,7 +244,10 @@ export class DeviceComponent {
   }
 
 /*批量操作查询*/
+  public batchStatu:boolean;
+  public batchType:any;
   empowerList(filterType,page){
+    this.batchType=filterType;
     let urlSearchParams = new URLSearchParams();
     if(filterType){ urlSearchParams.append('filterType', filterType); }
     urlSearchParams.append('pageIndex', page);
@@ -250,6 +255,8 @@ export class DeviceComponent {
     const params = new HttpParams({fromString: urlSearchParams.toString()});
     this.deviceHttp.get(this.listUrl,{params}).subscribe(req => {
       if(req['data'].length>0) {
+        this.searchStatu=false;
+        this.batchStatu=true;
         this.deviceList = req['data'];
         this.paramList = req['data'];
         this.page = req['pageing'].pageIndex;
@@ -268,13 +275,22 @@ export class DeviceComponent {
 
 /*可批量启禁用操作查询*/
   isEmpowerList(statusCode,page){
+    this.batchType=statusCode;
     let urlSearchParams = new URLSearchParams();
-    if(statusCode){ urlSearchParams.append('statusCode', statusCode); }
+    if(statusCode=='正常'||statusCode=='锁定'){
+      if(statusCode){ urlSearchParams.append('statusCode', statusCode); }
+    }
+    else{
+      if(statusCode){ urlSearchParams.append('filterType', statusCode); }
+    }
+    // if(statusCode){ urlSearchParams.append('statusCode', statusCode); }
     urlSearchParams.append('pageIndex', page);
     urlSearchParams.append('pageSize', '10');
     const params = new HttpParams({fromString: urlSearchParams.toString()});
     this.deviceHttp.get(this.listUrl,{params}).subscribe(req => {
       if(req['data'].length>0){
+        this.searchStatu=false;
+        this.batchStatu=true;
         this.deviceList=req['data'];
         this.paramList=req['data'];
         this.page=req['pageing'].pageIndex;
