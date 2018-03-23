@@ -113,6 +113,7 @@ p select.form-control:not([size]):not([multiple]){display:inline-block;height:ca
 .customerListT>div label{margin:0;cursor: pointer;}
 .btnBox{margin:10px 0;padding:10px; line-height: 30px; border-radius: 5px; font-size: 18px;background: #2e8b79;color: #fff;overflow: hidden;}
 .btnBox .btn{float: right;margin-left:10px;}
+.btnBox .btn-success { background-color: #61B1F5; border-color: #61B1F5; }
 .customer .searchBox.row{margin:0;}
 /*客户管理添加客户 子账户管理添加客户*/
 .customer .addForm,.deviceGL .addForm{position:absolute;width:550px;top:-64px;left:calc(50% - 340px); padding: 0 0 1%; border: 1px solid #e3e3e3;background:#fff;z-index: 11;border-radius: 5px;}
