@@ -294,6 +294,30 @@ export class CustomerComponent {
     )
   }
 
+  /*C删除客户*/
+  customerDel(id){
+    var realy=confirm('删除客户时，将同时删除已经分享给该用户的所有设备，是否继续？');
+    if(!realy){return;}
+    const params = new HttpParams().set('customerId',id);
+    this.customertHttp.delete('/api/v1.0/customer/delete',{params})
+      .subscribe(
+        req => {
+          if(req['code']=="200"){
+            this.getCustomerList(this.page);
+            alert('删除客户成功');
+          }
+          else if(req['code']=="401"){
+            window.localStorage.removeItem('smartContent');
+            this.cameraService.isLoggedIn=false;
+            alert('请重新登录');
+            var url = '/login';
+            let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: false};
+            this.router.navigate([url], navigationExtras);
+          }
+          else{ alert(req['message']);}}
+      );
+  }
+
   /*导出数据*/
   exportData(){
     let url= 'http://camera.t2.5itianyuan.com/api/customer/export?apiKey='+this.cameraService.userDetial.apiKey;
