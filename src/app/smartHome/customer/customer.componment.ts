@@ -327,7 +327,7 @@ export class CustomerComponent {
 
   /*模版下载*/
   exportDemo(ele){/*导出数据*/
-    let url= 'http://camera.t2.5itianyuan.com/api/template?apiKey='+this.cameraService.userDetial.apiKey+'&templateName='+ele;
+    let url= 'http://camera.t2.5itianyuan.com/api/v1.0/template?apiKey='+this.cameraService.userDetial.apiKey+'&templateName='+ele;
     let urlNew=url.replace(/`/g, "%60");
     window.location.href = urlNew;
   }
