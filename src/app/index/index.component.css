@@ -15,7 +15,7 @@
 .indexTop ul{display: block;width:620px;height:50px;margin:30px auto; }
 .indexTop li{display: inline-block;width:150px;height:50px; }
 .indexTop li img{display:block;height:100%;margin: auto;}
-.indexTop p{margin-top:75px;font-size: 12px;text-align: center;color: #fff;}
+.indexTop p{margin-top:50px;font-size: 12px;text-align: center;color: #fff;}
 .indexLine,.indexLineR{width: 1200px;height:555px;margin:15px auto;padding:90px 60px;background:#f9f9f9; }
 .indexLine .indexLL,.indexLineR .indexLR{width:330px;}
 .indexLineR .indexLL,.indexLine .indexLR{width:670px;}
