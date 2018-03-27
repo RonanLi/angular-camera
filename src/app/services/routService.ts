@@ -16,7 +16,8 @@ export class RoutGuard implements CanActivate {
   checkLogin(url: string): boolean {
     if (this.cameraService.isLoggedIn) { return true; }
     this.cameraService.redirectUrl = url;
-    this.router.navigate(['/login']);
+    // this.router.navigate(['/login']);
+    this.router.navigate(['/index']);
     return false;
   }
 }

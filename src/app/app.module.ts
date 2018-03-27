@@ -24,6 +24,8 @@ import {RolesComponent} from './smartHome/roles/roles.componment';
 import {SubaccountComponent} from './smartHome/subaccount/subaccount.componment';
 import {RePwdComponent} from './smartHome/rePwd/rePwd.componment';
 import {GroupComponent} from './smartHome/group/group.componment';
+import {DownloadComponent} from './smartHome/download/download';
+
 /*服务*/
 import {CameraService} from './services/camera.service';
 /*守卫路由*/
@@ -48,7 +50,7 @@ import {FileUploadModule} from 'ng2-file-upload';
     HeadComponent, FootComponent,
     TreeviewComponent,
     CustomerComponent, DeviceComponent, LeasedLogComponent, RolesComponent, SubaccountComponent, RePwdComponent,
-    GroupComponent,
+    GroupComponent,DownloadComponent,
 
     ToArray,
   ],

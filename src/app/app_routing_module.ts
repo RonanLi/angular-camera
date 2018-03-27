@@ -13,26 +13,17 @@ import {SubaccountComponent} from './smartHome/subaccount/subaccount.componment'
 import {RePwdComponent} from './smartHome/rePwd/rePwd.componment';
 
 import {GroupComponent} from './smartHome/group/group.componment';
+import {DownloadComponent} from './smartHome/download/download';
+
 /*路由守卫*/
 
-import {CanActivate} from '@angular/router';
-// import { AuthGuard } from './services/apiKey.service';
 import {RoutGuard} from './services/routService';
-/*
-const routes: Routes = [
- { path: 'smartHome/customer', component: CustomerComponent },
- { path: 'smartHome/device', component: DeviceComponent },
- { path: 'smartHome/leasedLog', component: LeasedLogComponent },
- { path: 'smartHome/roles', component: RolesComponent },
- { path: 'smartHome/subaccount', component: SubaccountComponent },
- { path: 'smartHome/rePwd', component: RePwdComponent },
-];
-*/
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
-  {path: '', redirectTo: 'login', pathMatch: 'full'},
-
+  {path: 'download', component:DownloadComponent},
+  {path: 'index', component: IndexComponent},
+  {path: '', redirectTo: 'index', pathMatch: 'full'},
 
   {
     path: '',
@@ -41,9 +32,8 @@ const routes: Routes = [
       {
         path: '',
         children: [
-          {path: '', redirectTo: '', pathMatch: 'full'},
-          {path: 'index', component: IndexComponent},
-
+          {path: '', redirectTo: 'index', pathMatch: 'full'},
+          // {path: 'index', component: IndexComponent},
           {path: 'smartHome/customer', component: CustomerComponent},
           {path: 'smartHome/device', component: DeviceComponent},
           {path: 'smartHome/leasedLog', component: LeasedLogComponent},
@@ -51,6 +41,7 @@ const routes: Routes = [
           {path: 'smartHome/subaccount', component: SubaccountComponent},
           {path: 'smartHome/rePwd', component: RePwdComponent},
           {path: 'smartHome/group', component: GroupComponent},
+          {path: '**', redirectTo: 'index', pathMatch: 'full'},
         ],
       }
     ]

@@ -24,7 +24,7 @@ import {Router, NavigationExtras } from '@angular/router';
 
 export class LoginComponent {
   constructor(private loginHttp: HttpClient,public cameraService: CameraService, public router: Router) { }
-
+  public errMsg;
   ngOnInit() { /*console.log(this.cameraService.isLoggedIn);*/ }
   private user=new LoginMsg();
   vode=Math.floor((Math.random()*9+1)*1000);
@@ -78,9 +78,9 @@ export class LoginComponent {
                 this.router.navigate([redirect], navigationExtras);
                 return this.cameraService.isLoggedIn=true;
               }
-              else{ alert('您尚没有登录权限') }
+              else{this.errMsg='您尚没有登录权限!'; }
             }
-            else{alert(this.datas['message']);}
+            else{this.errMsg=this.datas['message'];}
           },
           (err: HttpErrorResponse) => {
             if (err.error instanceof Error) { console.log( err.error.message); }
@@ -95,6 +95,9 @@ export class LoginComponent {
     if(!myreg.test(ele)) { return false; }
     else {return true; }
   }
+
+
+  public currentStyles = { 'min-height': (window.screen.height-200)+'px','height': (window.screen.height-90)+'px',overflow:'visible'};
 
 
 }

@@ -48,7 +48,7 @@
               <div>联系电话</div>
               <div>客户状态</div>
               <div>备注信息</div>
-              <div>操作</div>
+              <div style="width: 15%;">操作</div>
             </li>
           </ul>
           <ul class="list-group customerListC">
@@ -59,7 +59,7 @@
               <div>{{list.customerName==list.phone?'':list.phone}}&nbsp;</div>
               <div>{{list.statusCode}}&nbsp;</div>
               <div >{{list.description}}&nbsp;</div>
-              <div>
+              <div style="width: 15%;">
                 <input *ngIf="power.forbidden&&list.statusCode=='正常'" class="btn btn-danger btn-xs" type="button" value="锁定" (click)="single('禁用',list.customerId)">
                 <input *ngIf="power.active&&list.statusCode=='禁用'" class="btn btn-warning fff btn-xs" type="button" value="解锁" (click)="single('正常',list.customerId)">
                 <input *ngIf="power.edit&&list.statusCode=='正常'&&cameraService.customerType!=='C'" type="button" class="btn btn-success btn-xs" [value]="list.edt?'取消':'编辑'" (click)="list.edt=!list.edt;this.mask=!this.mask">
