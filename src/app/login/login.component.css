@@ -18,6 +18,7 @@
 .login input:focus{border-color: #477DF9;}
 .login .submit{;margin:10% auto 5%;border-radius: 5px;}
 .login .text-danger{width:300px;height:22px;line-height:22px;margin:auto;font-size: 12px;color: #FDA24A!important;}
+.login .text-danger i{display:inline-block;width:15px; height:15px;background: url("../../assets/imgs/info.png")no-repeat center;vertical-align: middle;background-size: 100% 100%;}
 .login .codeBox{width:300px;margin:auto;}
 .login .code{display: inline-block;width:216px;}
 .login .code1{width:80px;text-align: center;float: right;background: #477DF9;color: #fff;}

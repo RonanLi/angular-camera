@@ -76,6 +76,7 @@ export class LoginComponent {
                 let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: true};
                 let redirect ='smartHome/customer';
                 this.router.navigate([redirect], navigationExtras);
+                this.errMsg='';
                 return this.cameraService.isLoggedIn=true;
               }
               else{this.errMsg='您尚没有登录权限!'; }
@@ -92,6 +93,7 @@ export class LoginComponent {
   /*手机号码校验*/
   isPoneAvailable(ele){
     var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+    this.errMsg='';
     if(!myreg.test(ele)) { return false; }
     else {return true; }
   }

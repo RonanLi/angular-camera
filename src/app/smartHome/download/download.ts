@@ -8,4 +8,6 @@ import {Router, NavigationExtras } from '@angular/router';
 export class DownloadComponent {
   constructor( private userService: CameraService, public router: Router) { }
   ngOnInit() { }
+  /*定义参数*/
+  public weixin;
 }

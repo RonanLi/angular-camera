@@ -1,0 +1,31 @@
+<headBox></headBox>
+
+<div class="container-fluid row" [ngStyle]="currentStyles">
+  <div class="sidebar">
+    <app-treeview></app-treeview>
+
+  </div>
+  <div class="main">
+    <div class="leasedLog">
+      <h3 class="title">实时日志</h3>
+
+      <div class="device">
+
+        <div id="fixedDiv">
+          <input id="filter" placeholder="过滤条件(多个条件用,间隔，不包含以!为前缀)"/>
+          <button (click)="reset()">清空</button>
+          <button *ngIf="this.connect" (click)="closeWebSocket()" >暂停</button>
+          <button *ngIf="!this.connect" (click)="openWebSocket()">开始</button>
+          <hr/>
+        </div>
+        <div id="message" #scrollMe [ngStyle]="currentStyleS">
+          {{innerHtml}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<footBox></footBox>
+

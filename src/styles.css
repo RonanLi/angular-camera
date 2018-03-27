@@ -342,9 +342,9 @@ thead{background: #f6f8fa;}
 
 
 
+/*实时日志*/
 
-
-
+#message{overflow-y: scroll;}
 
 
 

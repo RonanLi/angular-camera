@@ -11,6 +11,7 @@ import {LeasedLogComponent} from './smartHome/leasedLog/leasedLog.componment';
 import {RolesComponent} from './smartHome/roles/roles.componment';
 import {SubaccountComponent} from './smartHome/subaccount/subaccount.componment';
 import {RePwdComponent} from './smartHome/rePwd/rePwd.componment';
+import {DebugLogComponent} from './smartHome/debugLog/debugLog';
 
 import {GroupComponent} from './smartHome/group/group.componment';
 import {DownloadComponent} from './smartHome/download/download';
@@ -41,6 +42,7 @@ const routes: Routes = [
           {path: 'smartHome/subaccount', component: SubaccountComponent},
           {path: 'smartHome/rePwd', component: RePwdComponent},
           {path: 'smartHome/group', component: GroupComponent},
+          {path: 'smartHome/debugLog', component: DebugLogComponent},
           {path: '**', redirectTo: 'index', pathMatch: 'full'},
         ],
       }

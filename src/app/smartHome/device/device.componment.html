@@ -42,7 +42,7 @@
         <div class="btnBox">设备列表
           <button class="btn btn-lg btn-primary" (click)="exportER()"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>导出全部二维码</button>
           <button class="btn btn-lg btn-warning fff" (click)="batch(select,'正常')"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>批量解锁</button>
-          <button class="btn btn-lg btn-danger" (click)="batch(select,'禁用')"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>批量锁定</button>
+          <button class="btn btn-lg btn-danger" (click)="batch(select,'锁定')"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>批量锁定</button>
           <button *ngIf="power.export" class="btn btn-lg btn-success" (click)="excel=!excel"><span class="glyphicon glyphicon-open" aria-hidden="true"></span>数据导入</button>
           <button *ngIf="power.export" class="btn btn-lg btn-primary" (click)="exportData()"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>全部导出</button>
         </div>
@@ -79,8 +79,8 @@
               <div>{{list.productDate|date:'yyyy-MM-dd'}}&nbsp;</div>
               <div class="fun">
                 <input type="button" class="btn btn-warning fff btn-xs" value="回收" (click)="recycle(list.deviceSn)">
-                <input *ngIf="list.statusCode=='正常'" type="button" class="btn btn-danger btn-xs" value="锁定" (click)="singleBatch('禁用',list.deviceSn)">
-                <input *ngIf="list.statusCode=='禁用'" type="button" class="btn btn-success btn-xs" value="解锁" (click)="singleBatch('正常',list.deviceSn)">
+                <input *ngIf="list.statusCode=='正常'" type="button" class="btn btn-danger btn-xs" value="锁定" (click)="singleBatch('锁定',list.deviceSn)">
+                <input *ngIf="list.statusCode=='锁定'" type="button" class="btn btn-success btn-xs" value="解锁" (click)="singleBatch('正常',list.deviceSn)">
               </div>
             </li>
           </ul>
