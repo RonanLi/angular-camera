@@ -317,8 +317,8 @@ thead{background: #f6f8fa;}
 .staticHead,.sFootInbox,.sFootCopy,.staticMain{width: 1200px;margin: auto;}
 .staticHead{margin:30px auto 40px;color:#fff;}
 .staticHead p{float: right;margin-top:5px;}
-.staticHead p>a{display:inline-block;width:160px;height:30px;line-height:30px;margin-left:10px;text-align:center;color:#fff;border-radius: 5px;text-decoration: none;}
-.staticHead p>a:hover{color:#477DF9;background:#fff;}
+.staticHead p>a{display:inline-block;width:160px;height:38px;line-height:38px;margin-left:10px;text-align:center;color:#477DF9;background:#fff;border-radius: 2px;text-decoration: none;}
+.staticHead p>a:hover{color:#477DF9;background:#fff;opacity: 0.8;}
 .staticHead p .on{color:#fff;}
 
 .staticMain h2{margin:10px auto 30px;text-align: center;color: #fff;font-size: 24px;font-weight: normal;}
@@ -327,17 +327,19 @@ thead{background: #f6f8fa;}
 .staticMain ul {margin:60px auto 90px;padding: 0 145px;}
 .staticMain ul li{ display: inline-block; width: 260px; height: 274px; margin: 20px; background: #fff; vertical-align: middle; color: #477DF9; border-radius: 5px; }
 .staticMain ul li:hover{opacity: 0.9;}
-.staticMain ul li a{display: block;width: 120px;height:35px;line-height:35px;margin:auto;text-align:center;border:1px solid #477DF9;border-radius: 5px;text-decoration: none;}
+.staticMain ul li a{display: block;width: 120px;height:35px;line-height:35px;margin:auto;text-align:center;border:1px solid #477DF9;border-radius: 2px;text-decoration: none;}
 .staticMain ul li span{display: block;width: 120px;height:35px;line-height:35px;margin:auto;text-align:center;}
 .staticMain ul li a:hover{border: none;color:#fff;background: #477DF9;}
-.staticFoot{width:100%;background:#27374E;overflow: hidden;}
-.sFootInbox{margin:50px auto 20px;}
+.staticFoot{width:100%;padding-top:1px;background:#27374E;}
+.sFootInbox{margin:50px auto 95px;}
 .sFootL{float: left;width: 200px;}
 .sFootR{position:relative;float: right;width: 200px;}
 .staticFoot li a,.staticFoot li span{height: 30px; line-height: 30px;color:#939AA7;cursor: pointer;}
+.staticFoot li a:hover,.staticFoot li span:hover{color:#dee0e4;text-decoration: none;}
+
 .sFootTit{margin-bottom: 10px;}
 .staticFoot .sFootTit span{color: #619CFE;cursor: default;}
-.sFootR .img128{position: absolute;top:-20px;left:-130px;z-index: 2;}
+.sFootR .img128{position: absolute;    bottom: 31px; right: 31px;z-index: 2;}
 .sFootCopy{height:45px;line-height:45px;margin-bottom:20px;text-align: center;color: #939AA7;}
 
 

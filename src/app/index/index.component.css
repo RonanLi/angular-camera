@@ -1,14 +1,15 @@
-.index {background: #fff;border-bottom: 1px solid #f3f3f3}
+.index {
+  position: fixed;width: 100%;
+  top: 0;background: #fff;border-bottom: 1px solid #eee;box-shadow: 0 1px 1px 0 rgba(0,0,0,.05);}
 .index .staticHead{margin:0 auto;padding:10px 0;color:#333;}
-.index .staticHead p>a{  font-size: 14px;  color:#333;}
-.index .staticHead p>a:hover,.index .staticHead p .on{  height: 38px; line-height: 38px;color:#fff;background: #477DF9;   border-radius: 3px;
+.index .staticHead p>a{  font-size: 14px;  color:#606463;}
+.index .staticHead p>a:hover{color: #477DF9; }
+.index .staticHead p .dif{  height: 38px; line-height: 38px;color:#fff;background: #477DF9;   border-radius: 3px;  box-shadow: 1px 1px 10px #4787f9; }
+.index .staticHead p .dif:hover{color:#fff;opacity: 0.8;}
 
 
-  box-shadow: 1px 1px 10px #4787f9;}
 
-
-
-.staticContain{float:left;width:100%;background: #fff;}
+.staticContain{float:left;width:100%;margin-top: 65px;background: #fff;}
 .indexTop{height:1150px;margin:auto;background: url("../../assets/imgs/index_bg.png")no-repeat center;background-size: 100% 100%;}
 .indexTit {margin-top:25px ;}
 .indexTit h1{font-size: 28px;text-align: center;margin:15px ;}

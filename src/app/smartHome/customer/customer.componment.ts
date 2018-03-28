@@ -4,6 +4,7 @@ import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest,HttpResponse,HttpEr
 import { CameraService } from '../../services/camera.service';
 import { customerEdit,customerAdd } from '../../modules/allData';
 /*导入*/
+import {URLSearchParams} from "@angular/http";
 import {Router, NavigationExtras } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 
