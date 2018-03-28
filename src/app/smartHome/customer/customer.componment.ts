@@ -386,8 +386,8 @@ export class CustomerComponent {
     this.uploader.queue[0].onSuccess = function (response, status, headers) {
       if (status == 200) {
         let tempRes = JSON.parse(response);
-        if(tempRes['code']=='200'){ alert('上传成功'); }
-        else{ alert('上传失败！'+tempRes['message']); }
+        if(tempRes['code']=='200'){alert(tempRes['message']); }
+        else{ alert('导入失败！'+tempRes['message']); }
       } else {
         alert('上传失败！'+'服务异常请稍后');
       }

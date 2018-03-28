@@ -246,9 +246,9 @@
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label"><i class="red">*</i>设备授权：</label>
-                      <select class="form-control" #select="ngModel" [(ngModel)]="editData.select" name="select" style="width: 260px; margin: 0 25px;">
+                      <select class="form-control" #select="ngModel" [(ngModel)]="editData.select" name="select" style="width:40%; margin: 0 4%;">
                         <option selected="selected" value="">请选择客户账号</option>
-                        <option *ngFor='let list of shareList' [value]="list.customerId">{{list.customerName}}</option>
+                        <option *ngFor='let list of shareList' [value]="list.customerId">{{list.linkman?list.linkman:list.customerName}}</option>
                       </select>
                     </div>
                   </div>
@@ -306,7 +306,7 @@
                   <label class="control-label"><i class="red">*</i>设备授权：</label>
                   <select  class="form-control" #select="ngModel" [(ngModel)]="editData.select" name="select">
                     <option selected="true" value="">请选择客户账号</option>
-                    <option *ngFor='let list of shareList' [value]="list.customerId">{{list.customerName}}</option>
+                    <option *ngFor='let list of shareList' [value]="list.customerId">{{list.linkman?list.linkman:list.customerName}}</option>
                   </select>
                 </div>
               </div>
@@ -552,9 +552,9 @@
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">设备授权：</label>
-                      <select  class="form-control" #select="ngModel" [(ngModel)]="editData.select" name="select"  style="width:260px;margin:0 25px;" autocomplete="off">
+                      <select  class="form-control" #select="ngModel" [(ngModel)]="editData.select" name="select"  style="width:40%;margin:0 4%;" autocomplete="off">
                         <option selected  disabled  value="" >请选择子账户</option>
-                        <option *ngFor='let list of giveList' [value]="list.customerId">{{list.customerName}}</option>
+                        <option *ngFor='let list of giveList' [value]="list.customerId">{{list.linkman?list.linkman:list.customerName}}</option>
                       </select>
                     </div>
                   </div>
@@ -672,7 +672,7 @@
                   <label class="control-label">设备授权：</label>
                   <select  class="form-control" #select="ngModel" [(ngModel)]="editData.select" name="select" style="width:220px;height: 32px;">
                     <option selected="true" value="">请选择子账户</option>
-                    <option *ngFor='let list of giveList' [value]="list.customerId">{{list.customerName}}</option>
+                    <option *ngFor='let list of giveList' [value]="list.customerId">{{list.linkman?list.linkman:list.customerName}}</option>
                   </select>
                 </div>
               </div>

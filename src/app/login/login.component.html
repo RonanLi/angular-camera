@@ -4,7 +4,7 @@
 
     <div class="loginBg" *ngIf="!this.cameraService.isLoggedIn">
       <div class="loginTxt">
-        <p><img class="img60" src="../../assets/imgs/login_1.png" alt=""><span>工地直播管理平台</span></p>
+        <p routerLink="/index"><img class="img60" src="../../assets/imgs/login_1.png" alt=""><span>工地直播管理平台</span></p>
         <h1><img class="img60" src="../../assets/imgs/login_2.png" alt=""><span>轻松管理工程进度</span></h1>
         <ul>
           <li><img class="img20" src="../../assets/imgs/login_3.png" alt=""><span>施工现场直播</span></li>
@@ -33,7 +33,7 @@
         </div>
         <div class="form-group ">
           <div class="codeBox clearfix">
-            <input class="pull-left code" type="text" name="code" [(ngModel)]="user.code" #code="ngModel" autocomplete="off">
+            <input class="pull-left code" type="text" name="code" [(ngModel)]="user.code" #code="ngModel" placeholder="请输入验证码" autocomplete="off">
             <input  class="code1 pull-right" type="button" name="code1" value={{vode}}  (click)="refresh()">
           </div>
           <!--<div *ngIf='form.submitted &&!(vode==user.code)' class="text-danger">验证码有误</div>-->

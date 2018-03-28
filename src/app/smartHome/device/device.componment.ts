@@ -440,11 +440,11 @@ export class DeviceComponent {
 
 /*单个分享: /container/shares*/
   toShares(form,id,lendTime){
-    if(!form.shareSTime){alert('分享时间不能为空！');return;}
-    if(form.shareSTime>form.shareETime){alert('起始时间不能大于结束时间！');return;}
-    if(this.today>(Date.parse(form.shareSTime)+86399000)){alert('起始时间不能小于当前时间！');return;}
-    if(Date.parse(form.shareSTime)>lendTime){alert('分享起始时间不能大于设备租赁时间！');return;}
-    if(Date.parse(form.shareETime)>lendTime){alert('分享结束时间不能大于设备租赁时间！');return;}
+    if(!form.shareSTime){this.singleShareList=[];alert('分享时间不能为空！');return;}
+    if(form.shareSTime>form.shareETime){this.singleShareList=[];alert('起始时间不能大于结束时间！');return;}
+    if(this.today>(Date.parse(form.shareSTime)+86399000)){this.singleShareList=[];alert('起始时间不能小于当前时间！');return;}
+    if(Date.parse(form.shareSTime)>lendTime){this.singleShareList=[];alert('分享起始时间不能大于设备租赁时间！');return;}
+    if(Date.parse(form.shareETime)>lendTime){this.singleShareList=[];alert('分享结束时间不能大于设备租赁时间！');return;}
     if(this.singleShareList.length>0){
       for(var i=0;i<this.singleShareList.length;i++){
         this.singleShareList[i].startTime=Date.parse(form.shareSTime);
@@ -456,10 +456,14 @@ export class DeviceComponent {
       let params=urlSearchParams.toString();
       this.deviceHttp.post('/api/v1.0/container/shares',params)
         .subscribe(
-          req => {if(req['code']=="200"){ alert('操作成功');this.getDeviceList(this.page);} else{ alert(req['message']);}}
+          req => {
+            if(req['code']=="200"){ alert('操作成功');this.getDeviceList(this.page);} else{  alert(req['message']);
+
+          }}
         );
       this.singleShareList=[];
-    }else {alert('请选择分享账号!');return;}
+    }else {this.singleShareList=[];alert('请选择分享账号!');return;}
+    console.log( this.singleShareList)
   }
 
 /*批量分享*/
@@ -940,9 +944,8 @@ export class DeviceComponent {
         // 上传文件后获取服务器返回的数据
         let tempRes = JSON.parse(response);
         // console.log(tempRes['code']);
-        alert('上传成功');
-        if(tempRes['code']=='200'){alert('上传成功'); }
-        else{ alert('上传失败！'+tempRes['message']); }
+        if(tempRes['code']=='200'){alert(tempRes['message']); }
+        else{ alert('导入失败！'+tempRes['message']); }
       } else {
         // 上传文件后获取服务器返回的数据错误
         alert('上传失败！'+'服务异常请稍后');

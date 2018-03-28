@@ -1,9 +1,15 @@
 .index {background: #fff;border-bottom: 1px solid #f3f3f3}
 .index .staticHead{margin:0 auto;padding:10px 0;color:#333;}
-.index .staticHead p>a{color:#333;}
-.index .staticHead p>a:hover{color:#fff;background: #477DF9;border-radius: 5px;}
+.index .staticHead p>a{  font-size: 14px;  color:#333;}
+.index .staticHead p>a:hover,.index .staticHead p .on{  height: 38px; line-height: 38px;color:#fff;background: #477DF9;   border-radius: 3px;
+
+
+  box-shadow: 1px 1px 10px #4787f9;}
+
+
+
 .staticContain{float:left;width:100%;background: #fff;}
-.indexTop{height:1000px;margin:auto;background: url("../../assets/imgs/index_bg.png")no-repeat center;background-size: 100% 100%;}
+.indexTop{height:1150px;margin:auto;background: url("../../assets/imgs/index_bg.png")no-repeat center;background-size: 100% 100%;}
 .indexTit {margin-top:25px ;}
 .indexTit h1{font-size: 28px;text-align: center;margin:15px ;}
 .indexTit hr{ width: 70px; margin: 15px auto 30px; height: 5px; border: none; border-top: 2px solid #fff; border-radius: 1px; }
