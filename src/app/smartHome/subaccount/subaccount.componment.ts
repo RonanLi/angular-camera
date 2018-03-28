@@ -19,7 +19,7 @@ export class SubaccountComponent {
   public add;
   public editBatch;
   public mask;
-  public timer='?m='+Date.parse(String(new Date()));
+  // public timer='?m='+Date.parse(String(new Date()));
 
   public subList:any;
   public paramList:any;
@@ -49,8 +49,10 @@ export class SubaccountComponent {
 
   /*查看用户客户列表*/
   getSubList(pageIndex){
+    var timer='?m='+Date.parse(String(new Date()));
+
     const params = new HttpParams().set('pageIndex', pageIndex).set('pageIndex', pageIndex).set('pageSize', '10').set('customerType', this.cameraService.userDetial.customerType);
-    this.subaccountHttp.get('/api/v1.0/customer/list'+this.timer,{params}).subscribe(req => {
+    this.subaccountHttp.get('/api/v1.0/customer/list'+timer,{params}).subscribe(req => {
       if(req['code']=='200'){
         this.subList=req['data'];
         this.paramList=req['data'];
@@ -71,8 +73,10 @@ export class SubaccountComponent {
 
   public roleNameList:any;
   getSubDetail(){
+    var timer='?m='+Date.parse(String(new Date()));
+
     const params = new HttpParams().set('customerId', this.cameraService.userDetial.customerId);
-    this.subaccountHttp.get('/api/v1.0/customer/detail',{params}).subscribe(req => {
+    this.subaccountHttp.get('/api/v1.0/customer/detail'+timer,{params}).subscribe(req => {
     this.roleNameList=req['data'];
       // console.log(this.roleNameList.roleNameArray)
     });
@@ -86,6 +90,8 @@ export class SubaccountComponent {
 
   /*批量启用禁用*/
   batch(ele1,ele2){//ele1判断是否全选；ele2的值为禁用或启用
+    var timer='?m='+Date.parse(String(new Date()));
+
     if(this.obj.length<=0){alert('请选择客户账号！');return; }
 
     if(ele2=='禁用'){
@@ -104,7 +110,7 @@ export class SubaccountComponent {
     }
     const params = new HttpParams().set('customerList', JSON.stringify(this.obj)).set('statusCode', ele2);
     this.subaccountHttp
-      .post('/api/v1.0/customers/update',params)
+      .post('/api/v1.0/customers/update'+timer,params)
       .subscribe(
         req => {
           if(req['code']=="200"&&ele2=='禁用'){ alert('批量锁定成功'); }
@@ -123,6 +129,8 @@ export class SubaccountComponent {
 
   /*批量编辑*/
   batchEdit(ele1,form){//ele1:是否全选;ele2:
+    var timer='?m='+Date.parse(String(new Date()));
+
     if(ele1){//全选状态
       for(var i=0;i<this.paramList.length;i++){
         this.paramList[i].roleIdArray= [JSON.parse(form.role)];
@@ -134,7 +142,7 @@ export class SubaccountComponent {
     }
     const params = new HttpParams().set('customerList', JSON.stringify(this.obj));
     this.subaccountHttp
-      .post('/api/v1.0/customers/update',params)
+      .post('/api/v1.0/customers/update'+timer,params)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('批量编辑成功'); }
@@ -152,6 +160,8 @@ export class SubaccountComponent {
 
   /*单个启用、禁用*/
   single(ele,edt1){//ele的值为禁用／启用；ele1:accoundID
+    var timer='?m='+Date.parse(String(new Date()));
+
     if(ele=='禁用'){
       var realy=confirm('进行锁定操作后，该客户及其下级账户将无法再次通过网站/APP登录系统，解锁功能进行恢复，是否继续？');
       if(!realy){return;}
@@ -160,7 +170,7 @@ export class SubaccountComponent {
     var params = new HttpParams().set('customerId', edt1).set('statusCode',ele);
     // console.log('单个禁用启用功能'+params);
     this.subaccountHttp
-      .post('/api/v1.0/customer/update',params)
+      .post('/api/v1.0/customer/update'+timer,params)
       .subscribe(
         req => {
           if(req['code']=="200"&&ele=='禁用'){ alert('锁定成功');this.getSubList(this.page); }
@@ -177,13 +187,15 @@ export class SubaccountComponent {
 
   /*重置密码*/
   resetPwd(id){
+    var timer='?m='+Date.parse(String(new Date()));
+
     var realy=confirm('进行该操作后，子账户的登录密码将被恢复初始化状态，默认密码为子账户联系电话，是否继续？');
     if(realy) {
       let urlSearchParams = new URLSearchParams();
       urlSearchParams.append('customerId', id);
       let params = urlSearchParams.toString();
       this.subaccountHttp
-        .post('/api/v1.0/password/reset', params)
+        .post('/api/v1.0/password/reset'+timer, params)
         .subscribe(
           req => {
             if (req['code'] == "200") {
@@ -199,6 +211,8 @@ export class SubaccountComponent {
 
   /*单个编辑*/
   singleEdit(form,id,resetPwd){//ele1:accoundID;ele2:customerLinkman;ele3:customerPhone;ele4:description;ele5:roleDict
+    var timer='?m='+Date.parse(String(new Date()));
+
     if(form.role==''||form.role==null){ alert('请选择角色'); return }
     let urlSearchParams = new URLSearchParams();
     urlSearchParams.append('customerId', id);
@@ -208,7 +222,7 @@ export class SubaccountComponent {
     if(form.description){urlSearchParams.append('description', form.description); }
     let paramEdit = urlSearchParams.toString();
     this.subaccountHttp
-      .post('/api/v1.0/customer/update',paramEdit)
+      .post('/api/v1.0/customer/update'+timer,paramEdit)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('编辑成功');
@@ -227,6 +241,8 @@ export class SubaccountComponent {
 
   /*添加账户*/
   addSub(form){//添加客户
+    var timer='?m='+Date.parse(String(new Date()));
+
     if(!form.role){ alert('请选择角色'); return }
     if(form.passwd.length<6){ alert('密码长度不能少于6位'); return }
     let urlSearchParams = new URLSearchParams();
@@ -239,7 +255,7 @@ export class SubaccountComponent {
     urlSearchParams.append('phone', form.phone);
     let paramAdd = urlSearchParams.toString();
     this.subaccountHttp
-      .post('/api/v1.0/customer/add',paramAdd)
+      .post('/api/v1.0/customer/add'+timer,paramAdd)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('添加成功');this.getSubList(this.page)}

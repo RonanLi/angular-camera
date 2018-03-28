@@ -20,7 +20,7 @@ export class CustomerComponent {
   public nameType:boolean;
   public addBind;
   public mask;
-  public timer='?m='+Date.parse(String(new Date()));
+  // public timer='?m='+Date.parse(String(new Date()));
 
   //全部用户信息列表
   public customerList:any;
@@ -58,8 +58,10 @@ export class CustomerComponent {
   /*查看用户客户列表*/
   getCustomerList(pageIndex){
     var params=new HttpParams();
+    var timer='?m='+Date.parse(String(new Date()));
+
     params = new HttpParams().set('pageIndex', pageIndex).set('pageSize', '10').set('customerType', this.cusType);
-    this.customertHttp.get('/api/v1.0/customer/list'+this.timer,{params}).subscribe(req => {
+    this.customertHttp.get('/api/v1.0/customer/list'+timer,{params}).subscribe(req => {
       if(req['code']=='200'){
         this.searchStatu=false;
         this.customerList=req['data'];
@@ -83,6 +85,8 @@ export class CustomerComponent {
   /*查询*/
   public searchStatu:boolean;
   searchList(searchText,status,pageIndex){
+    var timer='?m='+Date.parse(String(new Date()));
+
     let params=new HttpParams();
     if(status!=='请选择用户状态'){
       if(searchText){
@@ -97,7 +101,7 @@ export class CustomerComponent {
           .set('pageIndex', pageIndex)
           .set('pageSize', '10').set('customerType', this.cusType);
       }
-       this.customertHttp.get('/api/v1.0/customer/list',{params}).subscribe(req => {
+       this.customertHttp.get('/api/v1.0/customer/list'+timer,{params}).subscribe(req => {
          if(req['code']=="200"){
            this.searchStatu=true;
            this.customerList=req['data'];
@@ -119,7 +123,7 @@ export class CustomerComponent {
         params=new HttpParams().set('searchText', searchText)
           .set('pageIndex', pageIndex)
           .set('pageSize', '10').set('customerType', this.cusType);
-         this.customertHttp.get('/api/v1.0/customer/list',{params}).subscribe(req => {
+         this.customertHttp.get('/api/v1.0/customer/list'+timer,{params}).subscribe(req => {
            if(req['code']=="200"){
              this.searchStatu=true;
              this.customerList=req['data'];

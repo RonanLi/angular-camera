@@ -23,15 +23,17 @@ export class RolesComponent {
   public roleList:any;
   public roleAdd=new roleCreat();
   public edit=new roleEdit();
-  public timer='?m='+Date.parse(String(new Date()));
+  // public timer='?m='+Date.parse(String(new Date()));
 
   /*权限*/
   public rolePower:any=[];
 
   /*获取角色列表*/
   getRoleList(ele){
+    var timer='?m='+Date.parse(String(new Date()));
+
     const params = new HttpParams().set('customerId', ele)
-    this.rolesHttp.get('/api/v1.0/role/list'+this.timer,{params}).subscribe(req => {
+    this.rolesHttp.get('/api/v1.0/role/list'+timer,{params}).subscribe(req => {
       if(req['code']=='200'){
         this.roleList=req['data'];
       }
@@ -49,6 +51,8 @@ export class RolesComponent {
 
   /*删除角色*/
   delet(ele){
+    var timer='?m='+Date.parse(String(new Date()));
+
     var realy=confirm('角色删除后将无法恢复，是否继续？');
     if(!realy){return;}
     let urlSearchParams = new URLSearchParams();
@@ -56,7 +60,7 @@ export class RolesComponent {
     let param = urlSearchParams.toString();
     // console.log(param);
         this.rolesHttp
-       .post('/api/v1.0/role/delete',param)
+       .post('/api/v1.0/role/delete'+timer,param)
        .subscribe(
        req => {
          if(req['code']=="200"){
@@ -74,7 +78,8 @@ export class RolesComponent {
 
   /*编辑角色*/
   editRole(form){
-    console.log(this.power);
+    var timer='?m='+Date.parse(String(new Date()));
+
     for(var i=0;i<this.power.length;i++){
         // console.log(this.power[i].permission);
     }
@@ -87,7 +92,7 @@ export class RolesComponent {
     if(form.description){ urlSearchParams.append('description', form.description); }
     let paramEdit = urlSearchParams.toString();
     this.rolesHttp
-      .post('/api/v1.0/role/update',paramEdit,)
+      .post('/api/v1.0/role/update'+timer,paramEdit,)
       .subscribe(
         req => {
           if(req['code']=="200"){
@@ -129,6 +134,8 @@ export class RolesComponent {
 
   /*创建角色*/
   createRoleList(form){
+    var timer='?m='+Date.parse(String(new Date()));
+
     let Plist=JSON.stringify(this.powerB);
     // console.log(JSON.stringify(this.powerB));
     let urlSearchParams = new URLSearchParams();
@@ -139,7 +146,7 @@ export class RolesComponent {
     let paramEdit = urlSearchParams.toString();
     // console.log(paramEdit);
     this.rolesHttp
-      .post('/api/v1.0/role/add',paramEdit,)
+      .post('/api/v1.0/role/add'+timer,paramEdit,)
       .subscribe(
         req => {
           if(req['code']=="200"){

@@ -19,7 +19,7 @@ export class LeasedLogComponent {
   /*定义页面参数*/
   public startTime;
   public endTime;
-  public timer='?m='+Date.parse(String(new Date()));
+  // public timer='?m='+Date.parse(String(new Date()));
 
   public logList:any;
   public page;
@@ -42,8 +42,10 @@ export class LeasedLogComponent {
   public info:any='全部';
 
   getLogList(pageIndex){
+    var timer='?m='+Date.parse(String(new Date()));
+
     const params = new HttpParams().set('pageIndex', pageIndex).set('pageSize', '10');
-    this.LogHttp.post('/api/v1.0/log/list'+this.timer,params).subscribe(req => {
+    this.LogHttp.post('/api/v1.0/log/list'+timer,params).subscribe(req => {
       if(req['code']=='200'){
         this.searchStatu=false;
         this.logList=req['data']=req['data'];
@@ -64,6 +66,8 @@ export class LeasedLogComponent {
 
   public searchStatu:boolean;
   searchLogList(startTime,endTime,master,searchText,pageIndex){
+    var timer='?m='+Date.parse(String(new Date()));
+
     var dayStart=Date.parse(startTime);
     var dayEnd=Date.parse(endTime)+86399000;
     if(dayEnd-dayStart>=604800000){alert('起止时间不能超过7天！');return;}
@@ -77,7 +81,7 @@ export class LeasedLogComponent {
     urlSearchParams.append('pageIndex', pageIndex);
     urlSearchParams.append('pageSize', '10');
     let params = urlSearchParams.toString();
-    this.LogHttp.post('/api/v1.0/log/list',params).subscribe(req => {
+    this.LogHttp.post('/api/v1.0/log/list'+timer,params).subscribe(req => {
       if(req['code']=='200'){
         if(req['data'].length>0){
           this.searchStatu=true;

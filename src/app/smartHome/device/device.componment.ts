@@ -21,7 +21,6 @@ export class DeviceComponent {
   public shareForm;
   public give;
   public edit;
-  public timer='?m='+Date.parse(String(new Date()));
 
   /*设备权限*/
   public power:any=[];
@@ -134,7 +133,8 @@ export class DeviceComponent {
 
   getGiveList(){
     var params = new HttpParams().set('customerType', this.cameraService.userDetial.customerType);
-    this.deviceHttp.get('/api/v1.0/customer/list'+this.timer,{params}).subscribe(req => {
+    var timer='?m='+Date.parse(String(new Date()))
+    this.deviceHttp.get('/api/v1.0/customer/list'+timer,{params}).subscribe(req => {
       if(req['code']=='200'){
         this.giveList=req['data'];
         var newList=[];
@@ -163,7 +163,8 @@ export class DeviceComponent {
   public shareList:any;
   getShareList(){
     var params = new HttpParams().set('customerType',this.cusType);
-    this.deviceHttp.get('/api/v1.0/customer/list'+this.timer,{params}).subscribe(req => {
+    var timer='?m='+Date.parse(String(new Date()));
+    this.deviceHttp.get('/api/v1.0/customer/list'+timer,{params}).subscribe(req => {
       this.shareList=req['data'];
       var newList=[];
       for(var i=0;i<this.shareList.length;i++){
@@ -179,7 +180,8 @@ export class DeviceComponent {
   getDeviceList(pageIndex){/*查看用户设备列表*/
     this.today=Date.now();
     var params = new HttpParams().set('pageIndex',pageIndex).set('pageSize','10');
-    this.deviceHttp.get(this.listUrl+this.timer,{params}).subscribe(req => {
+    var timer='?m='+Date.parse(String(new Date()));
+    this.deviceHttp.get(this.listUrl+timer,{params}).subscribe(req => {
       if(req['data'].length>0){
         this.searchStatu=false;
         this.batchStatu=false;
@@ -207,6 +209,7 @@ export class DeviceComponent {
     let endT1=String(Date.parse(endTime1)+86399000);
     let endT2=String(Date.parse(endTime2)+86399000);
     let urlSearchParams = new URLSearchParams();
+    var timer='?m='+Date.parse(String(new Date()));
     if(searchText){ urlSearchParams.append('searchText', searchText); }
     if(endTime1){
       if(this.cameraService.customerType=='A'){ urlSearchParams.append('startTime', endT1); }
@@ -223,7 +226,7 @@ export class DeviceComponent {
     urlSearchParams.append('pageSize', '10');
     const params = new HttpParams({fromString: urlSearchParams.toString()});
     // console.log(params);
-    this.deviceHttp.get(this.listUrl,{params}).subscribe(req => {
+    this.deviceHttp.get(this.listUrl+timer,{params}).subscribe(req => {
       if(req['code']=="200"){
         this.batchStatu=false;
         this.searchStatu=true;
@@ -248,12 +251,13 @@ export class DeviceComponent {
   public batchType:any;
   empowerList(filterType,page){
     this.batchType=filterType;
+    var timer='?m='+Date.parse(String(new Date()));
     let urlSearchParams = new URLSearchParams();
     if(filterType){ urlSearchParams.append('filterType', filterType); }
     urlSearchParams.append('pageIndex', page);
     urlSearchParams.append('pageSize', '10');
     const params = new HttpParams({fromString: urlSearchParams.toString()});
-    this.deviceHttp.get(this.listUrl,{params}).subscribe(req => {
+    this.deviceHttp.get(this.listUrl+timer,{params}).subscribe(req => {
       if(req['data'].length>0) {
         this.searchStatu=false;
         this.batchStatu=true;
@@ -276,6 +280,7 @@ export class DeviceComponent {
 /*可批量启禁用操作查询*/
   isEmpowerList(statusCode,page){
     this.batchType=statusCode;
+    var timer='?m='+Date.parse(String(new Date()));
     let urlSearchParams = new URLSearchParams();
     if(statusCode=='正常'||statusCode=='锁定'){
       if(statusCode){ urlSearchParams.append('statusCode', statusCode); }
@@ -287,7 +292,7 @@ export class DeviceComponent {
     urlSearchParams.append('pageIndex', page);
     urlSearchParams.append('pageSize', '10');
     const params = new HttpParams({fromString: urlSearchParams.toString()});
-    this.deviceHttp.get(this.listUrl,{params}).subscribe(req => {
+    this.deviceHttp.get(this.listUrl+timer,{params}).subscribe(req => {
       if(req['data'].length>0){
         this.searchStatu=false;
         this.batchStatu=true;
@@ -307,6 +312,7 @@ export class DeviceComponent {
 
 /*批量启用禁用this.locksUrl*/
   batch(ele1,ele2){//ele1判断是否全选；ele2的值为禁用或启用或授权
+    var timer='?m='+Date.parse(String(new Date()));
     if(this.obj.length<=0){alert('请选择设备！'); return; }
     if(ele2=='锁定'){
       var realy=confirm('进行该操作后，所有已经分享/授权给下级的设备，将被禁止使用，可以通过解锁功能进行恢复，是否继续？');
@@ -327,7 +333,7 @@ export class DeviceComponent {
       params = new HttpParams().set('containerList',JSON.stringify(this.obj));
     }
     this.deviceHttp
-      .post(this.locksUrl,params)
+      .post(this.locksUrl+timer,params)
       .subscribe(
         req => {
           if(req['code']=="200"&&ele2=='锁定'){ this.obj=[]; alert('批量锁定成功'); this.select=false;   this.getDeviceList(this.page);}
@@ -365,6 +371,7 @@ export class DeviceComponent {
 
 /*单个解锁；单个锁定 this.lockUrl */
   singleBatch(ele,edt1){//ele的值为禁用／启用；ele1:containerId
+    var timer='?m='+Date.parse(String(new Date()));
     if(ele=='锁定'){
       var realy=confirm('进行该操作后，所有已经分享/授权给下级的设备，将被禁止使用，可以通过解锁功能进行恢复，是否继续？');
       if(!realy){return;}
@@ -378,7 +385,7 @@ export class DeviceComponent {
     }
 
     this.deviceHttp
-      .post( this.lockUrl,params,)
+      .post( this.lockUrl+timer,params,)
       .subscribe(
         req => {
           if(req['code']=="200"&&ele=='锁定'){ alert('锁定成功');this.getDeviceList(this.page); }
@@ -440,6 +447,7 @@ export class DeviceComponent {
 
 /*单个分享: /container/shares*/
   toShares(form,id,lendTime){
+    var timer='?m='+Date.parse(String(new Date()));
     if(!form.shareSTime){this.singleShareList=[];alert('分享时间不能为空！');return;}
     if(form.shareSTime>form.shareETime){this.singleShareList=[];alert('起始时间不能大于结束时间！');return;}
     if(this.today>(Date.parse(form.shareSTime)+86399000)){this.singleShareList=[];alert('起始时间不能小于当前时间！');return;}
@@ -454,7 +462,7 @@ export class DeviceComponent {
       urlSearchParams.append('containerId', id);
       urlSearchParams.append('customerList', JSON.stringify(this.singleShareList));
       let params=urlSearchParams.toString();
-      this.deviceHttp.post('/api/v1.0/container/shares',params)
+      this.deviceHttp.post('/api/v1.0/container/shares'+timer,params)
         .subscribe(
           req => {
             if(req['code']=="200"){ alert('操作成功');this.getDeviceList(this.page);} else{  alert(req['message']);
@@ -468,6 +476,7 @@ export class DeviceComponent {
 
 /*批量分享*/
   sharesTo(ele,form,Sele,Eele){//ele判断是否全选
+    var timer='?m='+Date.parse(String(new Date()));
     if(!Sele){alert('起始时间不能为空!');return;}
     if(Sele>Eele){alert('起始时间不能大于结束时间!');return;}
     if(this.singleShareList.length<=0){alert('请选择分享账户!');return; }
@@ -502,11 +511,11 @@ export class DeviceComponent {
     urlSearchParams.append('containerList', JSON.stringify(containerList));
     let params=urlSearchParams.toString();
     this.deviceHttp
-      .post('/api/v1.0/containers/shares',params, {headers: new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded'})})
+      .post('/api/v1.0/containers/shares'+timer,params, {headers: new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded'})})
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('批量分享成功');this.empowerList('分享',this.page)}
-          else{ alert('批量分享失败'); }
+          else{ alert(req['message']); }
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) { /*console.log( err.error.message);*/ }
@@ -517,6 +526,7 @@ export class DeviceComponent {
 
 /*单个授权: /containers/share*/
   toGive(form,id,startTime,endTime){
+    var timer='?m='+Date.parse(String(new Date()));
     if(!form.select||form.select=='1'){alert('请选择授权账户');return }
     if(!startTime&&this.cameraService.customerType=='B'){alert('起始时间不能为空！');return }
     if(this.today>(Date.parse(startTime)+86399000)){alert('起始时间不能小于当前时间！');return;}
@@ -525,7 +535,7 @@ export class DeviceComponent {
     urlSearchParams.append('customerId', form.select);
     urlSearchParams.append('containerList', JSON.stringify([tmp]));
     let params=urlSearchParams.toString();
-    this.deviceHttp.post('/api/v1.0/containers/share',params)
+    this.deviceHttp.post('/api/v1.0/containers/share'+timer,params)
       .subscribe(
         req => {if(req['code']=="200"){ alert('操作成功');this.getDeviceList(this.page);} else{ alert(req['message']);}}
       );
@@ -534,6 +544,7 @@ export class DeviceComponent {
 /*批量授权*/
   toGives(ele,form,Sele,Eele){//ele1判断是否全选；ele2的值为禁用或启用或授权
     var containerList=[];
+    var timer='?m='+Date.parse(String(new Date()));
     let urlSearchParams = new URLSearchParams();
     if(!form.select){alert('请选择授权子账户！');return;}
     if(this.cameraService.customerType!=='C'){
@@ -585,7 +596,7 @@ export class DeviceComponent {
     urlSearchParams.append('customerId', form.select);
     urlSearchParams.append('containerList', JSON.stringify(containerList));
     let params=urlSearchParams.toString();
-    this.deviceHttp.post('/api/v1.0/containers/share',params)
+    this.deviceHttp.post('/api/v1.0/containers/share'+timer,params)
       .subscribe(
         req => {this.getDeviceList(this.page);if(req['code']=="200"){this.obj=[];this.select=false; this.getDeviceList(this.page);alert('全部操作成功');}else if(req['code']=="403"){ this.obj=[];alert('可授权设备操作成功');} else{ alert(req['message']);}}
       );
@@ -593,10 +604,12 @@ export class DeviceComponent {
 
 /*删除单个分享或授权:/container/delete*/
   singleDelete(id){
+    var timer='?m='+Date.parse(String(new Date()));
+
     var realy=confirm('进行该操作后，已经授权/分享给下级的设备，将被禁止使用，可以通过重新授权方式恢复使用，是否继续？');
     if(!realy){return;}
     const params = new HttpParams().set('containerId',id);
-    this.deviceHttp.post('/api/v1.0/container/delete',params)
+    this.deviceHttp.post('/api/v1.0/container/delete'+timer,params)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('移除成功');this.getDeviceList(this.page);}
@@ -611,6 +624,8 @@ export class DeviceComponent {
 
 /*批量取消授权:/containers/delete todo 尚未开始*/
   deletes(ele1){//ele1判断是否全选；
+    var timer='?m='+Date.parse(String(new Date()));
+
     if(this.obj.length<=0){alert('请选择设备!'); return; }
     var realy=confirm('进行该操作后，所有已经授权给下级的设备，将被禁止使用，可以通过重新授权方式恢复使用，是否继续？');
     if(!realy){return;}
@@ -643,7 +658,7 @@ export class DeviceComponent {
     }
     const params = new HttpParams().set('containerIdList',JSON.stringify(dels));
     this.deviceHttp
-      .post('/api/v1.0/containers/delete',params)
+      .post('/api/v1.0/containers/delete'+timer,params)
       .subscribe(
         req => {
           if(req['code']=="200"){this.getDeviceList(this.page); alert('批量取消授权成功'); }
@@ -659,6 +674,8 @@ export class DeviceComponent {
 
 /*单个编辑:/container/update*/
   singleEdit(form,id,lendTime){ /*单个编辑*/
+    var timer='?m='+Date.parse(String(new Date()));
+
     let urlSearchParams = new URLSearchParams();
 
     urlSearchParams.append('containerId', id);
@@ -675,7 +692,7 @@ export class DeviceComponent {
     if(form.statusCode){ urlSearchParams.append('statusCode', form.statusCode); }
     let paramEdit = urlSearchParams.toString();
     this.deviceHttp
-      .post('/api/v1.0/container/lifetime',paramEdit,)
+      .post('/api/v1.0/container/lifetime'+timer,paramEdit,)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('编辑成功');this.getDeviceList(this.page)}
@@ -690,6 +707,7 @@ export class DeviceComponent {
 
 /*B类单个编辑:/container/lifetime*/
   singleBEdit(form,id,startTime){ /*单个编辑*/
+    var timer='?m='+Date.parse(String(new Date()));
 
     let urlSearchParams = new URLSearchParams();
     urlSearchParams.append('containerId', id);
@@ -698,7 +716,7 @@ export class DeviceComponent {
     if(form.description){ urlSearchParams.append('description', form.description); }
     let paramEdit = urlSearchParams.toString();
     this.deviceHttp
-      .post('/api/v1.0/container/lifetime',paramEdit,)
+      .post('/api/v1.0/container/lifetime'+timer,paramEdit,)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('编辑成功');this.getDeviceList(this.page)}
@@ -713,12 +731,14 @@ export class DeviceComponent {
 
 /*C类编辑设备名称*/
   editDeviceName(form,id){
+    var timer='?m='+Date.parse(String(new Date()));
+
     let urlSearchParams = new URLSearchParams();
     urlSearchParams.append('containerId', id);
     urlSearchParams.append('containerName', form.containerName);
     let paramEdit = urlSearchParams.toString();
     this.deviceHttp
-      .post('/api/v1.0/container/update',paramEdit,)
+      .post('/api/v1.0/container/update'+timer,paramEdit,)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('编辑成功');this.getDeviceList(this.page)}
@@ -734,12 +754,14 @@ export class DeviceComponent {
 
 /*编辑安装位置*/
   locationEdit(form,sn){
+    var timer='?m='+Date.parse(String(new Date()));
+
     let urlSearchParams = new URLSearchParams();
     urlSearchParams.append('deviceSn', sn);
     urlSearchParams.append('location', form.location);
     let paramEdit = urlSearchParams.toString();
     this.deviceHttp
-      .post('/api/v1.0/device/update',paramEdit,)
+      .post('/api/v1.0/device/update'+timer,paramEdit,)
       .subscribe(
         req => {
           if(req['code']=="200"){ alert('编辑成功');this.getDeviceList(this.page)}
@@ -755,6 +777,8 @@ export class DeviceComponent {
 
 /*批量编辑:/containers/update */
   toEdit(ele,form,Eele){//ele1判断是否全选；ele2的值为禁用或启用或授权
+    var timer='?m='+Date.parse(String(new Date()));
+
     if(!Eele){ alert('请选择租用时间'); return; }
     var containerList=[];
     let urlSearchParams = new URLSearchParams();
@@ -800,7 +824,7 @@ export class DeviceComponent {
     }
     urlSearchParams.append('containerList', JSON.stringify(containerList));
     let params=urlSearchParams.toString();
-    this.deviceHttp.post('/api/v1.0/containers/update',params)
+    this.deviceHttp.post('/api/v1.0/containers/update'+timer,params)
       .subscribe(
         req => {this.getDeviceList(this.page);if(req['code']=="200"){this.obj=[]; alert('全部操作成功');}else if(req['code']=="403"){ this.obj=[];alert('可授权设备操作成功');} else{ alert(req['message']);}}
       );

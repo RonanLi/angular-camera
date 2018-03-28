@@ -132,12 +132,12 @@
                       <input required type="text" #linkman="ngModel" [(ngModel)]="editData.linkman" name="linkman" [value]='list.linkman' autocomplete="off">
                     </div>
                   </div>
-                  <div class="form-group ">
+                  <!--<div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">联系电话：</label>
                       <input type="text" #phone="ngModel" [(ngModel)]="editData.phone" name="phone" [value]='list.phone' autocomplete="off">
                     </div>
-                  </div>
+                  </div>-->
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">备注：</label>
@@ -147,7 +147,7 @@
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <input type="button" value="取消" class="btn btn-info" (click)="list.edtc=!list.edtc;this.mask=!this.mask"/>
-                      <input type="submit" value="提交" class="btn btn-info" [disabled]="!phone.valid||!linkman.valid"/>
+                      <input type="submit" value="提交" class="btn btn-info" [disabled]="!linkman.valid"/>
                     </div>
                   </div>
                 </form>
