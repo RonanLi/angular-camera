@@ -206,8 +206,8 @@ export class DeviceComponent {
 /*查询 this.infoUrl*/
   public searchStatu:boolean;
   searchList(searchText,endTime1,endTime2,status,filterType,page){
-    let endT1=String(Date.parse(endTime1)+86399000);
-    let endT2=String(Date.parse(endTime2)+86399000);
+    let endT1=String(Date.parse(endTime1)+57599000);
+    let endT2=String(Date.parse(endTime2)+57599000);
     let urlSearchParams = new URLSearchParams();
     var timer='?m='+Date.parse(String(new Date()));
     if(searchText){ urlSearchParams.append('searchText', searchText); }
@@ -450,13 +450,13 @@ export class DeviceComponent {
     var timer='?m='+Date.parse(String(new Date()));
     if(!form.shareSTime){this.singleShareList=[];alert('分享时间不能为空！');return;}
     if(form.shareSTime>form.shareETime){this.singleShareList=[];alert('起始时间不能大于结束时间！');return;}
-    if(this.today>(Date.parse(form.shareSTime)+86399000)){this.singleShareList=[];alert('起始时间不能小于当前时间！');return;}
+    if(this.today>(Date.parse(form.shareSTime)+57599000)){this.singleShareList=[];alert('起始时间不能小于当前时间！');return;}
     if(Date.parse(form.shareSTime)>lendTime){this.singleShareList=[];alert('分享起始时间不能大于设备租赁时间！');return;}
     if(Date.parse(form.shareETime)>lendTime){this.singleShareList=[];alert('分享结束时间不能大于设备租赁时间！');return;}
     if(this.singleShareList.length>0){
       for(var i=0;i<this.singleShareList.length;i++){
         this.singleShareList[i].startTime=Date.parse(form.shareSTime);
-        this.singleShareList[i].endTime=Date.parse(form.shareETime)+86399000;
+        this.singleShareList[i].endTime=Date.parse(form.shareETime)+57599000;
       }
       let urlSearchParams = new URLSearchParams();
       urlSearchParams.append('containerId', id);
@@ -481,7 +481,7 @@ export class DeviceComponent {
     if(!Sele){alert('起始时间不能为空!');return;}
     if(Sele>Eele){alert('起始时间不能大于结束时间!');return;}
     if(this.singleShareList.length<=0){alert('请选择分享账户!');return; }
-    if(this.today>(Date.parse(Sele)+86399000)){alert('起始时间不能小于当前时间！');return;}
+    if(this.today>(Date.parse(Sele)+57599000)){alert('起始时间不能小于当前时间！');return;}
     // console.log(this.singleShareList);
     let containerList=[];
 
@@ -490,7 +490,7 @@ export class DeviceComponent {
       for(var i=0;i<this.paramList.length;i++){
         // containerList.push({containerId:this.paramList[i].containerId,startTime:this.paramList[i].startTime,endTime:this.paramList[i].endTime});
         for(var j=0;j<this.singleShareList.length;j++){
-          containerList.push({containerId:this.paramList[i].containerId,customerId:this.singleShareList[j].customerId,startTime:Date.parse(Sele),endTime:Date.parse(Eele)+86399000});
+          containerList.push({containerId:this.paramList[i].containerId,customerId:this.singleShareList[j].customerId,startTime:Date.parse(Sele),endTime:Date.parse(Eele)+57599000});
         }
       }
     }
@@ -501,7 +501,7 @@ export class DeviceComponent {
           for(var j=0;j<this.paramList.length;j++){
             if(this.obj[i].containerId==this.paramList[j].containerId){
               for(var t=0;t<this.singleShareList.length;t++){
-                let tmp={containerId:this.paramList[j].containerId,customerId:this.singleShareList[t].customerId,startTime:Date.parse(Sele),endTime:Date.parse(Eele)+86399000};
+                let tmp={containerId:this.paramList[j].containerId,customerId:this.singleShareList[t].customerId,startTime:Date.parse(Sele),endTime:Date.parse(Eele)+57599000};
                 containerList.push(tmp);
                 // console.log(this.singleShareList[t].customerId)
               }
@@ -534,8 +534,8 @@ export class DeviceComponent {
     var timer='?m='+Date.parse(String(new Date()));
     if(!form.select||form.select=='1'){alert('请选择授权账户');return }
     if(!startTime&&this.cameraService.customerType=='B'){alert('起始时间不能为空！');return }
-    if(this.today>(Date.parse(startTime)+86399000)){alert('起始时间不能小于当前时间！');return;}
-    var tmp={containerId:id,startTime:Date.parse(startTime),endTime:Date.parse(endTime)+86399000};
+    if(this.today>(Date.parse(startTime)+57599000)){alert('起始时间不能小于当前时间！');return;}
+    var tmp={containerId:id,startTime:Date.parse(startTime),endTime:Date.parse(endTime)+57599000};
     let urlSearchParams = new URLSearchParams();
     urlSearchParams.append('customerId', form.select);
     urlSearchParams.append('containerList', JSON.stringify([tmp]));
@@ -555,7 +555,7 @@ export class DeviceComponent {
     if(this.cameraService.customerType!=='C'){
       if(!form.select||!Sele){ alert('请选择授权账户或起始时间！'); return; }
       if(Sele>Eele){ alert('起始时间不能大于结束时间！'); return; }
-      if(this.today>(Date.parse(Sele)+86399000)){ alert('起始时间不能小于当前时间！'); return; }
+      if(this.today>(Date.parse(Sele)+57599000)){ alert('起始时间不能小于当前时间！'); return; }
       if(this.select){//全选状态
         for(var i=0;i<this.paramList.length;i++){
           // containerList.push({containerId:this.paramList[i].containerId,startTime:this.paramList[i].startTime,endTime:this.paramList[i].endTime});
@@ -688,9 +688,9 @@ export class DeviceComponent {
     if(Date.parse(form.endTime)>lendTime){alert('分享结束时间不能大于设备租赁时间！');return;}
 
     if(!form.startTime&&this.cameraService.customerType=='C'){alert('请选择起始时间');return;}
-    if(Date.parse(form.startTime)>(Date.parse(form.endTime)+86399000)){alert('开始时间不能大于结束时间！');return;}
+    if(Date.parse(form.startTime)>(Date.parse(form.endTime)+57599000)){alert('开始时间不能大于结束时间！');return;}
     if(this.cameraService.customerType=='C'){ urlSearchParams.append('startTime', String(Date.parse(form.startTime)));}
-    if(form.endTime){ urlSearchParams.append('endTime', String(Date.parse(form.endTime)+86399000)) }
+    if(form.endTime){ urlSearchParams.append('endTime', String(Date.parse(form.endTime)+57599000)) }
     if(form.location){ urlSearchParams.append('location', form.location); }
     if(form.description){ urlSearchParams.append('description', form.description); }
     if(form.permissionType){ urlSearchParams.append('permissionType', form.permissionType); }

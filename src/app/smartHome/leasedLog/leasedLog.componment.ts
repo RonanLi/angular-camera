@@ -69,7 +69,7 @@ export class LeasedLogComponent {
     var timer='?m='+Date.parse(String(new Date()));
 
     var dayStart=Date.parse(startTime);
-    var dayEnd=Date.parse(endTime)+86399000;
+    var dayEnd=Date.parse(endTime)+57599000;
     if(dayEnd-dayStart>=604800000){alert('起止时间不能超过7天！');return;}
     if(!startTime&&!endTime&&!master){return}
     if(startTime>endTime){return}
