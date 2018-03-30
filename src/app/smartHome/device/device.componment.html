@@ -19,7 +19,7 @@
         <div class="searchBox row">
           <p class="col-xs-7 col-sm-7 col-md-6 col-lg-8">
             <select class="select form-control" style="width:135px;" [ngModel]="optionL2" (ngModelChange)="optionL2=$event;this.info=optionL2">
-              <option *ngFor="let item of optionList.data2" [value]='item.name'>{{item.name}}</option>
+              <option *ngFor="let item of optionList1.data2" [value]='item.name'>{{item.name}}</option>
             </select>
             <span>开始时间：</span>
             <p-calendar class="devDate" [(ngModel)]="endTimeA1" [inline]="false" inputId="end1" [locale]="ch" dataType='string' yearNavigator="true" yearRange="2018:2038" dateFormat="yy-mm-dd" showButtonBar='true' todayButtonStyleClass="todayTime" clearButtonStyleClass="clearTime" placeholder="开始时间"></p-calendar>
@@ -76,7 +76,7 @@
                 <!--<img class="small" src="../../../assets/imgs/qrcode.jpg" (click)="this.img='http://apis.t2.5itianyuan.com/smarthome-video/qrcode.html?url='+list.qrcode" alt="">-->
               </div>
               <div>{{list.statusCode}}&nbsp;</div>
-              <div>{{list.productDate|date:'yyyy-MM-dd'}}&nbsp;</div>
+              <div>{{list.updateTime|date:'yyyy-MM-dd'}}&nbsp;</div>
               <div class="fun">
                 <input type="button" class="btn btn-warning fff btn-xs" value="回收" (click)="recycle(list.deviceSn)">
                 <input *ngIf="list.statusCode=='正常'" type="button" class="btn btn-danger btn-xs" value="锁定" (click)="singleBatch('锁定',list.deviceSn)">
