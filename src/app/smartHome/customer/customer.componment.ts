@@ -20,6 +20,7 @@ export class CustomerComponent {
   public nameType:boolean;
   public addBind;
   public mask;
+  public isPhone;
   // public timer='?m='+Date.parse(String(new Date()));
 
   //全部用户信息列表
@@ -262,7 +263,12 @@ export class CustomerComponent {
     if(this.cameraService.customerType=='A'){ urlSearchParams.append('roleIdArray', '[1003]'); }
     else if(this.cameraService.customerType=='B'){ urlSearchParams.append('roleIdArray', '[1004]'); }
     urlSearchParams.append('linkman', form.linkman);
-    urlSearchParams.append('phone', form.phone);
+    // urlSearchParams.append('phone', form.phone);
+    if(form.phone){
+      var real=this.isPoneAvailable(form.phone);
+      if(real){urlSearchParams.append('phone', form.phone);}
+      else{alert('请输入有效的联系电话！');return;}
+    }
     if(form.description){ urlSearchParams.append('description', form.description); }
     let paramAdd = urlSearchParams.toString();
     this.customertHttp .post(url,paramAdd) .subscribe(
@@ -281,10 +287,16 @@ export class CustomerComponent {
   bindCustomer(form){
     var url = '/api/v1.0/customer/binding';
     let urlSearchParams = new URLSearchParams();
+    var regPhone=this.isPoneAvailable(form.customerName);
+    if(!regPhone){ alert('客户账号无效！');return ; }
     urlSearchParams.append('roleIdArray', '['+this.grad+']');
     urlSearchParams.append('customerName', form.customerName);
     urlSearchParams.append('linkman', form.linkman);
-    if(form.phone){ urlSearchParams.append('phone', form.phone);}
+    if(form.phone){
+      var real=this.isPoneAvailable(form.phone);
+      if(real){urlSearchParams.append('phone', form.phone);}
+      else{alert('请输入有效的联系电话！');return;}
+    }
     if(form.description){ urlSearchParams.append('description', form.description); }
     let paramAdd = urlSearchParams.toString();
     this.customertHttp .post(url,paramAdd) .subscribe(
@@ -358,6 +370,13 @@ export class CustomerComponent {
     else{ for (var i = 0; i < ele.length; i++) { if (ele[i].customerId !== id) { newObj.push(ele[i]); } } }
     // console.log(newObj);
     return newObj
+  }
+
+  /*手机号码校验*/
+  isPoneAvailable(ele){
+    var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+    if(!myreg.test(ele)) { return false; }
+    else {return true; }
   }
 
   /*导入数据*/

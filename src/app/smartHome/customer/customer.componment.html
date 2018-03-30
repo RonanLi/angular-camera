@@ -56,7 +56,7 @@
               <div><input [value]="list.customerId" type="checkbox" [checked]="select" (change)="isChecked($event.target.checked,list.customerId);select=false;" > </div>
               <div>{{list.customerName}}&nbsp;</div>
               <div>{{list.linkman}}&nbsp;</div>
-              <div>{{list.customerName==list.phone?'':list.phone}}&nbsp;</div>
+              <div>{{list.contactNumber}}&nbsp;</div>
               <div>{{list.statusCode}}&nbsp;</div>
               <div >{{list.description}}&nbsp;</div>
               <div style="width: 15%;">
@@ -209,7 +209,7 @@
               <div class="form-group ">
                 <div>
                   <label class="control-label">账号类型：</label>
-                  <select  #selectName="ngModel" [(ngModel)]="addData.selectName" name="selectName" (change)="nameType=selectName.value"  style=" width: 210px; margin-left: 20px; line-height: 40px; height: 30px;">
+                  <select  #selectName="ngModel" [(ngModel)]="addData.selectName" name="selectName" (change)="nameType=selectName.value;isPhone=!isPhone"  style=" width: 210px; margin-left: 20px; line-height: 40px; height: 30px;">
                     <option value="true">手机</option>
                     <option value="false">邮箱</option>
                   </select>
@@ -238,12 +238,13 @@
                   <div *ngIf='form.submitted && (!linkman.valid)' class="text-danger">联系人不能为空</div>
                 </div>
               </div>
-              <div class="form-group ">
+              <div *ngIf="isPhone" class="form-group">
                 <div class="codeBox clearfix">
                   <label class="control-label">联系电话：</label>
                   <input type="text" #phone="ngModel" [(ngModel)]="addData.phone" name="phone" placeholder="请输入联系电话" autocomplete="off" [disabled]="selectName.value">
                 </div>
               </div>
+
               <div class="form-group ">
                 <div class="codeBox clearfix">
                   <label class="control-label">备注：</label>

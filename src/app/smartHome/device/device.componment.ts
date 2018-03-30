@@ -456,7 +456,7 @@ export class DeviceComponent {
     if(this.singleShareList.length>0){
       for(var i=0;i<this.singleShareList.length;i++){
         this.singleShareList[i].startTime=Date.parse(form.shareSTime);
-        this.singleShareList[i].endTime=Date.parse(form.shareETime);
+        this.singleShareList[i].endTime=Date.parse(form.shareETime)+86399000;
       }
       let urlSearchParams = new URLSearchParams();
       urlSearchParams.append('containerId', id);
