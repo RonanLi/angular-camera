@@ -476,19 +476,21 @@ export class DeviceComponent {
 
 /*批量分享*/
   sharesTo(ele,form,Sele,Eele){//ele判断是否全选
+
     var timer='?m='+Date.parse(String(new Date()));
     if(!Sele){alert('起始时间不能为空!');return;}
     if(Sele>Eele){alert('起始时间不能大于结束时间!');return;}
     if(this.singleShareList.length<=0){alert('请选择分享账户!');return; }
     if(this.today>(Date.parse(Sele)+86399000)){alert('起始时间不能小于当前时间！');return;}
     // console.log(this.singleShareList);
-    var containerList=[];
+    let containerList=[];
+
     let urlSearchParams = new URLSearchParams();
     if(ele){//全选状态
       for(var i=0;i<this.paramList.length;i++){
         // containerList.push({containerId:this.paramList[i].containerId,startTime:this.paramList[i].startTime,endTime:this.paramList[i].endTime});
         for(var j=0;j<this.singleShareList.length;j++){
-          containerList.push({containerId:this.paramList[i].containerId,customerId:this.singleShareList[j].customerId,startTime:Date.parse(Sele),endTime:Date.parse(Eele)});
+          containerList.push({containerId:this.paramList[i].containerId,customerId:this.singleShareList[j].customerId,startTime:Date.parse(Sele),endTime:Date.parse(Eele)+86399000});
         }
       }
     }
@@ -499,7 +501,7 @@ export class DeviceComponent {
           for(var j=0;j<this.paramList.length;j++){
             if(this.obj[i].containerId==this.paramList[j].containerId){
               for(var t=0;t<this.singleShareList.length;t++){
-                let tmp={containerId:this.paramList[j].containerId,customerId:this.singleShareList[t].customerId,startTime:Date.parse(Sele),endTime:Date.parse(Eele)};
+                let tmp={containerId:this.paramList[j].containerId,customerId:this.singleShareList[t].customerId,startTime:Date.parse(Sele),endTime:Date.parse(Eele)+86399000};
                 containerList.push(tmp);
                 // console.log(this.singleShareList[t].customerId)
               }
@@ -510,6 +512,7 @@ export class DeviceComponent {
     }
     urlSearchParams.append('containerList', JSON.stringify(containerList));
     let params=urlSearchParams.toString();
+    console.log(params)
     this.deviceHttp
       .post('/api/v1.0/containers/shares'+timer,params, {headers: new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded'})})
       .subscribe(
@@ -522,6 +525,8 @@ export class DeviceComponent {
           else { alert(`服务器异常，请稍后再试！`); }
         },
       )
+    this.obj=[];
+
   }
 
 /*单个授权: /containers/share*/
@@ -530,7 +535,7 @@ export class DeviceComponent {
     if(!form.select||form.select=='1'){alert('请选择授权账户');return }
     if(!startTime&&this.cameraService.customerType=='B'){alert('起始时间不能为空！');return }
     if(this.today>(Date.parse(startTime)+86399000)){alert('起始时间不能小于当前时间！');return;}
-    var tmp={containerId:id,startTime:Date.parse(startTime),endTime:Date.parse(endTime)};
+    var tmp={containerId:id,startTime:Date.parse(startTime),endTime:Date.parse(endTime)+86399000};
     let urlSearchParams = new URLSearchParams();
     urlSearchParams.append('customerId', form.select);
     urlSearchParams.append('containerList', JSON.stringify([tmp]));
@@ -685,7 +690,7 @@ export class DeviceComponent {
     if(!form.startTime&&this.cameraService.customerType=='C'){alert('请选择起始时间');return;}
     if(Date.parse(form.startTime)>(Date.parse(form.endTime)+86399000)){alert('开始时间不能大于结束时间！');return;}
     if(this.cameraService.customerType=='C'){ urlSearchParams.append('startTime', String(Date.parse(form.startTime)));}
-    if(form.endTime){ urlSearchParams.append('endTime', String(Date.parse(form.endTime))) }
+    if(form.endTime){ urlSearchParams.append('endTime', String(Date.parse(form.endTime)+86399000)) }
     if(form.location){ urlSearchParams.append('location', form.location); }
     if(form.description){ urlSearchParams.append('description', form.description); }
     if(form.permissionType){ urlSearchParams.append('permissionType', form.permissionType); }
