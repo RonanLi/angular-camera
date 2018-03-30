@@ -206,19 +206,20 @@ export class DeviceComponent {
 /*查询 this.infoUrl*/
   public searchStatu:boolean;
   searchList(searchText,endTime1,endTime2,status,filterType,page){
-    let endT1=String(Date.parse(endTime1)+57599000);
+    // let endT1=String(Date.parse(endTime1)+57599000);
+    var endT1;
     let endT2=String(Date.parse(endTime2)+57599000);
     let urlSearchParams = new URLSearchParams();
     var timer='?m='+Date.parse(String(new Date()));
     if(searchText){ urlSearchParams.append('searchText', searchText); }
     if(endTime1){
-      if(this.cameraService.customerType=='A'){ urlSearchParams.append('startTime', endT1); }
-      else if(this.cameraService.customerType=='B'){ urlSearchParams.append('rentStartTime', endT1); }
-      else{ urlSearchParams.append('rentEndTime',endT1); }
+      if(this.cameraService.customerType=='A'){ endT1=String(Date.parse(endTime1));urlSearchParams.append('startTime', endT1); }
+      else if(this.cameraService.customerType=='B'){ endT1=String(Date.parse(endTime1));urlSearchParams.append('rentStartTime', endT1); }
+      else{ endT1=String(Date.parse(endTime1)+57599000);urlSearchParams.append('rentEndTime',endT1); }
     }
     if(endTime2){
       if(this.cameraService.customerType=='A'){ urlSearchParams.append('endTime', endT2); }
-      if(this.cameraService.customerType=='B'){ urlSearchParams.append('rentEndTime', endT2); }
+      else if(this.cameraService.customerType=='B'){ urlSearchParams.append('rentEndTime', endT2); }
       else{ urlSearchParams.append('shareEndTime', endT2); }
     }
     if(status=='正常'||status=='禁用'){ urlSearchParams.append('statusCode', status); }
