@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes, PreloadAllModules} from '@angular/router';
 
 import {LoginComponent} from './login/login.component';
+import {GroupLoginComponent} from './groupLogin/groupLogin.component';
 import {IndexComponent} from './index/index.component';
 
 /*甜园科技路径*/
@@ -20,34 +21,70 @@ import {DownloadComponent} from './smartHome/download/download';
 
 import {RoutGuard} from './services/routService';
 
+
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
+  {path: 'groupLogin', component: GroupLoginComponent},
   {path: 'download', component:DownloadComponent},
   {path: 'index', component: IndexComponent},
+  // {path: 'group/groupIndex', component: GroupComponent},
   {path: '', redirectTo: 'index', pathMatch: 'full'},
 
   {
+    path: 'group',
+    children: [
+      {
+        path: '',
+        children: [
+          {path: '', redirectTo: 'groupIndex', pathMatch: 'full'},
+          {path: 'groupIndex', component: GroupComponent},
+        ],
+      }
+    ]
+  },
+/*  {
     path: '',
     canActivate: [RoutGuard],
     children: [
       {
         path: '',
         children: [
-          {path: '', redirectTo: 'index', pathMatch: 'full'},
-          // {path: 'index', component: IndexComponent},
+          // {path: '', redirectTo: 'index', pathMatch: 'full'},
           {path: 'smartHome/customer', component: CustomerComponent},
           {path: 'smartHome/device', component: DeviceComponent},
           {path: 'smartHome/leasedLog', component: LeasedLogComponent},
           {path: 'smartHome/roles', component: RolesComponent},
           {path: 'smartHome/subaccount', component: SubaccountComponent},
           {path: 'smartHome/rePwd', component: RePwdComponent},
-          {path: 'smartHome/group', component: GroupComponent},
+          // {path: 'smartHome/group', component: GroupComponent},
           {path: 'smartHome/debugLog', component: DebugLogComponent},
-          {path: '**', redirectTo: 'index', pathMatch: 'full'},
+          // {path: '**', redirectTo: 'index', pathMatch: 'full'},
         ],
       }
     ]
-  }
+  },*/
+  {
+    path: 'smartHome',
+    canActivate: [RoutGuard],
+    children: [
+      {
+        path: '',
+        children: [
+          {path: '', redirectTo: 'customer', pathMatch: 'full'},
+          {path: 'customer', component: CustomerComponent},
+          {path: 'device', component: DeviceComponent},
+          {path: 'leasedLog', component: LeasedLogComponent},
+          {path: 'roles', component: RolesComponent},
+          {path: 'subaccount', component: SubaccountComponent},
+          {path: 'rePwd', component: RePwdComponent},
+          {path: 'debugLog', component: DebugLogComponent},
+          // {path: '**', redirectTo: 'index', pathMatch: 'full'},
+        ],
+      }
+    ]
+  },
+
+
 ];
 
 @NgModule({

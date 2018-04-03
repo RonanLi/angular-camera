@@ -17,9 +17,9 @@ export class CameraService {
     this.userStorage = window.localStorage.getItem('smartContent');
     if(this.userStorage == null || this.userStorage == undefined){
       window.localStorage.removeItem('smartContent');
-      var url = '/index';
-      let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: false};
-      this.router.navigate([url], navigationExtras);
+      // var url = '/index';
+      // let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: false};
+      // this.router.navigate([url], navigationExtras);
       return false;
     }
     else{ this.userDetial=JSON.parse(this.userStorage);this.apiKey=this.userDetial.apiKey;return true; }

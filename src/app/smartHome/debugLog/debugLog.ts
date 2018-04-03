@@ -14,8 +14,8 @@ export class DebugLogComponent {
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
       /*建立连接*/
-      this.ws = new $WebSocket("ws:" + '//' + "apis.t2.5itianyuan.com" + '/'+ "smarthome-console" + "/websocket");
-      this.sendMsg()
+      // this.ws = new $WebSocket("ws:" + '//' + "apis.t2.5itianyuan.com" + '/'+ "smarthome-console" + "/websocket");
+      // this.sendMsg()
     }
     else { alert('当前浏览器 Not support websocket'); }
 
@@ -70,6 +70,52 @@ export class DebugLogComponent {
   ngAfterViewChecked() {
     this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
   }
+
+
+
+  public dataList:any=[];
+
+  public dataStart={
+    "arriveTime": 1522656757000,
+    "process": "start",
+    "method": "SENSORCONTROL",
+    "inititor": "API-SERVER",
+    "params": {
+      "cmdId": "1003",
+      "apiKey": "a2c80161-4b0e-40e2-8488-9f0028f48d13",
+      "cmdArgs": {
+        "value": "00"
+      },
+      "sensorId": "4580"
+    },
+    "accountId": 1196,
+    "sn": "jTLH$9Fb0",
+    "deviceSn": "00-0D-6F-00-0B-74-E3-C2"
+  };
+
+  public dataEnd={
+    "arriveTime": 1522656757000,
+    "process": "end",
+    "method": "SENSORCONTROL",
+    "inititor": "API-SERVER",
+    "params": {
+      "code": "200",
+      "data": "hcWoYDLi",
+      "message": "OK",
+      "status": true
+    },
+    "accountId": 1196,
+    "isSucess": true,
+    "interfaceResp": 28,
+    "retryCount": 1,
+    "sn": "jTLH$9Fb0",
+    "deviceSn": "00-0D-6F-00-0B-74-E3-C2"
+  }
+
+
+
+
+
 
 
 }

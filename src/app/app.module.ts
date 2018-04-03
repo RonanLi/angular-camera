@@ -12,6 +12,7 @@ import {TreeviewComponent} from './treeview/treeview.component';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app_routing_module';
 import {LoginComponent} from './login/login.component';
+import {GroupLoginComponent} from './groupLogin/groupLogin.component';
 import {IndexComponent} from './index/index.component';
 import {HeadComponent} from './head/head.component';
 import {FootComponent} from './foot/foot.component';
@@ -52,6 +53,7 @@ import {FileUploadModule} from 'ng2-file-upload';
     TreeviewComponent,
     CustomerComponent, DeviceComponent, LeasedLogComponent, RolesComponent, SubaccountComponent, RePwdComponent,
     GroupComponent,DownloadComponent,DebugLogComponent,
+    GroupLoginComponent,
 
     ToArray,
   ],

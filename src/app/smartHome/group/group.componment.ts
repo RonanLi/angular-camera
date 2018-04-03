@@ -1,31 +1,43 @@
 import { Component,OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest,HttpResponse,HttpErrorResponse,HttpParams,HttpHeaders} from '@angular/common/http';
-import { CameraService } from '../../services/camera.service';
 import {groupAdd} from '../../modules/allData'
 import {Router, NavigationExtras } from '@angular/router';
 import {URLSearchParams} from "@angular/http";
 
 @Component({
   selector: 'group',
+  styleUrls: ['./group.componment.css'],
+
   templateUrl: './group.componment.html',
+
 })
 
 
 export class GroupComponent {
-  constructor(private groupHttp: HttpClient,public cameraService: CameraService,public router: Router) { }
-  // public list1:any;
+  constructor(private groupHttp: HttpClient,public router: Router) { }
   public listDiv:string='';
   public listUp:any;
   public listDown:any;
   ngOnInit() {
+    this.userStorage = window.localStorage.getItem('smartGroup');
+    if(this.userStorage){ this.userDetial=JSON.parse(this.userStorage);this.apiKey=this.userDetial.apiKey; }
+    else{
+      let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: true};
+      let redirect ='/groupLogin';
+      this.router.navigate([redirect], navigationExtras);
+    }
     this.getList(1);
     this.getDeviceList();
   }
   /*定义参数*/
+  private name;
+  public show;
   public addgroup;
   public mask;
-  // public timer='?m='+Date.parse(String(new Date()));
+  public userStorage;
+  public userDetial;
+  public apiKey;
 
   //select 下拉选择
   public optionList:any=[{name:'全部'}, {name:'四宫格'}, {name:'九宫格'},{name:'十六宫格'}];
@@ -54,6 +66,22 @@ export class GroupComponent {
   public totalPages:any;
   public totalNums:any
   public searchStatu:boolean;
+  /*退出登录*/
+  logout() {
+    this.groupHttp
+      .post('/api/v1.0/customer/signout', {headers: new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded','apiKey': this.apiKey})})
+      .subscribe(
+        req => {
+          if(req['code']=="200"||req['code']=="401"){
+            window.localStorage.removeItem('smartGroup');
+            let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: true};
+            let redirect ='/groupLogin';
+            this.router.navigate([redirect], navigationExtras);
+          }
+          else {alert(req['message'])}
+        }
+      );
+  }
   /*获取分组列表*/
   getList(pageIndex){
     var timer='?m='+Date.parse(String(new Date()));
@@ -62,7 +90,8 @@ export class GroupComponent {
     urlSearchParams.append('pageIndex', pageIndex);
     urlSearchParams.append('pageSize', '10');
     let params=urlSearchParams.toString();
-    this.groupHttp.post('/api/v1.0/groups/list'+timer,params)
+    // this.groupHttp.post('/api/v1.0/groups/list'+timer,params,{headers: new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded','apiKey': this.cameraService.apiKey})})
+    this.groupHttp.post('/api/v1.0/groups/list'+timer,params,{headers: new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded','apiKey': this.apiKey})})
       .subscribe(
         req => {
           if(req['code']=="200"){
@@ -73,12 +102,11 @@ export class GroupComponent {
             this.totalPages=Math.ceil(req['pageing'].totalNums/10) ;
           }
           else if(req['code']=="401"){
-            window.localStorage.removeItem('smartContent');
-            this.cameraService.isLoggedIn=false;
+            window.localStorage.removeItem('smartGroup');
             alert('请重新登录');
-            var url = '/login';
-            let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: false};
-            this.router.navigate([url], navigationExtras);
+            let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: true};
+            let redirect ='/groupLogin';
+            this.router.navigate([redirect], navigationExtras);
           }
           else{ alert(req['message']);}}
       );
@@ -118,7 +146,7 @@ export class GroupComponent {
     urlSearchParams.append('pageSize', '10');
     let params=urlSearchParams.toString();
     // console.log(params);
-    this.groupHttp.post('/api/v1.0/groups/list'+timer,params).subscribe(req => {
+    this.groupHttp.post('/api/v1.0/groups/list'+timer,params,{headers: new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded','apiKey': this.apiKey})}).subscribe(req => {
       if(req['code']=="200"){
         this.searchStatu=true;
         this.groupList=req['data'];
@@ -134,12 +162,11 @@ export class GroupComponent {
         }
       }
       else if(req['code']=="401"){
-        window.localStorage.removeItem('smartContent');
-        this.cameraService.isLoggedIn=false;
+        window.localStorage.removeItem('smartGroup');
         alert('请重新登录');
-        var url = '/login';
-        let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: false};
-        this.router.navigate([url], navigationExtras);
+        let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: true};
+        let redirect ='/groupLogin';
+        this.router.navigate([redirect], navigationExtras);
       }
       else{ alert(req['message']);}
     });
@@ -363,17 +390,16 @@ export class GroupComponent {
     urlSearchParams.append('groupContent',JSON.stringify(eleList));
     let params=urlSearchParams.toString();
     // console.log(params);
-    this.groupHttp.post('/api/v1.0/groups/add'+timer,params)
+    this.groupHttp.post('/api/v1.0/groups/add'+timer,params,{headers: new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded','apiKey': this.apiKey})})
       .subscribe(
         req => {
           if(req['code']=="200"){  this.getList(1);this.addData.select=this.grad=4; this.getDeviceList();alert('添加分组成功');}
           else if(req['code']=="401"){
-            window.localStorage.removeItem('smartContent');
-            this.cameraService.isLoggedIn=false;
+            window.localStorage.removeItem('smartGroup');
             alert('请重新登录');
-            var url = '/login';
-            let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: false};
-            this.router.navigate([url], navigationExtras);
+            let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: true};
+            let redirect ='/groupLogin';
+            this.router.navigate([redirect], navigationExtras);
           }
           else{ alert(req['message']);}}
       );
@@ -410,7 +436,7 @@ export class GroupComponent {
     urlSearchParams.append('groupContent',JSON.stringify(eleList));
     let params=urlSearchParams.toString();
     // console.log(params);
-    this.groupHttp.put('/api/v1.0/groups/update'+timer,params)
+    this.groupHttp.put('/api/v1.0/groups/update'+timer,params,{headers: new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded','apiKey': this.apiKey})})
       .subscribe(
         req => {
           if(req['code']=="200"){
@@ -420,12 +446,11 @@ export class GroupComponent {
             alert('操作成功');
           }
           else if(req['code']=="401"){
-            window.localStorage.removeItem('smartContent');
-            this.cameraService.isLoggedIn=false;
+            window.localStorage.removeItem('smartGroup');
             alert('请重新登录');
-            var url = '/login';
-            let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: false};
-            this.router.navigate([url], navigationExtras);
+            let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: true};
+            let redirect ='/groupLogin';
+            this.router.navigate([redirect], navigationExtras);
           }
           else{ alert(req['message']);}}
       );
@@ -436,7 +461,7 @@ export class GroupComponent {
     var realy=confirm('分组删除后将无法恢复，是否继续？');
     if(!realy){return;}
     const params = new HttpParams().set('groupId',groupId);
-    this.groupHttp.delete('/api/v1.0/groups/delete',{params})
+    this.groupHttp.delete('/api/v1.0/groups/delete',{headers: new HttpHeaders({'apiKey': this.apiKey}),params})
       .subscribe(
         req => {
           if(req['code']=="200"){
@@ -445,12 +470,11 @@ export class GroupComponent {
             alert('删除分组成功');
           }
           else if(req['code']=="401"){
-            window.localStorage.removeItem('smartContent');
-            this.cameraService.isLoggedIn=false;
+            window.localStorage.removeItem('smartGroup');
             alert('请重新登录');
-            var url = '/login';
-            let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: false};
-            this.router.navigate([url], navigationExtras);
+            let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: true};
+            let redirect ='/groupLogin';
+            this.router.navigate([redirect], navigationExtras);
           }
           else{ alert(req['message']);}}
       );
@@ -470,7 +494,7 @@ export class GroupComponent {
     var timer='?m='+Date.parse(String(new Date()));
 
     this.groupHttp.get('/api/v1.0/container/group'+timer).subscribe(req => {
-      if(req['code']==200&&req['data'].length>0){
+      if(req['code']==200&&req['data']!==''){
         this.deviceList=req['data'];
         if(eleList[0].value[0]||eleList.length>1) {
           for (var i = 0; i < eleList.length; i++) {

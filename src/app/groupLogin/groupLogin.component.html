@@ -2,7 +2,8 @@
   <div class="login container-fluid" [ngStyle]="currentStyles">
     <!--<img class="userImg" src='../../assets/imgs/logoBig.png' alt="">-->
 
-    <div class="loginBg" *ngIf="!this.cameraService.isLoggedIn">
+    <div class="loginBg" *ngIf="!userStorage">
+    <!--<div class="loginBg" >-->
       <div class="loginTxt">
         <p routerLink="/index"><img class="img60" src="../../assets/imgs/login_1.png" alt=""><span>工地直播管理平台</span></p>
         <h1><img class="img60" src="../../assets/imgs/login_2.png" alt=""><span>轻松管理工程进度</span></h1>
@@ -48,8 +49,9 @@
         ©北京甜园科技有限公司京ICP备16029727号-1
       </div>
     </div>
-    <div class="rowM" *ngIf="this.cameraService.isLoggedIn">
+    <div class="rowM" *ngIf="userStorage">
+    <!--<div class="rowM">-->
       <div>您已经登录</div>
-      <div><a routerLink="/smartHome/customer">去管理系统看看</a></div>
+      <div><a routerLink="/group/groupIndex">去分组管理看看</a></div>
     </div>
   </div>
