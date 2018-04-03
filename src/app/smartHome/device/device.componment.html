@@ -19,7 +19,7 @@
         <div class="searchBox row">
           <p class="col-xs-7 col-sm-7 col-md-6 col-lg-8">
             <select class="select form-control" style="width:135px;" [ngModel]="optionL2" (ngModelChange)="optionL2=$event;this.info=optionL2">
-              <option *ngFor="let item of optionList.data2" [value]='item.name'>{{item.name}}</option>
+              <option *ngFor="let item of optionList1.data2" [value]='item.name'>{{item.name}}</option>
             </select>
             <span>开始时间：</span>
             <p-calendar class="devDate" [(ngModel)]="endTimeA1" [inline]="false" inputId="end1" [locale]="ch" dataType='string' yearNavigator="true" yearRange="2018:2038" dateFormat="yy-mm-dd" showButtonBar='true' todayButtonStyleClass="todayTime" clearButtonStyleClass="clearTime" placeholder="开始时间"></p-calendar>

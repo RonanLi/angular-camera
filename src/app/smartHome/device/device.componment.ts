@@ -74,6 +74,11 @@ export class DeviceComponent {
     data1:[{shareEnde:'分享到期时间',value:0},{shareEnde:'三天内',value:1}, {shareEnde:'七天内',value:2}, {shareEnde:'半月内',value:3}, {shareEnde:'已过期',value:4}, {shareEnde:'无',value:5}],
     data2:[{name:'请选择用户状态',value:0}, {name:'正常',value:1}, {name:'禁用',value:2}]
   };
+  public optionList1:any={
+    data0:[{leasEnd:'租用到期时间',value:0},{leasEnd:'三天内',value:1}, {leasEnd:'七天内',value:2}, {leasEnd:'半月内',value:3}, {leasEnd:'已过期',value:4}, {leasEnd:'无',value:5}],
+    data1:[{shareEnde:'分享到期时间',value:0},{shareEnde:'三天内',value:1}, {shareEnde:'七天内',value:2}, {shareEnde:'半月内',value:3}, {shareEnde:'已过期',value:4}, {shareEnde:'无',value:5}],
+    data2:[{name:'请选择用户状态',value:0}, {name:'正常',value:1}, {name:'锁定',value:2}]
+  };
   // public optionL0:any=0;
   public optionL0:any='租用到期时间';
   // public optionL1:any=0;
@@ -222,7 +227,7 @@ export class DeviceComponent {
       else if(this.cameraService.customerType=='B'){ urlSearchParams.append('rentEndTime', endT2); }
       else{ urlSearchParams.append('shareEndTime', endT2); }
     }
-    if(status=='正常'||status=='禁用'){ urlSearchParams.append('statusCode', status); }
+    if(status=='正常'||status=='禁用'||status=='锁定'){ urlSearchParams.append('statusCode', status); }
     urlSearchParams.append('pageIndex', page);
     urlSearchParams.append('pageSize', '10');
     const params = new HttpParams({fromString: urlSearchParams.toString()});
