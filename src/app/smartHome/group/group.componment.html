@@ -8,9 +8,9 @@
     <!--<img class="userImg headL" src="../../assets/imgs/user_icon.png" alt="">-->
     <div class="headList headR">
       <!--<a  class="user headL"  href="javascript:;" (click)="this.show = !this.show;">{{cameraService.userDetial.customerName}}<i class="arrow" [ngClass]="{on:this.show}"></i></a>-->
-      <a  class="user headL"  href="javascript:;" (click)="this.show = !this.show;">{{userDetial.customerName}}<i class="arrow" [ngClass]="{on:this.show}"></i></a>
+      <a  class="user headL"  href="javascript:;" (click)="this.show = !this.show;">{{groupDetial.customerName}}<i class="arrow" [ngClass]="{on:this.show}"></i></a>
       <ul *ngIf='this.show'>
-        <li><a routerLink="/smartHome/rePwd">修改密码</a></li>
+        <!--<li><a routerLink="/smartHome/rePwd">修改密码</a></li>-->
         <!--<li><a (click)="resetPwd()">重置密码</a></li>-->
         <li (click)="logout()"><a class="pointer">退出登录</a></li>
       </ul>
@@ -103,7 +103,7 @@
                     <!--设备列表-->
                     <div class="groupEditBoxL">
                       <div class="groupSearch">
-                        <input type="text" class="form-control search" placeholder="请输入设备名称" #box  (keyup.enter)="searchDeviceList(box.value)">
+                        <input type="text" class="form-control search" placeholder="请输入设备名称" #box  (keyup)="searchDeviceList(box.value)">
                       </div>
                       <div class="list">
                         虚拟占位设备
@@ -177,7 +177,7 @@
                 <!--设备列表-->
                 <div class="groupEditBoxL">
                   <div class="groupSearch">
-                    <input type="text" class="form-control search" placeholder="请设备名称" #box  (keyup.enter)="searchDeviceList(box.value)">
+                    <input type="text" class="form-control search" placeholder="请设备名称" #box  (keyup)="searchDeviceList(box.value)">
                   </div>
                   <div class="list">
                     虚拟占位设备

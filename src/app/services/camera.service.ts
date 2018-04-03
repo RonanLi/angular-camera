@@ -4,6 +4,7 @@ import {Router, NavigationExtras } from '@angular/router';
 @Injectable()
 export class CameraService {
   constructor( public router: Router) { }
+  public group=0;
   public userStorage:any;
   public apiKey:any;
   public isLoggedIn=this.openUrl();

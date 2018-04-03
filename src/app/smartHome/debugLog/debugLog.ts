@@ -11,10 +11,14 @@ import {ElementRef, AfterViewChecked, ViewChild} from "@angular/core";
 export class DebugLogComponent {
   constructor( private userService: CameraService, public router: Router) { }
   ngOnInit() {
+    this.dataToHtml(this.dataEnd);
+
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
       /*建立连接*/
       // this.ws = new $WebSocket("ws:" + '//' + "apis.t2.5itianyuan.com" + '/'+ "smarthome-console" + "/websocket");
+      this.ws = new $WebSocket("ws:" + '//' + "apis.t2.5itianyuan.com/smarthome-console" + '/' + "/debugsocket");
+
       // this.sendMsg()
     }
     else { alert('当前浏览器 Not support websocket'); }
@@ -51,12 +55,16 @@ export class DebugLogComponent {
 
   /*处理服务器返回消息*/
   delMessage(ele){
+/*
     var data = ele.split(" - ");
     console.log(data);
-    console.log(data[2]);
     var id=data[2];
     this.innerHtml=this.innerHtml+"<div id='" + id + "'>" + "<div>" + data[3] + "</div>" + "<div>" + data[5] + "</div>" + "<div>" + data[4] + "</div>";
-
+*/
+     var data = ele.split(" - ");
+     console.log(ele);
+     var id=data[2];
+     this.innerHtml=this.innerHtml+"<div id='" + id + "'>" + "<div>" + data[3] + "</div>" + "<div>" + data[5] + "</div>" + "<div>" + data[4] + "</div>";
 
   }
 
@@ -110,9 +118,32 @@ export class DebugLogComponent {
     "retryCount": 1,
     "sn": "jTLH$9Fb0",
     "deviceSn": "00-0D-6F-00-0B-74-E3-C2"
+  };
+  dataToHtml(data){
+    var flag = false;
+    var index;
+    let temp={deviceSn:data.deviceSn,sn:data.sn,accountId:data.accountId,app:[],server:[],gateWay:[],zigBee:[]};
+
+    let tempSecond={arriveTime:data.arriveTime,process:data.process,method:data.method,params:data.params,isSucess:'',interfaceResp:'',retryCount:''};
+
+    for(var i=0; i<this.dataList.length;i++){
+      if(this.dataList[i].deviceSn==data.deviceSn){ flag = true;index=i;break;}
+    }
+    if(flag){
+      console.log(this.dataList[i])
+    }
+    else{
+      if(data.isSucess){ tempSecond.isSucess=data.isSucess; }
+      if(data.interfaceResp){ tempSecond.interfaceResp=data.interfaceResp; }
+      if(data.retryCount){ tempSecond.retryCount=data.retryCount;}
+      if(data.inititor=='API-APP'){ temp.app.push(tempSecond);}
+      else if(data.inititor=='API-SERVER'){ temp.server.push(tempSecond);}
+      else if(data.inititor=='API-GATEWAY'){ temp.server.push(tempSecond);}
+      else if(data.inititor=='API-ZIGBEE'){ temp.server.push(tempSecond);}
+      this.dataList.push(temp);
+      console.log(this.dataList)
+    }
   }
-
-
 
 
 

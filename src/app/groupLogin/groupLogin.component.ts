@@ -11,7 +11,7 @@ import {URLSearchParams} from "@angular/http";
 import {userDetial} from '../modules/allData'
 
 /*路由守卫*/
-// import { CameraService } from '../services/camera.service';
+import { CameraService } from '../services/camera.service';
 // import { GroupService } from '../services/group.service';
 import {Router, NavigationExtras } from '@angular/router';
 
@@ -25,7 +25,7 @@ import {Router, NavigationExtras } from '@angular/router';
 
 export class GroupLoginComponent {
   // constructor(private loginHttp: HttpClient,public cameraService: GroupService, public router: Router) { }
-  constructor(private loginHttp: HttpClient,public router: Router) { }
+  constructor(private loginHttp: HttpClient,public cameraService: CameraService,public router: Router) { }
   public errMsg;
   public userStorage;
   public userDetial;
@@ -67,6 +67,7 @@ export class GroupLoginComponent {
   login(ele) {
     if (ele.length< 23) { return false; }
     else {
+      this.cameraService.group=1;
       this.loginHttp
         .post('/api/v1.0/customer/signin',ele)
         .subscribe(
