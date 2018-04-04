@@ -39,38 +39,38 @@
               <div>{{list.deviceSn}}&nbsp;</div>
               <div>{{list.sn}}&nbsp;</div>
               <div class="statu">
-                <span *ngFor="let subM of list.messageServe;let j=index">
-                  <i *ngIf="subM.process" class="greenBg"></i>
-                  <i *ngIf="subM.process==false" class="redBg"></i>
+                <span *ngFor="let subM of list.messageServe">
+                  <i *ngIf="subM.isSucess" class="greenBg"></i>
+                  <i *ngIf="subM.isSucess==false" class="redBg"></i>
                   <!--<b *ngIf="subM.process" class=" arrow glyphicon glyphicon-arrow-right" aria-hidden="true"></b>-->
                 </span>
                 &nbsp;
               </div>
               <div class="statu">
-                <span *ngFor="let subY of list.yunbaCloud;let j=index">
-                  <i *ngIf="subY.process" class="greenBg"></i>
-                  <i *ngIf="subY.process==false" class="redBg"></i>
+                <span *ngFor="let subY of list.yunbaCloud">
+                  <i *ngIf="subY.isSucess&&list.messageServe[8]" class="greenBg"></i>
+                  <i *ngIf="subY.isSucess==false" class="redBg"></i>
                 </span>
                 &nbsp;
               </div>
               <div class="statu">
-                <span *ngFor="let subS of list.server;let j=index">
-                  <i *ngIf="subS.process" class="greenBg"></i>
-                  <i *ngIf="subS.process==false" class="redBg"></i>
+                <span *ngFor="let subS of list.server">
+                  <i *ngIf="subS.isSucess&&list.messageServe[8]&&list.yunbaCloud[8]" class="greenBg"></i>
+                  <i *ngIf="subS.isSucess==false" class="redBg"></i>
                 </span>
                 &nbsp;
               </div>
               <div class="statu">
-                <span *ngFor="let subZ of list.zigBee;let j=index">
-                  <i *ngIf="subZ.process" class="greenBg"></i>
-                  <i *ngIf="subZ.process==false" class="redBg"></i>
+                <span *ngFor="let subZ of list.zigBee">
+                  <i *ngIf="subZ.isSucess&&list.messageServe[8]&&list.yunbaCloud[8]&&list.server[8]" class="greenBg"></i>
+                  <i *ngIf="subZ.isSucess==false" class="redBg"></i>
                 </span>
                 &nbsp;
               </div>
               <div class="statu">
-                <span *ngFor="let subW of list.wifiDevice;let j=index">
-                  <i *ngIf="subW.process" class="greenBg"></i>
-                  <i *ngIf="subW.process==false" class="redBg"></i>
+                <span *ngFor="let subW of list.wifiDevice">
+                  <i *ngIf="subW.isSucess&&list.messageServe[8]&&list.yunbaCloud[8]&&list.server[8]" class="greenBg"></i>
+                  <i *ngIf="subW.isSucess==false" class="redBg"></i>
                 </span>
                 &nbsp;
               </div>

@@ -67,111 +67,59 @@ export class DebugLogComponent {
 
     var data=JSON.parse(ele);
     var flag = false;
+    var compare = false;
     var index;
-    // if(!data.deviceSn||!data.accountId){return;}
+    if(!data.deviceSn||!data.accountId){return;}
     let temp={arriveTime:data.arriveTime,deviceSn:data.deviceSn,sn:data.sn,accountId:data.accountId,messageServe:['','','','','','','',''],server:['','','','','','','',''],zigBee:['','','','','','','',''],yunbaCloud:['','','','','','','',''],wifiDevice:['','','','','','','','']};
     let tempSecond={arriveTime:data.arriveTime,process:data.process,method:data.method,params:data.params,isSucess:'',interfaceResp:'',retryCount:''};
-    // console.log(data.method+'============'+data.process);
-    console.log(temp.messageServe);
 
     for(var i=0; i<this.dataList.length;i++){
       // if(this.dataList[i].deviceSn==data.deviceSn){ flag = true;index=i;break;}
-      if(this.dataList[i].sn==data.sn){ flag = true;index=i;break;}
-    }
-    if(flag){
-      // console.log(this.dataList[i])
-      if(data.isSucess){ tempSecond.isSucess=data.isSucess; }
-      if(data.interfaceResp){ tempSecond.interfaceResp=data.interfaceResp; }
-      if(data.retryCount){ tempSecond.retryCount=data.retryCount;}
-      if(data.inititor=='MESSAGE-SERVER'){
-        /*var msg=false;
-        for(var j=0;j<this.dataList[i].messageServe.length;j++){
-          if(this.dataList[i].messageServe[j].method==data.method){
-            msg = true; break;
-          }
-        }
-        if(msg){ this.dataList[i].messageServe[j]=tempSecond; }
-        else{ this.dataList[i].messageServe.push(tempSecond); }*/
-        if(data.method=='SENSORCONTROL'){this.dataList[i].messageServe.splice(0,1,tempSecond); }
-        if(data.method=='DIRECT'){this.dataList[i].messageServe.splice(1,1,tempSecond); }
-        if(data.method=='YUNBA'){this.dataList[i].messageServe.splice(2,1,tempSecond); }
-        if(data.method=='YUNBARECV'){this.dataList[i].messageServe.splice(3,1,tempSecond); }
-        if(data.method=='UARTSEND'){this.dataList[i].messageServe.splice(4,1,tempSecond); }
-        if(data.method=='UARTRECV'){this.dataList[i].messageServe.splice(5,1,tempSecond); }
-        if(data.method=='RESPONSE'){this.dataList[i].messageServe.splice(6,1,tempSecond); }
-        if(data.method=='RSP'){this.dataList[i].messageServe.splice(7,1,tempSecond); }
-      }
-      else if(data.inititor=='API-SERVER'){
-        /*var ser=false;
-        for(var j=0;j<this.dataList[i].server.length;j++){
-          if(this.dataList[i].server[j].method==data.method){ ser = true; break; }
-        }
-        if(ser){ this.dataList[i].server[j]=tempSecond; }
-        else{ this.dataList[i].server.push(tempSecond); }*/
 
-        if(data.method=='SENSORCONTROL'){this.dataList[i].server.splice(0,1,tempSecond); }
-        if(data.method=='DIRECT'){this.dataList[i].server.splice(1,1,tempSecond); }
-        if(data.method=='YUNBA'){this.dataList[i].server.splice(2,1,tempSecond); }
-        if(data.method=='YUNBARECV'){this.dataList[i].server.splice(3,1,tempSecond); }
-        if(data.method=='UARTSEND'){this.dataList[i].server.splice(4,1,tempSecond); }
-        if(data.method=='UARTRECV'){this.dataList[i].server.splice(5,1,tempSecond); }
-        if(data.method=='RESPONSE'){this.dataList[i].server.splice(6,1,tempSecond); }
-        if(data.method=='RSP'){this.dataList[i].server.splice(7,1,tempSecond); }
+      if(this.dataList[i].sn==data.sn){
+        flag = true;index=i;
+        if(this.dataList[i].arriveTime<data.arriveTime){compare=true;console.log(data.sn+'========='+(data.arriveTime-this.dataList[i].arriveTime))}
+        break;
       }
-      else if(data.inititor=='GATEWAY-ZIGBEE'){
-        /*var bee=false;
-        for(var j=0;j<this.dataList[i].zigBee.length;j++){
-          if(this.dataList[i].zigBee[j].method==data.method){ bee = true; break; }
+
+    }
+    if(flag&&compare){
+      if(compare){//不超时
+        if(data.process=='end'){
+          tempSecond.isSucess=data.isSucess;
+          tempSecond.interfaceResp=data.interfaceResp;
+          tempSecond.retryCount=data.retryCount;
         }
-        if(bee){ this.dataList[i].zigBee[j]=tempSecond; }
-        else{ this.dataList[i].zigBee.push(tempSecond); }*/
-        if(data.method=='SENSORCONTROL'){this.dataList[i].zigBee.splice(0,1,tempSecond); }
-        if(data.method=='DIRECT'){this.dataList[i].zigBee.splice(1,1,tempSecond); }
-        if(data.method=='YUNBA'){this.dataList[i].zigBee.splice(2,1,tempSecond); }
-        if(data.method=='YUNBARECV'){this.dataList[i].zigBee.splice(3,1,tempSecond); }
-        if(data.method=='UARTSEND'){this.dataList[i].zigBee.splice(4,1,tempSecond); }
-        if(data.method=='UARTRECV'){this.dataList[i].zigBee.splice(5,1,tempSecond); }
-        if(data.method=='RESPONSE'){this.dataList[i].zigBee.splice(6,1,tempSecond); }
-        if(data.method=='RSP'){this.dataList[i].zigBee.splice(7,1,tempSecond); }
-      }
-      else if(data.inititor=='YUNBA-CLOUD'){
-        /*var yunba=false;
-        for(var j=0;j<this.dataList[i].yunbaCloud.length;j++){
-          if(this.dataList[i].yunbaCloud[j].method==data.method){ yunba = true; break; }
+        if(data.inititor=='MESSAGE-SERVER'){
+          this.dataList[i].messageServe[8]=data.process;
+          this.arryData(data,i,data.method,'messageServe',data.process);
         }
-        if(yunba){ this.dataList[i].yunbaCloud[j]=tempSecond; }
-        else{ this.dataList[i].yunbaCloud.push(tempSecond); }*/
-        if(data.method=='SENSORCONTROL'){this.dataList[i].yunbaCloud.splice(0,1,tempSecond); }
-        if(data.method=='DIRECT'){this.dataList[i].yunbaCloud.splice(1,1,tempSecond); }
-        if(data.method=='YUNBA'){this.dataList[i].yunbaCloud.splice(2,1,tempSecond); }
-        if(data.method=='YUNBARECV'){this.dataList[i].yunbaCloud.splice(3,1,tempSecond); }
-        if(data.method=='UARTSEND'){this.dataList[i].yunbaCloud.splice(4,1,tempSecond); }
-        if(data.method=='UARTRECV'){this.dataList[i].yunbaCloud.splice(5,1,tempSecond); }
-        if(data.method=='RESPONSE'){this.dataList[i].yunbaCloud.splice(6,1,tempSecond); }
-        if(data.method=='RSP'){this.dataList[i].yunbaCloud.splice(7,1,tempSecond); }
-      }
-      else if(data.inititor=='WIFI-DEVICE'){
-       /* var wifi=false;
-        for(var j=0;j<this.dataList[i].wifiDevice.length;j++){
-          if(this.dataList[i].wifiDevice[j].method==data.method){ wifi = true; break; }
+        else if(data.inititor=='API-SERVER'){
+          this.dataList[i].server[8]=data.process;
+          this.arryData(data,i,data.method,'server',data.process);
         }
-        if(wifi){ this.dataList[i].wifiDevice[j]=tempSecond; }
-        else{ this.dataList[i].wifiDevice.push(tempSecond); }*/
-        if(data.method=='SENSORCONTROL'){this.dataList[i].wifiDevice.splice(0,1,tempSecond); }
-        if(data.method=='DIRECT'){this.dataList[i].wifiDevice.splice(1,1,tempSecond); }
-        if(data.method=='YUNBA'){this.dataList[i].wifiDevice.splice(2,1,tempSecond); }
-        if(data.method=='YUNBARECV'){this.dataList[i].wifiDevice.splice(3,1,tempSecond); }
-        if(data.method=='UARTSEND'){this.dataList[i].wifiDevice.splice(4,1,tempSecond); }
-        if(data.method=='UARTRECV'){this.dataList[i].wifiDevice.splice(5,1,tempSecond); }
-        if(data.method=='RESPONSE'){this.dataList[i].wifiDevice.splice(6,1,tempSecond); }
-        if(data.method=='RSP'){this.dataList[i].wifiDevice.splice(7,1,tempSecond); }
+        else if(data.inititor=='GATEWAY-ZIGBEE'){
+          this.dataList[i].zigBee[8]=data.process;
+          this.arryData(data,i,data.method,'zigBee',data.process);
+        }
+        else if(data.inititor=='YUNBA-CLOUD'){
+          this.dataList[i].yunbaCloud[8]=data.process;
+          this.arryData(data,i,data.method,'yunbaCloud',data.process);
+        }
+        else if(data.inititor=='WIFI-DEVICE'){
+          this.dataList[i].wifiDevice[8]=data.process;
+          this.arryData(data,i,data.method,'wifiDevice',data.process);
+        }
       }
     }
     else{
-      if(data.isSucess){ tempSecond.isSucess=data.isSucess; }
-      if(data.interfaceResp){ tempSecond.interfaceResp=data.interfaceResp; }
-      if(data.retryCount){ tempSecond.retryCount=data.retryCount;}
+      if(data.process=='end'){
+        tempSecond.isSucess=data.isSucess;
+        tempSecond.interfaceResp=data.interfaceResp;
+        tempSecond.retryCount=data.retryCount;
+      }
       if(data.inititor==' MESSAGE-SERVER'){
+        temp.messageServe[8]='true';
         // temp.messageServe.push(tempSecond);
         if(data.method=='SENSORCONTROL'){temp.messageServe.splice(0,1,tempSecond); }
         if(data.method=='DIRECT'){temp.messageServe.splice(1,1,tempSecond); }
@@ -184,6 +132,7 @@ export class DebugLogComponent {
       }
       else if(data.inititor=='API-SERVER'){
         // temp.server.push(tempSecond);
+        temp.server[8]='true';
         if(data.method=='SENSORCONTROL'){temp.server.splice(0,1,tempSecond); }
         if(data.method=='DIRECT'){temp.server.splice(1,1,tempSecond); }
         if(data.method=='YUNBA'){temp.server.splice(2,1,tempSecond); }
@@ -196,6 +145,7 @@ export class DebugLogComponent {
       }
       else if(data.inititor=='GATEWAY-ZIGBEE'){
         // temp.zigBee.push(tempSecond);
+        temp.zigBee[8]='true';
         if(data.method=='SENSORCONTROL'){temp.zigBee.splice(0,1,tempSecond); }
         if(data.method=='DIRECT'){temp.zigBee.splice(1,1,tempSecond); }
         if(data.method=='YUNBA'){temp.zigBee.splice(2,1,tempSecond); }
@@ -207,6 +157,7 @@ export class DebugLogComponent {
       }
       else if(data.inititor=='YUNBA-CLOUD'){
         // temp.yunbaCloud.push(tempSecond);
+        temp.yunbaCloud[8]='true';
         if(data.method=='SENSORCONTROL'){temp.yunbaCloud.splice(0,1,tempSecond); }
         if(data.method=='DIRECT'){temp.yunbaCloud.splice(1,1,tempSecond); }
         if(data.method=='YUNBA'){temp.yunbaCloud.splice(2,1,tempSecond); }
@@ -218,6 +169,7 @@ export class DebugLogComponent {
       }
       else if(data.inititor=='WIFI-DEVICE'){
         // temp.wifiDevice.push(tempSecond);
+        temp.wifiDevice[8]='true';
         if(data.method=='SENSORCONTROL'){temp.wifiDevice.splice(0,1,tempSecond); }
         if(data.method=='DIRECT'){temp.wifiDevice.splice(1,1,tempSecond); }
         if(data.method=='YUNBA'){temp.wifiDevice.splice(2,1,tempSecond); }
@@ -229,9 +181,26 @@ export class DebugLogComponent {
       }
       this.dataList.push(temp);
     }
-    console.log(this.dataList[i]);
-
     // console.log(this.dataList)
+  }
+  /*处理数组*/
+  arryData(data,i,method,type,process){
+
+    let temp={arriveTime:data.arriveTime,deviceSn:data.deviceSn,sn:data.sn,accountId:data.accountId,messageServe:['','','','','','','',''],server:['','','','','','','',''],zigBee:['','','','','','','',''],yunbaCloud:['','','','','','','',''],wifiDevice:['','','','','','','','']};
+    let tempSecond={arriveTime:data.arriveTime,process:data.process,method:data.method,params:data.params,isSucess:'',interfaceResp:'',retryCount:''};
+    if(process=='end'){
+      tempSecond.isSucess=data.isSucess;
+      tempSecond.interfaceResp=data.interfaceResp;
+      tempSecond.retryCount=data.retryCount;
+    }
+    if(data.method=='SENSORCONTROL'){this.dataList[i][type].splice(0,1,tempSecond); }
+    if(data.method=='DIRECT'){this.dataList[i][type].splice(1,1,tempSecond); }
+    if(data.method=='YUNBA'){this.dataList[i][type].splice(2,1,tempSecond); }
+    if(data.method=='YUNBARECV'){this.dataList[i][type].splice(3,1,tempSecond); }
+    if(data.method=='UARTSEND'){this.dataList[i][type].splice(4,1,tempSecond); }
+    if(data.method=='UARTRECV'){this.dataList[i][type].splice(5,1,tempSecond); }
+    if(data.method=='RESPONSE'){this.dataList[i][type].splice(6,1,tempSecond); }
+    if(data.method=='RSP'){this.dataList[i][type].splice(7,1,tempSecond); }
   }
 
   /*清空消息*/

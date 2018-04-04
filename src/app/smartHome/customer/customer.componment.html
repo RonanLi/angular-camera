@@ -63,7 +63,7 @@
                 <input *ngIf="power.forbidden&&list.statusCode=='正常'" class="btn btn-danger btn-xs" type="button" value="锁定" (click)="single('禁用',list.customerId)">
                 <input *ngIf="power.active&&list.statusCode=='禁用'" class="btn btn-warning fff btn-xs" type="button" value="解锁" (click)="single('正常',list.customerId)">
                 <input *ngIf="power.edit&&list.statusCode=='正常'&&cameraService.customerType!=='C'" type="button" class="btn btn-success btn-xs" [value]="list.edt?'取消':'编辑'" (click)="list.edt=!list.edt;this.mask=!this.mask">
-                <input *ngIf="power.edit&&list.statusCode=='正常'&&cameraService.customerType=='C'" type="button" class="btn btn-success btn-xs" [value]="list.edtc?'取消':'编辑'" (click)="list.edtc=!list.edtc;this.mask=!this.mask">
+                <input *ngIf="power.edit&&list.statusCode=='正常'&&cameraService.customerType=='C'" type="button" class="btn btn-success btn-xs" [value]="list.edtc?'取消':'编辑'" (click)="list.edtc=!list.edtc;this.mask=!this.mask;addData.select=list.roleNameArray">
                 <input *ngIf="cameraService.customerType=='C'" type="button" class="btn btn-danger btn-xs" value="删除" (click)="customerDel(list.customerId)">
               </div>
               <!--编辑表单-->
