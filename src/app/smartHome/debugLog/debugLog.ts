@@ -69,10 +69,12 @@ export class DebugLogComponent {
     var flag = false;
     var compare = false;
     var index;
-    if(!data.deviceSn||!data.accountId){return;}
+    // if(!data.deviceSn||!data.accountId){return;}
     let temp={arriveTime:data.arriveTime,deviceSn:data.deviceSn,sn:data.sn,accountId:data.accountId,messageServe:['','','','','','','',''],server:['','','','','','','',''],zigBee:['','','','','','','',''],yunbaCloud:['','','','','','','',''],wifiDevice:['','','','','','','','']};
     let tempSecond={arriveTime:data.arriveTime,process:data.process,method:data.method,params:data.params,isSucess:'',interfaceResp:'',retryCount:''};
-
+  /*  let temp={arriveTime:data.arriveTime,deviceSn:data.deviceSn,sn:data.sn,accountId:data.accountId,messageServe:[null,null,null,null,null,null,null,false],server:[null,null,null,null,null,null,null,false],zigBee:[null,null,null,null,null,null,null,false],yunbaCloud:[null,null,null,null,null,null,null,false],wifiDevice:[null,null,null,null,null,null,null,false]};
+    let tempSecond={arriveTime:data.arriveTime,process:data.process,method:data.method,params:data.params,isSucess:false,interfaceResp:'',retryCount:''};
+*/
     for(var i=0; i<this.dataList.length;i++){
       // if(this.dataList[i].deviceSn==data.deviceSn){ flag = true;index=i;break;}
 
@@ -84,7 +86,7 @@ export class DebugLogComponent {
 
     }
     if(flag&&compare){
-      if(compare){//不超时
+      // if(compare){//不超时
         if(data.process=='end'){
           tempSecond.isSucess=data.isSucess;
           tempSecond.interfaceResp=data.interfaceResp;
@@ -110,13 +112,14 @@ export class DebugLogComponent {
           this.dataList[i].wifiDevice[8]=data.process;
           this.arryData(data,i,data.method,'wifiDevice',data.process);
         }
-      }
+      // }
     }
     else{
       if(data.process=='end'){
         tempSecond.isSucess=data.isSucess;
         tempSecond.interfaceResp=data.interfaceResp;
         tempSecond.retryCount=data.retryCount;
+
       }
       if(data.inititor==' MESSAGE-SERVER'){
         temp.messageServe[8]='true';
@@ -179,15 +182,20 @@ export class DebugLogComponent {
         if(data.method=='RESPONSE'){temp.wifiDevice.splice(6,1,tempSecond); }
         if(data.method=='RSP'){temp.wifiDevice.splice(7,1,tempSecond); }
       }
+
       this.dataList.push(temp);
+
     }
+    console.log(tempSecond.isSucess)
+
     // console.log(this.dataList)
   }
   /*处理数组*/
   arryData(data,i,method,type,process){
 
     let temp={arriveTime:data.arriveTime,deviceSn:data.deviceSn,sn:data.sn,accountId:data.accountId,messageServe:['','','','','','','',''],server:['','','','','','','',''],zigBee:['','','','','','','',''],yunbaCloud:['','','','','','','',''],wifiDevice:['','','','','','','','']};
-    let tempSecond={arriveTime:data.arriveTime,process:data.process,method:data.method,params:data.params,isSucess:'',interfaceResp:'',retryCount:''};
+    // let temp={arriveTime:data.arriveTime,deviceSn:data.deviceSn,sn:data.sn,accountId:data.accountId,messageServe:[null,null,null,null,null,null,null,false],server:[null,null,null,null,null,null,null,false],zigBee:[null,null,null,null,null,null,null,false],yunbaCloud:[null,null,null,null,null,null,null,false],wifiDevice:[null,null,null,null,null,null,null,false]};
+    let tempSecond={arriveTime:data.arriveTime,process:data.process,method:data.method,params:data.params,isSucess:false,interfaceResp:'',retryCount:''};
     if(process=='end'){
       tempSecond.isSucess=data.isSucess;
       tempSecond.interfaceResp=data.interfaceResp;
