@@ -22,8 +22,6 @@ export class DebugLogComponent {
     }
     else { alert('当前浏览器 Not support websocket'); }
 
-
-
   }
 
   public ws;
@@ -54,30 +52,17 @@ export class DebugLogComponent {
     this.sendMsg();
   }
 
+  /*方法类别：SENSORCONTROL;DIRECT;YUNBA;YUNBARECV;UARTSEND;UARTRECV;RESPONSE/RSP*/
+  /*参数说明: MESSAGE-SERVER-->messageServe;API-SERVER-->server;GATEWAY-ZIGBEE-->zigBee;YUNBA-CLOUD-->yunbaCloud;WIFI-DEVICE-->wifiDevice*/
   /*处理服务器返回消息*/
   delMessage(ele){
-    /*SENSORCONTROL/DIRECT/YUNBA/YUNBARECV/UARTSEND/UARTRECV/RESPONSE/RSP*/
-    /*
-    MESSAGE-SERVER-->messageServe
-    API-SERVER-->server
-    GATEWAY-ZIGBEE-->zigBee
-    YUNBA-CLOUD-->yunbaCloud
-    WIFI-DEVICE-->wifiDevice
-    */
-
     var data=JSON.parse(ele);
     var flag = false;
     var compare = false;
     var index;
     // if(!data.deviceSn||!data.accountId){return;}
-    // let temp={arriveTime:data.arriveTime,deviceSn:data.deviceSn,sn:data.sn,accountId:data.accountId,messageServe:['','','','','','','',''],server:['','','','','','','',''],zigBee:['','','','','','','',''],yunbaCloud:['','','','','','','',''],wifiDevice:['','','','','','','','']};
-    // let tempSecond={arriveTime:data.arriveTime,process:data.process,method:data.method,params:data.params,isSucess:'',interfaceResp:'',retryCount:''};
-
     let temp:any={arriveTime:data.arriveTime,deviceSn:data.deviceSn,sn:data.sn,accountId:data.accountId,messageServe:[{},{},{},{},{},{},{},''],server:[{},{},{},{},{},{},{},''],zigBee:[{},{},{},{},{},{},{},''],yunbaCloud:[{},{},{},{},{},{},{},''],wifiDevice:[{},{},{},{},{},{},{},'']};
     let tempSecond={arriveTime:data.arriveTime,process:data.process,method:data.method,params:data.params,isSucess:null,interfaceResp:'',retryCount:''};
-
-
-
     for(var i=0; i<this.dataList.length;i++){
       // if(this.dataList[i].deviceSn==data.deviceSn){ flag = true;index=i;break;}
       if(this.dataList[i].sn==data.sn){
@@ -190,10 +175,7 @@ export class DebugLogComponent {
   }
   /*处理数组*/
   arryData(data,i,method,type,process){
-    // let temp={arriveTime:data.arriveTime,deviceSn:data.deviceSn,sn:data.sn,accountId:data.accountId,messageServe:['','','','','','','',''],server:['','','','','','','',''],zigBee:['','','','','','','',''],yunbaCloud:['','','','','','','',''],wifiDevice:['','','','','','','','']};
-    // let temp={arriveTime:data.arriveTime,deviceSn:data.deviceSn,sn:data.sn,accountId:data.accountId,messageServe:[null,null,null,null,null,null,null,false],server:[null,null,null,null,null,null,null,false],zigBee:[null,null,null,null,null,null,null,false],yunbaCloud:[null,null,null,null,null,null,null,false],wifiDevice:[null,null,null,null,null,null,null,false]};
     let temp:any={arriveTime:data.arriveTime,deviceSn:data.deviceSn,sn:data.sn,accountId:data.accountId,messageServe:[{},{},{},{},{},{},{},''],server:[{},{},{},{},{},{},{},''],zigBee:[{},{},{},{},{},{},{},''],yunbaCloud:[{},{},{},{},{},{},{},''],wifiDevice:[{},{},{},{},{},{},{},'']};
-
     let tempSecond={arriveTime:data.arriveTime,process:data.process,method:data.method,params:data.params,isSucess:null,interfaceResp:'',retryCount:''};
     if(process=='end'){
       tempSecond.isSucess=data.isSucess;
