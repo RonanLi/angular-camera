@@ -18,8 +18,65 @@
           <button *ngIf="!this.connect" (click)="openWebSocket()">开始</button>
           <hr/>
         </div>
-        <div id="message" #scrollMe [ngStyle]="currentStyleS">
-          {{innerHtml}}
+        <ul class="list-group">
+          <li class="list-group-item debugLogListT">
+            <div>时间</div>
+            <div>账户编号</div>
+            <div>设备序列号</div>
+            <div>消息序列号</div>
+            <div>MESSAGE-SERVER</div>
+            <div>YUNBA-CLOUD</div>
+            <div>API-SERVER</div>
+            <div>GATEWAY-ZIGBE</div>
+            <div>WIFI-DEVIC</div>
+          </li>
+        </ul>
+        <div id="message" #scrollMe [ngStyle]="currentStyleS" class="">
+          <ul class="list-group debugLogListC">
+            <li class="list-group-item magLine"  *ngFor="let list of dataList;let i=index;">
+              <div>{{list.arriveTime|date:'yyyy-MM-dd hh:mm:ss'}}&nbsp;</div>
+              <div>{{list.accountId}}&nbsp;</div>
+              <div>{{list.deviceSn}}&nbsp;</div>
+              <div>{{list.sn}}&nbsp;</div>
+              <div class="statu">
+                <span *ngFor="let subM of list.messageServe;let j=index">
+                  <i *ngIf="subM.process" class="greenBg"></i>
+                  <i *ngIf="subM.process==false" class="redBg"></i>
+                  <!--<b *ngIf="subM.process" class=" arrow glyphicon glyphicon-arrow-right" aria-hidden="true"></b>-->
+                </span>
+                &nbsp;
+              </div>
+              <div class="statu">
+                <span *ngFor="let subY of list.yunbaCloud;let j=index">
+                  <i *ngIf="subY.process" class="greenBg"></i>
+                  <i *ngIf="subY.process==false" class="redBg"></i>
+                </span>
+                &nbsp;
+              </div>
+              <div class="statu">
+                <span *ngFor="let subS of list.server;let j=index">
+                  <i *ngIf="subS.process" class="greenBg"></i>
+                  <i *ngIf="subS.process==false" class="redBg"></i>
+                </span>
+                &nbsp;
+              </div>
+              <div class="statu">
+                <span *ngFor="let subZ of list.zigBee;let j=index">
+                  <i *ngIf="subZ.process" class="greenBg"></i>
+                  <i *ngIf="subZ.process==false" class="redBg"></i>
+                </span>
+                &nbsp;
+              </div>
+              <div class="statu">
+                <span *ngFor="let subW of list.wifiDevice;let j=index">
+                  <i *ngIf="subW.process" class="greenBg"></i>
+                  <i *ngIf="subW.process==false" class="redBg"></i>
+                </span>
+                &nbsp;
+              </div>
+            </li>
+          </ul>
+
         </div>
 
       </div>

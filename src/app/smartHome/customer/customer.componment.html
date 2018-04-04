@@ -80,19 +80,19 @@
                   <div class="form-group" *ngIf="this.cameraService.customerType!=='C'">
                     <div class="codeBox clearfix">
                       <label class="control-label">账户密码：</label>
-                      <input  class="btn btn-success btn-xs"  value="重置密码" (click)="resetPwd(list.customerId)" style="line-height: 30px;margin: 0;padding: 0;text-indent: 0;">
+                      <input  class="btn btn-success btn-xs"  value="重置密码" (click)="resetPwd(list.customerId)" style="width:40%;line-height: 30px;margin: 0 4%;padding: 0;text-indent: 0;">
                     </div>
                   </div>
                   <div class="form-group ">
                     <div class="codeBox clearfix">
-                      <label class="control-label"><i class="red">*</i>联系人：</label>
+                      <label class="control-label">联系人：</label>
                       <input required type="text" #linkman="ngModel" [(ngModel)]="editData.linkman" name="linkman" [value]='list.linkman' autocomplete="off">
                     </div>
                   </div>
                   <div class="form-group ">
                     <div class="codeBox clearfix">
-                      <label class="control-label"><i class="red">*</i>联系电话：</label>
-                      <input required type="text" #phone="ngModel" [(ngModel)]="editData.phone" name="phone" [value]='list.phone' autocomplete="off">
+                      <label class="control-label">联系电话：</label>
+                      <input type="text" #phone="ngModel" [(ngModel)]="editData.phone" name="phone" [value]='list.phone' autocomplete="off">
                     </div>
                   </div>
                   <div class="form-group ">
@@ -104,7 +104,7 @@
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <input type="button" value="取消" class="btn btn-info" (click)="list.edt=!list.edt;this.mask=!this.mask"/>
-                      <input type="submit" value="提交" class="btn btn-info" [disabled]="!phone.valid||!linkman.valid"/>
+                      <input type="submit" value="提交" class="btn btn-info"/>
                     </div>
                   </div>
                 </form>
@@ -113,7 +113,15 @@
               <div class="editForm" *ngIf="list.edtc">
                 <form #form="ngForm" (ngSubmit)="form.form.valid && singleEdit(form.value,list.customerId);list.edtc=!list.edtc;this.mask=false" novalidate  role="form" class="form">
                   <h3 class="formName">编辑客户 <i class="formClose" (click)="list.edtc=!list.edtc;this.mask=!this.mask">X</i></h3>
-
+                  <div class="form-group ">
+                    <div>
+                      <label class="control-label">客户类型：</label>
+                      <select  #select="ngModel" [(ngModel)]="addData.select" name="select" (change)="grad=select.value" style=" width: 40%; line-height: 40px; height: 40px;margin:0 4%;">
+                        <option value="1001">普通</option>
+                        <option value="1005">工长</option>
+                      </select>
+                    </div>
+                  </div>
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label"><i class="red">*</i>用户名称：</label>
@@ -128,16 +136,16 @@
                   </div>
                   <div class="form-group ">
                     <div class="codeBox clearfix">
-                      <label class="control-label"><i class="red">*</i>联系人：</label>
-                      <input required type="text" #linkman="ngModel" [(ngModel)]="editData.linkman" name="linkman" [value]='list.linkman' autocomplete="off">
+                      <label class="control-label">联系人：</label>
+                      <input type="text" #linkman="ngModel" [(ngModel)]="editData.linkman" name="linkman" [value]='list.linkman' autocomplete="off">
                     </div>
                   </div>
-                  <!--<div class="form-group ">
+                  <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">联系电话：</label>
                       <input type="text" #phone="ngModel" [(ngModel)]="editData.phone" name="phone" [value]='list.phone' autocomplete="off">
                     </div>
-                  </div>-->
+                  </div>
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">备注：</label>
@@ -147,7 +155,7 @@
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <input type="button" value="取消" class="btn btn-info" (click)="list.edtc=!list.edtc;this.mask=!this.mask"/>
-                      <input type="submit" value="提交" class="btn btn-info" [disabled]="!linkman.valid"/>
+                      <input type="submit" value="提交" class="btn btn-info"/>
                     </div>
                   </div>
                 </form>

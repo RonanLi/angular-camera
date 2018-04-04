@@ -215,8 +215,11 @@ export class CustomerComponent {
   singleEdit(form,id){//ele1:accoundID;ele2:customerLinkman;ele3:customerPhone;ele4:description;ele5:roleDict
     let urlSearchParams = new URLSearchParams();
     urlSearchParams.append('customerId', id);
+    urlSearchParams.append('roleIdArray', '['+this.grad+']');
     if(form.linkman){ urlSearchParams.append('linkman', form.linkman); }
-    if(form.phone){ urlSearchParams.append('phone', form.phone); }
+    // if(form.phone){ urlSearchParams.append('phone', form.phone); }
+    if(this.cameraService.customerType!=='C'&&form.phone){ urlSearchParams.append('phone', form.phone); }
+    if(this.cameraService.customerType=='C'&&form.phone){ urlSearchParams.append('contactNumber', form.phone); }
     if(form.description){urlSearchParams.append('description', form.description); }
     let paramEdit = urlSearchParams.toString();
     this.customertHttp

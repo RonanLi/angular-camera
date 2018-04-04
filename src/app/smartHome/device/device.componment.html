@@ -67,7 +67,7 @@
                 <input type="checkbox" [checked]="select" (change)="isChecked($event.target.checked,list.deviceSn);select=false;" >
               </div>
               <div class="deviceSn">{{list.deviceSn}}</div>
-              <div>{{list.deviceName}}</div>
+              <div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden; vertical-align: middle;">{{list.deviceName}}</div>
               <div>{{list.saleBatch}}</div>
               <div><span *ngFor="let sub of list.childrenList">{{sub.customerName}}</span></div>
               <div style="width:9%">
@@ -248,7 +248,7 @@
                       <label class="control-label"><i class="red">*</i>设备授权：</label>
                       <select class="form-control" #select="ngModel" [(ngModel)]="editData.select" name="select" style="width:40%; margin: 0 4%;">
                         <option selected="selected" value="">请选择客户账号</option>
-                        <option *ngFor='let list of shareList' [value]="list.customerId">{{list.linkman?list.linkman:list.customerName}}</option>
+                        <option *ngFor='let list of shareList' [value]="list.customerId">{{list.customerName}}</option>
                       </select>
                     </div>
                   </div>
@@ -280,7 +280,7 @@
               <div class="deviceSn">{{list.saleBatch}}&nbsp;</div>
               <div>{{list.customerName}}&nbsp;</div>
               <div class="longDiv">&nbsp;
-                <span *ngFor='let sub of list.childrenList'>{{sub.linkman?sub.linkman:sub.customerName}}</span>
+                <span *ngFor='let sub of list.childrenList'>{{sub.customerName}}</span>
               </div>
               <div>&nbsp;
                 <span *ngFor='let sub of list.childrenList;'>{{sub.endTime?(sub.endTime|date:'yyyy-MM-dd'):'无'}}</span>
@@ -306,7 +306,7 @@
                   <label class="control-label"><i class="red">*</i>设备授权：</label>
                   <select  class="form-control" #select="ngModel" [(ngModel)]="editData.select" name="select">
                     <option selected="true" value="">请选择客户账号</option>
-                    <option *ngFor='let list of shareList' [value]="list.customerId">{{list.linkman?list.linkman:list.customerName}}</option>
+                    <option *ngFor='let list of shareList' [value]="list.customerId">{{list.customerName}}</option>
                   </select>
                 </div>
               </div>
