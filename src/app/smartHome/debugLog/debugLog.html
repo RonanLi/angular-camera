@@ -39,7 +39,7 @@
               <div>{{list.deviceSn}}&nbsp;</div>
               <div>{{list.sn}}&nbsp;</div>
               <div class="statu">
-                <span *ngFor="let subM of list.messageServe">{{subM.method}}
+                <span *ngFor="let subM of list.messageServe">
                   <i *ngIf="subM.isSucess==true" class="greenBg"></i>
                   <i *ngIf="subM.isSucess==false" class="redBg"></i>
                   <!--<b *ngIf="subM.process" class=" arrow glyphicon glyphicon-arrow-right" aria-hidden="true"></b>-->
