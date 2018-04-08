@@ -504,7 +504,7 @@ export class GroupComponent {
   editDeviceList(eleList){
     var timer='?m='+Date.parse(String(new Date()));
 
-    this.groupHttp.get('/api/v1.0/container/group'+timer).subscribe(req => {
+    this.groupHttp.get('/api/v1.0/container/group'+timer,{headers: new HttpHeaders({'apiKey': this.apiKey})}).subscribe(req => {
       if(req['code']==200&&req['data']!==''){
         this.deviceList=req['data'];
         if(eleList[0].value[0]||eleList.length>1) {
