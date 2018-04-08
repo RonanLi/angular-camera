@@ -30,6 +30,7 @@ export class SubaccountComponent {
 
   //是否全选
   public select=false;
+  public select1=false;
   public editData=new subEdit;
   public addData=new subAdd;
   //批量选中用户对象
@@ -83,10 +84,16 @@ export class SubaccountComponent {
   }
 
   /*全选*/
-  selectAll(){
+  selectAll(ele){
+    this.select=!this.select;
+    this.obj=this.deleteData(this.obj,ele?'all':'clear');
+    console.log(this.obj)
+  };
+
+  /*selectAll(){
     this.select=!this.select;
     this.obj=this.deleteData(this.obj,this.select?'all':'clear');
-  };
+  };*/
 
   /*批量启用禁用*/
   batch(ele1,ele2){//ele1判断是否全选；ele2的值为禁用或启用
@@ -288,16 +295,20 @@ export class SubaccountComponent {
     window.location.href = urlNew;
   }
 
-  isChecked(ele,ele1){
-    if(ele){
-      var temp = { customerId: ele1};
+  isChecked(ele,ele1){//单数据check
+    if(ele){//check:true
+      // var temp = { customerId: ele1};
+      var temp = { customerId: ele1,sec:ele};
       this.obj.push(temp);
       // console.log(this.obj);
     }
-    else {
-      if(this.obj[1]&&this.obj[1].accountId){ this.obj=[] }
-      else{ this.obj=this.deleteData(this.obj,ele1); }
+    else {//check:false
+   /*   if(this.obj[1]&&this.obj[1].accountId){ this.obj=[] }//清空全选
+      else{ this.obj=this.deleteData(this.obj,ele1); }*/
+      this.obj=this.deleteData(this.obj,ele1);
     }
+    if(this.obj.length<=0){this.select=false;}
+    console.log(this.obj)
   }
 
   /*删除数据*/

@@ -25,7 +25,8 @@
         <div class="panel panel-default">
           <ul class="list-group">
             <li class="list-group-item borderBN deviceListT">
-              <div class="sel"><input type="checkbox" id="checkAll" [checked]="select" (click)="selectAll();"> <label for="checkAll">全选</label> </div>
+              <!--<div class="sel"><input type="checkbox" id="checkAll" [checked]="select" (click)="selectAll();"> <label for="checkAll">全选</label> </div>-->
+              <div class="sel"><input type="checkbox" id="checkAll" [checked]="select" (click)="selectAll($event.target.checked);"> <label for="checkAll">选择</label> </div>
               <div style="width: 23%;">客户账户</div>
               <div>联系人</div>
               <div>联系电话</div>
@@ -37,7 +38,7 @@
           </ul>
           <ul class="list-group deviceListC">
             <li class="list-group-item"  *ngFor="let list of subList">
-              <div class="sel"><input [value]="list.customerId" type="checkbox" [checked]="select" (change)="isChecked($event.target.checked,list.customerId);select=false;" > </div>
+              <div class="sel"><input [value]="list.customerId" type="checkbox" [checked]="select" (change)="isChecked($event.target.checked,list.customerId);" > </div>
               <div style="width: 23%;">{{list.customerName}}&nbsp;</div>
               <div>{{list.linkman}}&nbsp;</div>
               <div>{{list.phone}}&nbsp;</div>
