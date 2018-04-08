@@ -25,6 +25,7 @@ import {RolesComponent} from './smartHome/roles/roles.componment';
 import {SubaccountComponent} from './smartHome/subaccount/subaccount.componment';
 import {RePwdComponent} from './smartHome/rePwd/rePwd.componment';
 import {GroupComponent} from './smartHome/group/group.componment';
+import {GroupCComponent} from './smartHome/groupC/groupC.componment';
 import {DownloadComponent} from './smartHome/download/download';
 import {DebugLogComponent} from './smartHome/debugLog/debugLog';
 
@@ -52,7 +53,7 @@ import {FileUploadModule} from 'ng2-file-upload';
     HeadComponent, FootComponent,
     TreeviewComponent,
     CustomerComponent, DeviceComponent, LeasedLogComponent, RolesComponent, SubaccountComponent, RePwdComponent,
-    GroupComponent,DownloadComponent,DebugLogComponent,
+    GroupComponent,DownloadComponent,DebugLogComponent,GroupCComponent,
     GroupLoginComponent,
 
     ToArray,

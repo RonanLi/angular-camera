@@ -15,6 +15,8 @@ import {RePwdComponent} from './smartHome/rePwd/rePwd.componment';
 import {DebugLogComponent} from './smartHome/debugLog/debugLog';
 
 import {GroupComponent} from './smartHome/group/group.componment';
+import {GroupCComponent} from './smartHome/groupC/groupC.componment';
+
 import {DownloadComponent} from './smartHome/download/download';
 
 /*路由守卫*/
@@ -75,6 +77,7 @@ const routes: Routes = [
           {path: 'device', component: DeviceComponent},
           {path: 'leasedLog', component: LeasedLogComponent},
           {path: 'roles', component: RolesComponent},
+          {path: 'group', component: GroupCComponent},
           {path: 'subaccount', component: SubaccountComponent},
           {path: 'rePwd', component: RePwdComponent},
           {path: 'debugLog', component: DebugLogComponent},
