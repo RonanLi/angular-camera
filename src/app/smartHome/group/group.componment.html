@@ -76,7 +76,7 @@
               </div>
               <!--<div><a href="{{'/smartHome/groupVideo/:'+list.groupId}}" target="_blank">查看</a></div>-->
               <!--<div><a href="{{'http://camera.t2.5itianyuan.com/groupVideo.html?data='+cameraService.apiKey+'&m='+list.groupId}}" target="_blank">查看</a></div>-->
-              <div><a href="{{'http://camera.5itianyuan.com/groupVideo.html?data='+apiKey+'&m='+list.groupId}}" target="_blank">查看</a></div>
+              <div><a href="{{'http://camera.t2.5itianyuan.com/groupVideo.html?data='+apiKey+'&m='+list.groupId}}" target="_blank">查看</a></div>
               <!--编辑分组-->
               <div class="editForm" *ngIf="list.editgroup">
                 <form #form="ngForm" (ngSubmit)="list.editgroup=false;page=1;this.mask=false;form.form.valid && editGroup(form.value,grad,onGroupList,list.groupId);" novalidate  role="form" class="form">
