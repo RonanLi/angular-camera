@@ -213,15 +213,17 @@ export class CustomerComponent {
 
   /*单个编辑*/
   singleEdit(form,id){//ele1:accoundID;ele2:customerLinkman;ele3:customerPhone;ele4:description;ele5:roleDict
+    console.log('17019990019')
     let urlSearchParams = new URLSearchParams();
     urlSearchParams.append('customerId', id);
     if(this.cameraService.customerType=='C'){urlSearchParams.append('roleIdArray', '['+this.grad+']');}
     if(form.linkman){ urlSearchParams.append('linkman', form.linkman); }
     // if(form.phone){ urlSearchParams.append('phone', form.phone); }
-    if(this.cameraService.customerType!=='C'&&form.phone){ urlSearchParams.append('phone', form.phone); }
-    if(this.cameraService.customerType=='C'&&form.phone){ urlSearchParams.append('contactNumber', form.phone); }
+    else if(this.cameraService.customerType=='C' && form.phone){ urlSearchParams.append('contactNumber', form.phone); }
+    if(this.cameraService.customerType!=='C' && form.phone){ urlSearchParams.append('phone',form.phone); }
     if(form.description){urlSearchParams.append('description', form.description); }
     let paramEdit = urlSearchParams.toString();
+    console.log(this.cameraService.customerType)
     this.customertHttp
     .post('/api/v1.0/customer/update',paramEdit)
     .subscribe(
