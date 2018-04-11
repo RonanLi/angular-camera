@@ -89,7 +89,10 @@ export class RolesComponent {
     urlSearchParams.append('roleId',  this.roleId);
     urlSearchParams.append('roleName',form.roleName );
     urlSearchParams.append('permission', Plist);
-    if(form.description){ urlSearchParams.append('description', form.description); }
+    /*数据为空不传数据*/
+    // if(form.description){ urlSearchParams.append('description', form.description); }
+    /*数据为空传数据*/
+    urlSearchParams.append('description', form.description?form.description:'');
     let paramEdit = urlSearchParams.toString();
     this.rolesHttp
       .post('/api/v1.0/role/update'+timer,paramEdit,)
@@ -166,11 +169,11 @@ export class RolesComponent {
   public powerB=[
     {
       'functionId':'1001',
-      'permission':{add:false,edit:false,forbidden:false,active:false,'export':false}
+      'permission':{add:false,edit:false,forbidden:false,active:false,'export':false,"delete":false}
     },
     {
       'functionId':'1002',
-      'permission':{share:false,edit:false,lookup:false,authorize:false,'export':false,"delete":false}
+      'permission':{share:false,edit:false,lookup:false,authorize:false,'export':false,"delete":false,forbidden:false,active:false,}
     },
     {
       'functionId':'1003',
@@ -185,6 +188,10 @@ export class RolesComponent {
     {
       'functionId':'1005',
       'permission':{log:false}
+    },
+    {
+      'functionId':'1006',
+      'permission':{add:false,edit:false,lookup:false,"delete":false}
     },
   ];
 

@@ -43,8 +43,10 @@
           <button class="btn btn-lg btn-primary" (click)="exportER()"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>导出全部二维码</button>
           <button class="btn btn-lg btn-warning fff" (click)="batch(select,'正常')"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>批量解锁</button>
           <button class="btn btn-lg btn-danger" (click)="batch(select,'锁定')"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>批量锁定</button>
-          <button *ngIf="power.export" class="btn btn-lg btn-success" (click)="excel=!excel"><span class="glyphicon glyphicon-open" aria-hidden="true"></span>数据导入</button>
-          <button *ngIf="power.export" class="btn btn-lg btn-primary" (click)="exportData()"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>全部导出</button>
+          <button class="btn btn-lg btn-success" (click)="excel=!excel"><span class="glyphicon glyphicon-open" aria-hidden="true"></span>数据导入</button>
+          <button class="btn btn-lg btn-primary" (click)="exportData()"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>全部导出</button>
+          <button class="btn btn-lg btn-success" (click)="this.activate=!this.activate;this.mask=!this.mask"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>设备激活</button>
+
         </div>
         <div class="panel panel-default">
           <ul class="list-group">
@@ -84,6 +86,81 @@
               </div>
             </li>
           </ul>
+
+          <!--设备激活-->
+          <div class="addForm" *ngIf="this.activate">
+            <form #form="ngForm" (ngSubmit)="form.form.valid && deviceToAc(form.value);this.activate=!this.activate;this.mask=false" novalidate  role="form" class="form">
+              <h3 class="formName">设备激活 <i class="formClose" (click)="this.activate=!this.activate;this.mask=!this.mask">X</i></h3>
+              <div class="form-group ">
+                <div>
+                  <label class="control-label"><i class="red">*</i>设备型号：</label>
+                  <select required class="form-control couSec" #deviceMode="ngModel" [(ngModel)]="acData.deviceMode" name="deviceMode" (change)="isYs=deviceMode.value"  autocomplete="off">
+                    <option selected  disabled  value="" >请选择型号</option>
+                    <option *ngFor='let list of deviceModeArr' [value]="list.value">{{list.name}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group ">
+                <div>
+                  <label class="control-label"><i class="red">*</i>客户账号：</label>
+                  <select required class="form-control couSec" #customer="ngModel" [(ngModel)]="acData.customer" name="customer" autocomplete="off">
+                    <option selected  disabled  value='' >请选择客户</option>
+                    <option *ngFor='let list of customerArr' [value]="list.customerName">{{list.customerName}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group ">
+                <div>
+                  <label class="control-label"><i class="red">*</i>设备序列号：</label>
+                  <input required type="text" #deviceSn="ngModel" [(ngModel)]="acData.deviceSn" name="deviceSn"  placeholder="序列号长度不超过20位" maxlength="20" autocomplete="off">
+                  <div *ngIf='form.submitted && (!deviceSn.valid)' class="text-danger">设备序列号不能为空</div>
+                </div>
+              </div>
+              <div *ngIf='isYs=="HUADI:VCW002"' class="form-group ">
+                <div class="codeBox clearfix">
+                  <label class="control-label">接入端口：</label>
+                  <input type="text" #port="ngModel" [(ngModel)]="acData.port" name="port" placeholder="请输入接入端口" autocomplete="off">
+                </div>
+              </div>
+              <div *ngIf='isYs=="HUADI:VCW002"' class="form-group ">
+                <div class="codeBox clearfix">
+                  <label class="control-label">接入用户：</label>
+                  <input type="text" #user="ngModel" [(ngModel)]="acData.user" name="user" placeholder="请输入接入用户" autocomplete="off">
+                </div>
+              </div>
+              <div class="form-group ">
+                <div class="codeBox clearfix">
+                  <label class="control-label">接入密码：</label>
+                  <input type="password" #pwd="ngModel" [(ngModel)]="acData.pwd" name="pwd" placeholder="密码长度至少6位，默认888888" minlength="6" autocomplete="off">
+                  <div *ngIf='acData.pwd.length<6' class="text-danger" style="float: right;width: 62%;font-size: 12px;">接入密码长度不能小于6位</div>
+                </div>
+              </div>
+              <div *ngIf='isYs!=="HUADI:VCW002"' class="form-group">
+                <div class="codeBox clearfix">
+                  <label class="control-label">设备验证码：</label>
+                  <input type="text" #code="ngModel" [(ngModel)]="acData.code" name="code" placeholder="请输入设备验证码" autocomplete="off">
+                </div>
+              </div>
+              <div class="form-group ">
+                <div class="codeBox clearfix">
+                  <label class="control-label">备注：</label>
+                  <input type="text" #description="ngModel" [(ngModel)]="acData.description" name="description" placeholder="选填备注" autocomplete="off">
+                </div>
+              </div>
+              <div *ngIf='isYs!=="HUADI:VCW002"' class="form-group ">
+                <div class="codeBox clearfix">
+                  <label class="control-label"><i class="red">*</i>激活方式：</label>
+                  <label class="lab" *ngFor="let item of isNetArr" style="width: 95px;margin:0;"><input style="width: 15px;height:15px;" type="radio" #isNet="ngModel" [(ngModel)]="acData.isNet" name="isNet"  [value]="item.value">{{item.name}} </label>
+                </div>
+              </div>
+              <div class="form-group ">
+                <div class="codeBox clearfix">
+                  <input type="button" value="取消" class="btn btn-info" (click)="this.activate=!this.activate;this.mask=!this.mask"/>
+                  <input type="submit" value="提交" class="btn btn-info" [disabled]="!deviceSn.valid||customer.valid==''||deviceMode.valid==''"/>
+                </div>
+              </div>
+            </form>
+          </div>
 
           <!--导入-->
           <div class="addForm" *ngIf="excel">
@@ -157,11 +234,11 @@
         <div class="btnBox">设备列表
           <button *ngIf="power.export" class="btn btn-lg btn-primary" (click)="exportData()"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>全部导出</button>
 
-          <button *ngIf="!empowerBatch"class="btn btn-lg btn-success" (click)="isEmpowerList('锁定',1);empowerBatch=true;empowerBatch1=false;empowerEdit=false;empowerShare=false;empower=false;select=false;this.obj=[]">可批量解锁</button>
-          <button *ngIf="empowerBatch" class="btn btn-lg btn-warning fff" (click)="batch(select,'正常');empowerBatch=false;"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>批量解锁</button>
+          <button *ngIf="power.active&&!empowerBatch"class="btn btn-lg btn-success" (click)="isEmpowerList('锁定',1);empowerBatch=true;empowerBatch1=false;empowerEdit=false;empowerShare=false;empower=false;select=false;this.obj=[]">可批量解锁</button>
+          <button *ngIf="power.active&&empowerBatch" class="btn btn-lg btn-warning fff" (click)="batch(select,'正常');empowerBatch=false;"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>批量解锁</button>
 
-          <button *ngIf="!empowerBatch1" class="btn btn-lg btn-success" (click)="isEmpowerList('正常',1);empowerBatch1=true;empowerBatch=false;empowerEdit=false;empowerShare=false;empower=false;select=false;this.obj=[]">可批量锁定</button>
-          <button *ngIf="empowerBatch1" class="btn btn-lg btn-danger" (click)="batch(select,'锁定');empowerBatch1=false;"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>批量锁定</button>
+          <button *ngIf="power.forbidden&&!empowerBatch1" class="btn btn-lg btn-success" (click)="isEmpowerList('正常',1);empowerBatch1=true;empowerBatch=false;empowerEdit=false;empowerShare=false;empower=false;select=false;this.obj=[]">可批量锁定</button>
+          <button *ngIf="power.forbidden&&empowerBatch1" class="btn btn-lg btn-danger" (click)="batch(select,'锁定');empowerBatch1=false;"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>批量锁定</button>
 
           <button *ngIf="power.edit&&!empowerEdit" class="btn btn-lg btn-info" (click)="empowerList('编辑',1);empowerEdit=true;empowerShare=false;empower=false;select=false;empowerBatch=false;empowerBatch1=false;this.obj=[]">可批量编辑数据</button>
           <button *ngIf="power.edit&&empowerEdit" class="btn btn-lg btn-warning fff" (click)="alertEdit()"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>批量编辑</button>
@@ -436,16 +513,16 @@
         <div class="btnBox">设备列表
           <button *ngIf="power.export" class="btn btn-lg btn-primary" (click)="exportData()"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>全部导出</button>
 
-          <button *ngIf="!empowerBatch" class="btn btn-lg btn-success" (click)="isEmpowerList('锁定',1);empowerBatch=true;empowerBatch1=false;empowerEdit=false;empowerShare=false;empower=false;select=false;;obj=[]">可批量解锁</button>
-          <button *ngIf="empowerBatch" class="btn btn-lg btn-warning fff" (click)="batch(select,'正常');empowerBatch=false;"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>批量解锁</button>
+          <button *ngIf="power.active&&!empowerBatch" class="btn btn-lg btn-success" (click)="isEmpowerList('锁定',1);empowerBatch=true;empowerBatch1=false;empowerEdit=false;empowerShare=false;empower=false;select=false;;obj=[]">可批量解锁</button>
+          <button *ngIf="power.active&&empowerBatch" class="btn btn-lg btn-warning fff" (click)="batch(select,'正常');empowerBatch=false;"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>批量解锁</button>
 
-          <button *ngIf="!empowerBatch1" class="btn btn-lg btn-success" (click)="isEmpowerList('正常',1);empowerBatch1=true;empowerBatch=false;empowerEdit=false;empowerShare=false;empower=false;select=false;obj=[]">可批量锁定</button>
-          <button *ngIf="empowerBatch1" class="btn btn-lg btn-danger" (click)="batch(select,'锁定');empowerBatch1=false;"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>批量锁定</button>
+          <button *ngIf="power.forbidden&&!empowerBatch1" class="btn btn-lg btn-success" (click)="isEmpowerList('正常',1);empowerBatch1=true;empowerBatch=false;empowerEdit=false;empowerShare=false;empower=false;select=false;obj=[]">可批量锁定</button>
+          <button *ngIf="power.forbidden&&empowerBatch1" class="btn btn-lg btn-danger" (click)="batch(select,'锁定');empowerBatch1=false;"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>批量锁定</button>
 
           <button *ngIf="power.authorize&&!empower" class="btn btn-lg btn-info" (click)="empowerList('授权',1);empower=true;empowerShare=false;empowerEdit=false;empowerBatch=false;select=false;obj=[]">可批量授权</button>
           <button *ngIf="power.authorize&&empower" class="btn btn-lg btn-warning fff" (click)="alertGive();"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>批量授权</button>
 
-          <button class="btn btn-lg btn-info" (click)="alertObj();"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{this.shareForm?'取消操作':'批量分享'}}</button>
+          <button *ngIf="power.share" class="btn btn-lg btn-info" (click)="alertObj();"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{this.shareForm?'取消操作':'批量分享'}}</button>
 
           <button class="btn btn-lg btn-default" (click)="getDeviceList(page);empowerShare=false;empower=false;empowerEdit=false;select=false"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>数据刷新</button>
         </div>
@@ -502,7 +579,7 @@
                   </div>
                   <div class="form-group ">
                     <div class="codeBox clearfix">
-                      <input type="button" style="width:24%;"  value="删除" class="btn btn-danger" (click)="singleDelete(subID.value);list.edt=false;mask=false"/>
+                      <input *ngIf="power.delete" type="button" style="width:24%;"  value="删除" class="btn btn-danger" (click)="singleDelete(subID.value);list.edt=false;mask=false"/>
                       <input type="button" style="width:24%;" value="取消" class="btn btn-info" (click)="list.edt=!list.edt;this.mask=false"/>
                       <input type="submit" style="width:24%;" value="提交" class="btn btn-info" [disabled]=""/>
                     </div>
@@ -625,10 +702,10 @@
                   <input [value]="list.containerId" type="checkbox" [checked]="select" (change)="isChecked($event.target.checked,list.containerId);select=false;" >
               </div>
               <div class="deviceSn" style="width:15%"><p>
-                <img class="dateIcon" *ngIf="list.remainDays==0" src="../../../assets/imgs/overDate.png"/>
-                <img class="dateIcon" *ngIf="list.remainDays==-1" src="../../../assets/imgs/infinite.png"/>
-                <img class="dateIcon" *ngIf="list.remainDays>=10" src="../../../assets/imgs/inDate.png"/>
-                <img class="dateIcon" *ngIf="list.remainDays>0&&10>list.remainDays" src="../../../assets/imgs/tenDay.png"/>
+                <img class="dateIcon" *ngIf="list.remainDays==0" src="../../../assets/imgs/overDate.png" alt="已过期"/>
+                <img class="dateIcon" *ngIf="list.remainDays>=10||list.remainDays==-1" src="../../../assets/imgs/infinite.png" alt="正常/无限期"/>
+                <!--<img class="dateIcon" *ngIf="list.remainDays>=10" src="../../../assets/imgs/inDate.png"/>-->
+                <img class="dateIcon" *ngIf="list.remainDays>0&&10>list.remainDays" src="../../../assets/imgs/tenDay.png" alt="授权小于10天"/>
                 {{list.deviceSn}}
                 <img class="dateIcon" *ngIf="list.onLine" src="../../../assets/imgs/onLine.png"/>
                 <img class="dateIcon" *ngIf="!list.onLine" src="../../../assets/imgs/unLine.png"/>
@@ -637,7 +714,7 @@
                 {{(list.remainDays>10)?"未到期":(list.endTime|date:'yyyy-MM-dd')}}&nbsp;
               </div>-->
               <div>
-                <a class="pointer" style="display:inline-block;width: 100%;height:36px;line-height:36px;text-overflow: ellipsis;overflow:hidden;white-space:nowrap;text-decoration: underline;" (click)="list.editName=!list.editName;this.mask=!this.mask;">{{list.containerName}}&nbsp;</a>
+                <a class="pointer" style="display:inline-block;width: 100%;height:36px;line-height:36px;text-overflow: ellipsis;overflow:hidden;white-space:nowrap;text-decoration: underline;" (click)="list.editName=!list.editName;this.mask=!this.mask;editData.containerName=list.containerName">{{list.containerName}}&nbsp;</a>
               </div>
               <div>{{list.customerName}}&nbsp;</div>
               <div>
@@ -646,17 +723,17 @@
                 </p>&nbsp;
               </div>
               <div class="longDiv" style="width:25%">
-                 <a class="pointer" style="display:inline-block;width: 100%;height:36px;line-height:36px;text-overflow: ellipsis;overflow:hidden;white-space:nowrap;text-decoration: underline;" (click)="list.loca=!list.loca;this.mask=!this.mask;">{{list.location?list.location:'未设置'}}</a>
+                 <a class="pointer" style="display:inline-block;width: 100%;height:36px;line-height:36px;text-overflow: ellipsis;overflow:hidden;white-space:nowrap;text-decoration: underline;" (click)="list.loca=!list.loca;this.mask=!this.mask;editData.location=list.location">{{list.location?list.location:'未设置'}}</a>
               </div>
               <div class="short">{{list.statusCode}}</div>
               <div class="fun">
-                <input *ngIf='list.permissionType!=="读写"&&list.statusCode!=="禁用"' type="button" class="btn btn-info btn-xs" value="分享" (click)="list.share=!list.share;this.mask=!this.mask">
-                <input *ngIf='list.permissionType=="授权"&&list.statusCode=="正常"' type="button" class="btn btn-warning fff btn-xs" value="授权" (click)="list.give=!list.give;this.mask=!this.mask;">
-                <input *ngIf="list.statusCode=='正常'&&list.permissionType!=='授权'" type="button" class="btn btn-danger btn-xs" value="锁定" (click)="singleBatch('锁定',list.containerId)">
-                <input *ngIf="list.statusCode=='锁定'" type="button" class="btn btn-success btn-xs" value="解锁" (click)="singleBatch('正常',list.containerId)">
+                <input *ngIf='power.share&&list.permissionType!=="读写"&&list.statusCode!=="禁用"' type="button" class="btn btn-info btn-xs" value="分享" (click)="list.share=!list.share;this.mask=!this.mask">
+                <input *ngIf='power.authorize&&list.permissionType=="授权"&&list.statusCode=="正常"' type="button" class="btn btn-warning fff btn-xs" value="授权" (click)="list.give=!list.give;this.mask=!this.mask;">
+                <input *ngIf="power.forbidden&&list.statusCode=='正常'&&list.permissionType!=='授权'" type="button" class="btn btn-danger btn-xs" value="锁定" (click)="singleBatch('锁定',list.containerId)">
+                <input *ngIf="power.active&&list.statusCode=='锁定'" type="button" class="btn btn-success btn-xs" value="解锁" (click)="singleBatch('正常',list.containerId)">
                 <!--测试使用-->
-                <a *ngIf='!ieVersion&&list.statusCode=="正常"' href="{{list.viewId=='1052'?'http://camera.t2.5itianyuan.com/video2.html?data='+cameraService.apiKey+'&m='+list.containerId :'http://video.5itianyuan.com/video1.html?deviceSn='+list.deviceSn}}" target="_blank" class="btn btn-default btn-xs">查看</a>
-                <a *ngIf='ieVersion&&list.statusCode=="正常"' href="{{list.viewId=='1052'?'http://camera.t2.5itianyuan.com/video2.html?data='+cameraService.apiKey+'&m='+list.containerId: 'http://video.5itianyuan.com/video1.html?deviceSn='+list.deviceSn}}" target="_blank" class="btn btn-default btn-xs" (click)="toIEdata(list.lives)">查看</a>
+                <a *ngIf='power.lookup&&!ieVersion&&list.statusCode=="正常"' href="{{list.viewId=='1052'?'http://camera.t2.5itianyuan.com/video2.html?data='+cameraService.apiKey+'&m='+list.containerId :'http://video.5itianyuan.com/video1.html?deviceSn='+list.deviceSn}}" target="_blank" class="btn btn-default btn-xs">查看</a>
+                <a *ngIf='power.lookup&&ieVersion&&list.statusCode=="正常"' href="{{list.viewId=='1052'?'http://camera.t2.5itianyuan.com/video2.html?data='+cameraService.apiKey+'&m='+list.containerId: 'http://video.5itianyuan.com/video1.html?deviceSn='+list.deviceSn}}" target="_blank" class="btn btn-default btn-xs" (click)="toIEdata(list.lives)">查看</a>
                 <!--生产使用-->
                 <!--<a *ngIf='!ieVersion&&list.statusCode=="正常"' href="{{list.viewId=='1052'?'http://video.5itianyuan.com/video2.html?data='+cameraService.apiKey+'&m='+list.containerId :'http://video.5itianyuan.com/video1.html?deviceSn='+list.deviceSn}}" target="_blank" class="btn btn-default btn-xs">查看</a>-->
                 <!--<a *ngIf='ieVersion&&list.statusCode=="正常"' href="{{list.viewId=='1052'?'http://video.5itianyuan.com/video2.html?data='+cameraService.apiKey+'&m='+list.containerId: 'http://video.5itianyuan.com/video1.html?deviceSn='+list.deviceSn}}" target="_blank" class="btn btn-default btn-xs" (click)="toIEdata(list.lives)">查看</a>-->

@@ -127,7 +127,6 @@ p select.form-control:not([size]):not([multiple]){display:inline-block;height:ca
 .customer .editForm form input,.customer .editForm form label{display: inline-block;width:40%;height:35px;line-height:30px;margin:0 4%;text-indent: 1rem;}
 .customer .editForm form label{ padding-right:2%;text-align: right;}
 
-
 /*租用日志*/
 .leasedLogListT>div, .leasedLogListC .list-group-item>div{ width:18%;border:none; }
 .leasedLogListT .logL,.leasedLogListC .list-group-item .logL{ width:44.5%; }
@@ -194,9 +193,11 @@ thead{background: #f6f8fa;}
 .form-group .ui-inputtext{height:30px;line-height: 30px;width:100%;;}
 .Btime{position: relative;}
 .Btime .ui-datepicker{ top:0!important;left: 10%; }
+.deviceGL .couSec{display:inline-block;width:40%;margin:0 4%;}
+
 /*角色管理*/
 .rolesListT>div,.rolesListC .list-group-item>div{width:24.5%;vertical-align: middle;}
-.rolesListC .list-group-item>div{height:100px;line-height: 100px;}
+.rolesListC .list-group-item>div{height:120px;line-height: 120px;}
 .list-group-item .permission p{line-height: 14px;margin:5px 0; font-size: 12px; text-align: left;}
 .list-group-item .permission p b{font-size: 12px;font-weight: normal;}
 .rolesListC .list-group-item .editForm{position: absolute;width:630px;top:-64px;left:calc(50% - 430px);z-index: 9;border-radius: 5px;}

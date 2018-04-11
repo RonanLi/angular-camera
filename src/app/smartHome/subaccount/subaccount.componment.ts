@@ -222,11 +222,22 @@ export class SubaccountComponent {
 
     if(form.role==''||form.role==null){ alert('请选择角色'); return }
     let urlSearchParams = new URLSearchParams();
-    urlSearchParams.append('customerId', id);
+    /*数据为空不传数据*/
+ /*   urlSearchParams.append('customerId', id);
     if(form.linkman){ urlSearchParams.append('linkman', form.linkman); }
     if(this.cameraService.customerType=='C'){ urlSearchParams.append('roleNameArray', JSON.stringify([form.role])); }
     if(this.cameraService.customerType!=='C'){ urlSearchParams.append('roleIdArray', JSON.stringify([form.role])); }
-    if(form.description){urlSearchParams.append('description', form.description); }
+    if(form.description){urlSearchParams.append('description', form.description); }*/
+
+    /*数据为空传数据*/
+    urlSearchParams.append('customerId', id);
+    urlSearchParams.append('linkman', form.linkman);
+    urlSearchParams.append('phone', form.phone);
+    if(this.cameraService.customerType=='C'){ urlSearchParams.append('roleNameArray', JSON.stringify([form.role])); }
+    if(this.cameraService.customerType!=='C'){ urlSearchParams.append('roleIdArray', JSON.stringify([form.role])); }
+    urlSearchParams.append('description', form.description?form.description:'');
+
+
     let paramEdit = urlSearchParams.toString();
     this.subaccountHttp
       .post('/api/v1.0/customer/update'+timer,paramEdit)

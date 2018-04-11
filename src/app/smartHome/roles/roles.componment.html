@@ -30,6 +30,7 @@
                   {{sub.functionId=='1003'?'角色管理：':''}}
                   {{sub.functionId=='1004'?'子账户管理：':''}}
                   {{sub.functionId=='1005'?'日志管理：':''}}
+                  {{sub.functionId=='1006'?'分组管理：':''}}
                   <b>
                     {{sub.permission.add?'添加':''}}
                     {{sub.permission.edit?'编辑':''}}
@@ -47,7 +48,7 @@
               <div >{{list.description}}</div>
               <div>
                 <input *ngIf="rolePower.delete" class="btn btn-danger btn-xs" type="button" value="删除" (click)="delet(list.roleId)">
-                <input *ngIf="rolePower.edit" class="btn btn-success btn-xs" type="button" value="{{list.edt?'取消':'编辑'}}" (click)="getRoleInfo(list.roleId);list.edt=!list.edt;this.mask=!this.mask">
+                <input *ngIf="rolePower.edit" class="btn btn-success btn-xs" type="button" value="{{list.edt?'取消':'编辑'}}" (click)="getRoleInfo(list.roleId);list.edt=!list.edt;this.mask=!this.mask;edit.roleName=list.roleName;edit.description=list.description">
               </div>
               <!--角色编辑-->
               <div class="editForm" *ngIf="list.edt">
@@ -83,15 +84,15 @@
                               <b>启用</b>
                             </label>
                             <label>
+                              <input type="checkbox" [checked]="item.permission.delete" (click)="selectCheckbox($event.target.checked,item.functionId,'delete',list.permission)"/>
+                              <b>删除</b>
+                            </label>
+                            <label>
                               <input type="checkbox" [checked]="item.permission.export" (click)="selectCheckbox($event.target.checked,item.functionId,'export',list.permission)"/>
                               <b>导出</b>
                             </label>
                           </p>
                           <p *ngIf="item.functionId=='1002'"> 设备管理:
-                            <label>
-                              <input type="checkbox" [checked]="item.permission.lookup" (click)="selectCheckbox($event.target.checked,item.functionId,'lookup',list.permission)"/>
-                              <b>查看</b>
-                            </label>
                             <label>
                               <input type="checkbox" [checked]="item.permission.authorize" (click)="selectCheckbox($event.target.checked,item.functionId,'authorize',list.permission)"/>
                               <b>授权</b>
@@ -105,8 +106,20 @@
                               <b>编辑</b>
                             </label>
                             <label>
-                              <input type="checkbox" [checked]="item.permission.delete" (click)="selectCheckbox($event.target.checked,item.functionId,'export',list.permission)"/>
+                              <input type="checkbox" [checked]='item.permission.active' (click)="selectCheckbox($event.target.checked,item.functionId,'active',list.permission)"/>
+                              <b>启用</b>
+                            </label>
+                            <label>
+                              <input type="checkbox" [checked]='item.permission.forbidden' (click)="selectCheckbox($event.target.checked,item.functionId,'forbidden',list.permission)"/>
+                              <b>禁用</b>
+                            </label>
+                            <label>
+                              <input type="checkbox" [checked]="item.permission.delete" (click)="selectCheckbox($event.target.checked,item.functionId,'delete',list.permission)"/>
                               <b>删除</b>
+                            </label>
+                            <label>
+                              <input type="checkbox" [checked]="item.permission.lookup" (click)="selectCheckbox($event.target.checked,item.functionId,'lookup',list.permission)"/>
+                              <b>查看</b>
                             </label>
                             <label>
                               <input type="checkbox" [checked]="item.permission.export" (click)="selectCheckbox($event.target.checked,item.functionId,'export',list.permission)"/>
@@ -153,6 +166,24 @@
                             <label>
                               <input type="checkbox" [checked]="item.permission.log" (click)="selectCheckbox($event.target.checked,item.functionId,'log',list.permission)"/>
                               <b>日志</b>
+                            </label>
+                          </p>
+                          <p *ngIf="item.functionId=='1006'">分组管理:
+                            <label>
+                              <input type="checkbox" [checked]='item.permission.add' (click)="selectCheckbox($event.target.checked,item.functionId,'add',list.permission)"/>
+                              <b>添加</b>
+                            </label>
+                            <label>
+                              <input type="checkbox" [checked]="item.permission.edit" (click)="selectCheckbox($event.target.checked,item.functionId,'edit',list.permission)"/>
+                              <b>编辑</b>
+                            </label>
+                            <label>
+                              <input type="checkbox" [checked]='item.permission.delete' (click)="selectCheckbox($event.target.checked,item.functionId,'delete',list.permission)"/>
+                              <b>删除</b>
+                            </label>
+                            <label>
+                              <input type="checkbox" [checked]="item.permission.lookup" (click)="selectCheckbox($event.target.checked,item.functionId,'lookup',list.permission)"/>
+                              <b>查看</b>
                             </label>
                           </p>
                         </div>
@@ -209,6 +240,10 @@
                           <b>启用</b>
                         </label>
                         <label>
+                          <input type="checkbox" [checked]='item.permission.delete' (click)="selectCheckboxA($event.target.checked,item.functionId,'delete')"/>
+                          <b>删除</b>
+                        </label>
+                        <label>
                           <input type="checkbox" [checked]="item.permission.export" (click)="selectCheckboxA($event.target.checked,item.functionId,'export')"/>
                           <b>导出</b>
                         </label>
@@ -231,7 +266,15 @@
                           <b>编辑</b>
                         </label>
                         <label>
-                          <input type="checkbox" [checked]='item.permission.delete' (click)="selectCheckboxA($event.target.checked,item.functionId,'active')"/>
+                          <input type="checkbox" [checked]='item.permission.active' (click)="selectCheckboxA($event.target.checked,item.functionId,'active')"/>
+                          <b>启用</b>
+                        </label>
+                        <label>
+                          <input type="checkbox" [checked]='item.permission.forbidden' (click)="selectCheckboxA($event.target.checked,item.functionId,'forbidden')"/>
+                          <b>锁定</b>
+                        </label>
+                        <label>
+                          <input type="checkbox" [checked]='item.permission.delete' (click)="selectCheckboxA($event.target.checked,item.functionId,'delete')"/>
                           <b>删除</b>
                         </label>
                         <label>
@@ -273,6 +316,24 @@
                         <label>
                           <input type="checkbox" [checked]='item.permission.forbidden' (click)="selectCheckboxA($event.target.checked,item.functionId,'forbidden')"/>
                           <b>禁用</b>
+                        </label>
+                      </p>
+                      <p *ngIf="item.functionId=='1006'"> 分组管理:
+                        <label>
+                          <input type="checkbox" [checked]="item.permission.add" (click)="selectCheckboxA($event.target.checked,item.functionId,'add')"/>
+                          <b>添加</b>
+                        </label>
+                        <label>
+                          <input type="checkbox" [checked]="item.permission.edit"(click)="selectCheckboxA($event.target.checked,item.functionId,'edit')"/>
+                          <b>编辑</b>
+                        </label>
+                        <label>
+                          <input type="checkbox" [checked]='item.permission.delete' (click)="selectCheckboxA($event.target.checked,item.functionId,'delete')"/>
+                          <b>删除</b>
+                        </label>
+                        <label>
+                          <input type="checkbox" [checked]="item.permission.lookup" (click)="selectCheckboxA($event.target.checked,item.functionId,'lookup')"/>
+                          <b>查看</b>
                         </label>
                       </p>
                       <p *ngIf="item.functionId=='1005'">日志管理:

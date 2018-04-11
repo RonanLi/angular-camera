@@ -1,7 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest,HttpResponse,HttpErrorResponse,HttpParams,HttpHeaders} from '@angular/common/http';
-import {groupAdd} from '../../modules/allData'
+import {groupAdd,groupEdit} from '../../modules/allData'
 import {Router, NavigationExtras } from '@angular/router';
 import {URLSearchParams} from "@angular/http";
 import {CameraService} from "../../services/camera.service";
@@ -18,7 +18,9 @@ export class GroupCComponent {
   public listDiv:string='';
   public listUp:any;
   public listDown:any;
+  public power:any;
   ngOnInit() {
+    this.power=this.cameraService.getQx('1006');
     this.getList(1);
     this.getDeviceList();
   }
@@ -37,6 +39,7 @@ export class GroupCComponent {
   public info:any='全部';
 
   public addData=new groupAdd;
+  public editData=new groupEdit;
   public grad=4;
 /*list1是可选设备列表，编辑选中设备用自传列表，添加分组选中设备用deviceListCheck*/
 /*未选择设备列表*/
@@ -411,7 +414,7 @@ export class GroupCComponent {
       .subscribe(
         req => {
           if(req['code']=="200"){
-            this.addData.select=this.grad=4;
+            this.editData.select=this.grad=4;
             this.getList(1);
             this.getDeviceList();
             alert('操作成功');

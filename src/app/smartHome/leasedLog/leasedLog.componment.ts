@@ -25,8 +25,13 @@ export class LeasedLogComponent {
   public page;
   public totalPages;
 
+  public logPower:any=[];
+
   ngOnInit() {
-    this.getLogList(1)
+    this.logPower=this.cameraService.getQx('1005');
+    if(this.logPower.log){
+      this.getLogList(1);
+    }
   }
   //select 下拉选择
   public optionList:any=[

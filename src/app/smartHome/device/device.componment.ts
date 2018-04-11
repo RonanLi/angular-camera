@@ -2,7 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest,HttpResponse,HttpErrorResponse,HttpParams,HttpHeaders} from '@angular/common/http';
 import { CameraService } from '../../services/camera.service';
-import { deviceEdit,customerAdd } from '../../modules/allData';
+import { deviceEdit,deviceActive } from '../../modules/allData';
 /*导入*/
 import {URLSearchParams} from "@angular/http";
 import {Router, NavigationExtras } from '@angular/router';
@@ -66,25 +66,26 @@ export class DeviceComponent {
 
     this.getDeviceList(1);
     this.getShareList();
+    this.getACusList(1)
   }
 
   //select 下拉选择
   public optionList:any={
     data0:[{leasEnd:'租用到期时间',value:0},{leasEnd:'三天内',value:1}, {leasEnd:'七天内',value:2}, {leasEnd:'半月内',value:3}, {leasEnd:'已过期',value:4}, {leasEnd:'无',value:5}],
     data1:[{shareEnde:'分享到期时间',value:0},{shareEnde:'三天内',value:1}, {shareEnde:'七天内',value:2}, {shareEnde:'半月内',value:3}, {shareEnde:'已过期',value:4}, {shareEnde:'无',value:5}],
-    data2:[{name:'请选择用户状态',value:0}, {name:'正常',value:1}, {name:'禁用',value:2}]
+    data2:[{name:'设备状态',value:0}, {name:'正常',value:1}, {name:'禁用',value:2}]
   };
   public optionList1:any={
     data0:[{leasEnd:'租用到期时间',value:0},{leasEnd:'三天内',value:1}, {leasEnd:'七天内',value:2}, {leasEnd:'半月内',value:3}, {leasEnd:'已过期',value:4}, {leasEnd:'无',value:5}],
     data1:[{shareEnde:'分享到期时间',value:0},{shareEnde:'三天内',value:1}, {shareEnde:'七天内',value:2}, {shareEnde:'半月内',value:3}, {shareEnde:'已过期',value:4}, {shareEnde:'无',value:5}],
-    data2:[{name:'请选择用户状态',value:0}, {name:'正常',value:1}, {name:'锁定',value:2}]
+    data2:[{name:'设备状态',value:0}, {name:'正常',value:1}, {name:'锁定',value:2}]
   };
   // public optionL0:any=0;
   public optionL0:any='租用到期时间';
   // public optionL1:any=0;
   public optionL1:any='分享到期时间';
   // public optionL2:any=0;
-  public optionL2:any='请选择用户状态';
+  public optionL2:any='设备状态';
 
   //批量选中用户accoundId列表
   public checkList:any=[];
@@ -93,7 +94,8 @@ export class DeviceComponent {
   //是否全选
   public select=false;
   public editData=new deviceEdit();
-  // public addData=new customerAdd;
+  public acData=new deviceActive;
+
 
   //全部用户信息列表
   public deviceList:any;
@@ -445,6 +447,61 @@ export class DeviceComponent {
     }
   }
 
+  /*设备激活*/
+  public deviceModeArr=[{name:'智能摄像头V20',value:'HUADI:VCW002',type:'v20'},{name:'智能摄像头V30',value:'www.ys7.com:DS-2DE2204IW-D3',type:'v30'},{name:'萤石云摄像机C2',value:'ys7:CS-C2',type:'c2'},{name:'萤石云摄像机C6',value:'ys7:CS-C6',type:'c6'}];
+  public customerArr;
+  public isNetArr=[{name:'联网激活',value:1},{name:'不联网激活',value:0}];
+  public isYs;
+  /*设备激活客户列表*/
+  getACusList(pageIndex){
+    var params=new HttpParams();
+    var timer='?m='+Date.parse(String(new Date()));
+
+    params = new HttpParams().set('pageIndex', pageIndex).set('pageSize', '50').set('customerType', this.cusType);
+    this.deviceHttp.get('/api/v1.0/customer/list'+timer,{params}).subscribe(req => {
+      if(req['code']=='200'){
+        this.searchStatu=false;
+        this.customerArr=req['data'];
+        this.page=req['pageing'].pageIndex;
+        this.totalNums=req['pageing'].totalNums;
+        this.totalPages=Math.ceil(req['pageing'].totalNums/10) ;
+      }
+      else if(req['code']=='401'){
+        window.localStorage.removeItem('smartContent');
+        this.cameraService.isLoggedIn=false;
+        alert('请重新登录');
+        var url = '/login';
+        let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: false};
+        this.router.navigate([url], navigationExtras);
+      }
+      else{  alert(req['message'])}
+    });
+  }
+  /*设备激活*/
+  deviceToAc(form){
+    console.log(form)
+    let urlSearchParams = new URLSearchParams();
+    if(form.deviceMode==''){alert('请选择设备型号');return;}
+    if(form.customer==''){alert('请选择客户账号');return;}
+    if(form.pwd.length<6){alert('密码长度至少为6位');return; }
+    urlSearchParams.append('productName', form.deviceMode);
+    urlSearchParams.append('customerName', form.customer);
+    urlSearchParams.append('deviceSn', form.deviceSn);
+    if(form.port){urlSearchParams.append('port', form.port); }
+    if(form.user){urlSearchParams.append('user', form.user); }
+    if(form.pwd){urlSearchParams.append('password', form.pwd); }
+    if(form.code){urlSearchParams.append('validateCode', form.code); }
+    if(form.isNet){urlSearchParams.append('isActive', 'true'); }
+    if(!form.isNet){urlSearchParams.append('isActive', 'false'); }
+    if(form.description){urlSearchParams.append('description', form.description);}
+    let params = urlSearchParams.toString();
+    console.log(params)
+ /*   this.deviceHttp.post('/api/v1.0/device/add ',params)
+      .subscribe(
+        req => {if(req['code']=="200"){ alert('回收成功');this.getDeviceList(this.page);} else{ alert(req['message']);}}
+      );*/
+  }
+
 /*-------------A类函数结束----------------*/
 
 /*-------------B、C类函数开始-------------*/
@@ -457,8 +514,8 @@ export class DeviceComponent {
     if(!form.shareSTime){this.singleShareList=[];alert('分享时间不能为空！');return;}
     if(form.shareSTime>form.shareETime){this.singleShareList=[];alert('起始时间不能大于结束时间！');return;}
     if(this.today>(Date.parse(form.shareSTime)+57599000)){this.singleShareList=[];alert('起始时间不能小于当前时间！');return;}
-    if(Date.parse(form.shareSTime)>lendTime){this.singleShareList=[];alert('分享起始时间不能大于设备租赁时间！');return;}
-    if(Date.parse(form.shareETime)>lendTime){this.singleShareList=[];alert('分享结束时间不能大于设备租赁时间！');return;}
+    if(Date.parse(form.shareSTime)>lendTime){this.singleShareList=[];alert('分享起始时间不能大于设备授权/租赁时间！');return;}
+    if(Date.parse(form.shareETime)>lendTime){this.singleShareList=[];alert('分享结束时间不能大于设备授权/租赁时间！');return;}
     if(this.singleShareList.length>0){
       for(var i=0;i<this.singleShareList.length;i++){
         this.singleShareList[i].startTime=Date.parse(form.shareSTime);
@@ -690,8 +747,8 @@ export class DeviceComponent {
     let urlSearchParams = new URLSearchParams();
 
     urlSearchParams.append('containerId', id);
-    if(Date.parse(form.startTime)>lendTime){alert('分享起始时间不能大于设备租赁时间！');return;}
-    if(Date.parse(form.endTime)>lendTime){alert('分享结束时间不能大于设备租赁时间！');return;}
+    if(Date.parse(form.startTime)>lendTime){alert('分享起始时间不能大于设备授权/租赁时间！');return;}
+    if(Date.parse(form.endTime)>lendTime){alert('分享结束时间不能大于设备授权/租赁时间！');return;}
 
     if(!form.startTime&&this.cameraService.customerType=='C'){alert('请选择起始时间');return;}
     if(Date.parse(form.startTime)>(Date.parse(form.endTime)+57599000)){alert('开始时间不能大于结束时间！');return;}

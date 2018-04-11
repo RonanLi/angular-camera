@@ -39,7 +39,21 @@ export class customerAdd {
   selectName=true;
   excel: any;
 }
-
+/*设备管理设备激活*/
+export class deviceActive{
+  // factory='HUADI';
+  // deviceMode='VCW002';
+  factory='';
+  deviceMode='';
+  customer='';
+  deviceSn:string;
+  port='81';
+  user='admin';
+  pwd='888888';
+  code:string;
+  description:string;
+  isNet=1;
+}
 //子账户信息编辑类
 export class subEdit {
   linkman: string;
@@ -87,6 +101,12 @@ export class roleEdit{
 }
 /*添加分组*/
 export class groupAdd{
+  name:string;
+  intervalTime:string;
+  grid:string;
+  select=4;
+}
+export class groupEdit{
   name:string;
   intervalTime:string;
   grid:string;
