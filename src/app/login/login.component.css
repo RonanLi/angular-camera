@@ -24,7 +24,7 @@
 .login .code1{width:80px;text-align: center;float: right;background: #477DF9;color: #fff;border: none;border-radius: 3px;}
 .rowM{margin-top:20%;text-align: center;color: #fff;}
 .rowM>div{margin-top:1%;text-align: center;}
-.loginForm .btn-info{ height: 44px; line-height: 44px; margin-top: 10px;background: #477DF9}
+.loginForm .btn-info{ height: 44px; line-height: 44px; margin-top: 10px;background:#477DF9}
 .loginForm .btn-info:disabled{opacity: 0.7;background:#477DF9;border: none;}
 
 .loginFoot{position: absolute;width: 80%;padding:20px 0;bottom:0;left:calc(10%);text-align:center;color:#939AA7;border-top: 1px solid #3C4858;}
