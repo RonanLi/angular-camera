@@ -40,7 +40,7 @@
         </div>
 
         <div class="panel panel-default">
-          <ul class="list-group">
+          <ul *ngIf="cameraService.customerType!=='C'" class="list-group">
             <li class="list-group-item borderBN customerListT">
               <div><input type="checkbox" id="checkAll" [checked]="select" (click)="selectAll();" style="margin-left:30px;"> <label for="checkAll">全选</label> </div>
               <div>客户账户</div>
@@ -51,7 +51,19 @@
               <div style="width: 15%;">操作</div>
             </li>
           </ul>
-          <ul class="list-group customerListC">
+          <ul *ngIf="cameraService.customerType=='C'" class="list-group">
+            <li class="list-group-item borderBN customerListT customerListTC">
+              <div><input type="checkbox" id="checkAllC" [checked]="select" (click)="selectAll();" style="margin-left:30px;"> <label for="checkAllC">全选</label> </div>
+              <div>客户账户</div>
+              <div>客户类型</div>
+              <div>联系人</div>
+              <div>联系电话</div>
+              <div>客户状态</div>
+              <div>备注信息</div>
+              <div style="width: 15%;">操作</div>
+            </li>
+          </ul>
+          <ul *ngIf="cameraService.customerType!=='C'" class="list-group customerListC">
             <li class="list-group-item"  *ngFor="let list of customerList">
               <div><input [value]="list.customerId" type="checkbox" [checked]="select" (change)="isChecked($event.target.checked,list.customerId);select=false;" > </div>
               <div>{{list.customerName}}&nbsp;</div>
@@ -62,9 +74,7 @@
               <div style="width: 15%;">
                 <input *ngIf="power.forbidden&&list.statusCode=='正常'" class="btn btn-danger btn-xs" type="button" value="锁定" (click)="single('禁用',list.customerId)">
                 <input *ngIf="power.active&&list.statusCode=='禁用'" class="btn btn-warning fff btn-xs" type="button" value="解锁" (click)="single('正常',list.customerId)">
-                <input *ngIf="power.edit&&list.statusCode=='正常'&&cameraService.customerType!=='C'" type="button" class="btn btn-success btn-xs" [value]="list.edt?'取消':'编辑'" (click)="list.edt=!list.edt;this.mask=!this.mask;editData.linkman=list.linkman;editData.phone=list.phone;editData.description=list.description">
-                <input *ngIf="power.edit&&list.statusCode=='正常'&&cameraService.customerType=='C'" type="button" class="btn btn-success btn-xs" [value]="list.edtc?'取消':'编辑'" (click)="list.edtc=!list.edtc;this.mask=!this.mask;addData.select=list.roleNameArray;editData.linkman=list.linkman;editData.phone=list.phone;editData.description=list.description">
-                <input *ngIf="power.delete&&cameraService.customerType=='C'" type="button" class="btn btn-danger btn-xs" value="删除" (click)="customerDel(list.customerId)">
+                <input *ngIf="power.edit&&list.statusCode=='正常'" type="button" class="btn btn-success btn-xs" [value]="list.edt?'取消':'编辑'" (click)="list.edt=!list.edt;this.mask=!this.mask;editData.linkman=list.linkman;editData.phone=list.phone;editData.description=list.description">
               </div>
               <!--编辑表单-->
               <div class="editForm" *ngIf="list.edt">
@@ -86,7 +96,7 @@
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">联系人：</label>
-                      <input type="text" #linkman="ngModel" [(ngModel)]="editData.linkman" name="linkman" [value]='list.linkman' maxlength="8"  autocomplete="off">
+                      <input type="text" #linkman="ngModel" [(ngModel)]="editData.linkman" name="linkman" [value]='list.linkman' placeholder="联系人名称长度不超过8位" maxlength="8" autocomplete="off">
                     </div>
                   </div>
                   <div class="form-group ">
@@ -108,6 +118,24 @@
                     </div>
                   </div>
                 </form>
+              </div>
+            </li>
+          </ul>
+
+          <ul *ngIf="cameraService.customerType=='C'" class="list-group customerListC customerListCC">
+            <li class="list-group-item"  *ngFor="let list of customerList">
+              <div><input [value]="list.customerId" type="checkbox" [checked]="select" (change)="isChecked($event.target.checked,list.customerId);select=false;" > </div>
+              <div>{{list.customerName}}&nbsp;</div>
+              <div>{{list.roleIdArray=='[1001]'?'普通':'工长'}}&nbsp;</div>
+              <div>{{list.linkman}}&nbsp;</div>
+              <div>{{list.contactNumber}}&nbsp;</div>
+              <div>{{list.statusCode}}&nbsp;</div>
+              <div >{{list.description}}&nbsp;</div>
+              <div style="width: 15%;">
+                <input *ngIf="power.forbidden&&list.statusCode=='正常'" class="btn btn-danger btn-xs" type="button" value="锁定" (click)="single('禁用',list.customerId)">
+                <input *ngIf="power.active&&list.statusCode=='禁用'" class="btn btn-warning fff btn-xs" type="button" value="解锁" (click)="single('正常',list.customerId)">
+                <input *ngIf="power.edit&&list.statusCode=='正常'" type="button" class="btn btn-success btn-xs" [value]="list.edtc?'取消':'编辑'" (click)="list.edtc=!list.edtc;this.mask=!this.mask;addData.select=list.roleNameArray;editData.linkman=list.linkman;editData.phone=list.phone;editData.description=list.description">
+                <input type="button" class="btn btn-danger btn-xs" value="删除" (click)="customerDel(list.customerId)">
               </div>
               <!--C编辑表单-->
               <div class="editForm" *ngIf="list.edtc">
@@ -131,7 +159,7 @@
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">联系人：</label>
-                      <input type="text" #linkman="ngModel" [(ngModel)]="editData.linkman" name="linkman" [value]='list.linkman' maxlength="8" autocomplete="off">
+                      <input type="text" #linkman="ngModel" [(ngModel)]="editData.linkman" name="linkman" [value]='list.linkman' placeholder="联系人名称长度不超过8位" maxlength="8" autocomplete="off">
                     </div>
                   </div>
                   <div class="form-group ">
@@ -178,7 +206,7 @@
               <div class="form-group ">
                 <div class="codeBox clearfix">
                   <label class="control-label"><i class="red">*</i>联系人:</label>
-                  <input required type="text" #linkman="ngModel" [(ngModel)]="addData.linkman" name="linkman" placeholder="请输入联系人名称" autocomplete="off">
+                  <input required type="text" #linkman="ngModel" [(ngModel)]="addData.linkman" name="linkman"  placeholder="联系人名称长度不超过8位"  maxlength="8" autocomplete="off">
                   <div *ngIf='form.submitted && (!linkman.valid)' class="text-danger">联系人不能为空</div>
                 </div>
               </div>
@@ -236,7 +264,7 @@
               <div class="form-group ">
                 <div class="codeBox clearfix">
                   <label class="control-label"><i class="red">*</i>联系人:</label>
-                  <input required type="text" #linkman="ngModel" [(ngModel)]="addData.linkman" name="linkman" placeholder="请输入联系人名称" autocomplete="off">
+                  <input required type="text" #linkman="ngModel" [(ngModel)]="addData.linkman" name="linkman"  placeholder="联系人名称长度不超过8位"  maxlength="8" autocomplete="off">
                   <div *ngIf='form.submitted && (!linkman.valid)' class="text-danger">联系人不能为空</div>
                 </div>
               </div>

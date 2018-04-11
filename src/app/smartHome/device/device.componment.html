@@ -593,7 +593,7 @@
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">设备名称：</label>
-                      <input required type="text" #containerName="ngModel" [(ngModel)]="editData.containerName" name="containerName" value={{list.containerName}} placeholder="请输入修改名称" autocomplete="off">
+                      <input required type="text" #containerName="ngModel" [(ngModel)]="editData.containerName" name="containerName" value={{list.containerName}} placeholder="设备名称最长为8个字符" maxlength="8" autocomplete="off">
                     </div>
                   </div>
                   <div class="form-group ">
@@ -611,7 +611,7 @@
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label">安装位置：</label>
-                      <input required type="text" #location="ngModel" [(ngModel)]="editData.location" name="location" value={{list.location}} placeholder="请输入修改地址" autocomplete="off">
+                      <input required type="text" #location="ngModel" [(ngModel)]="editData.location" name="location" value={{list.location}} placeholder="设备地址最长为25个字符" maxlength="25" autocomplete="off">
                     </div>
                   </div>
                   <div class="form-group ">

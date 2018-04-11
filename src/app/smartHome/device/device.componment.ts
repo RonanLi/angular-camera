@@ -73,12 +73,14 @@ export class DeviceComponent {
   public optionList:any={
     data0:[{leasEnd:'租用到期时间',value:0},{leasEnd:'三天内',value:1}, {leasEnd:'七天内',value:2}, {leasEnd:'半月内',value:3}, {leasEnd:'已过期',value:4}, {leasEnd:'无',value:5}],
     data1:[{shareEnde:'分享到期时间',value:0},{shareEnde:'三天内',value:1}, {shareEnde:'七天内',value:2}, {shareEnde:'半月内',value:3}, {shareEnde:'已过期',value:4}, {shareEnde:'无',value:5}],
-    data2:[{name:'设备状态',value:0}, {name:'正常',value:1}, {name:'禁用',value:2}]
+    data2:[{name:'设备状态',value:0}, {name:'正常',value:1}, {name:'锁定',value:2}, {name:'禁用',value:3}]
+
   };
   public optionList1:any={
     data0:[{leasEnd:'租用到期时间',value:0},{leasEnd:'三天内',value:1}, {leasEnd:'七天内',value:2}, {leasEnd:'半月内',value:3}, {leasEnd:'已过期',value:4}, {leasEnd:'无',value:5}],
     data1:[{shareEnde:'分享到期时间',value:0},{shareEnde:'三天内',value:1}, {shareEnde:'七天内',value:2}, {shareEnde:'半月内',value:3}, {shareEnde:'已过期',value:4}, {shareEnde:'无',value:5}],
-    data2:[{name:'设备状态',value:0}, {name:'正常',value:1}, {name:'锁定',value:2}]
+    data2:[{name:'设备状态',value:0}, {name:'正常',value:1}, {name:'锁定',value:2}, {name:'禁用',value:3}]
+
   };
   // public optionL0:any=0;
   public optionL0:any='租用到期时间';
@@ -448,7 +450,8 @@ export class DeviceComponent {
   }
 
   /*设备激活*/
-  public deviceModeArr=[{name:'智能摄像头V20',value:'HUADI:VCW002',type:'v20'},{name:'智能摄像头V30',value:'www.ys7.com:DS-2DE2204IW-D3',type:'v30'},{name:'萤石云摄像机C2',value:'ys7:CS-C2',type:'c2'},{name:'萤石云摄像机C6',value:'ys7:CS-C6',type:'c6'}];
+  // public deviceModeArr=[{name:'智能摄像头V20',value:'HUADI:VCW002',type:'v20'},{name:'智能摄像头V30',value:'www.ys7.com:DS-2DE2204IW-D3',type:'v30'},{name:'萤石云摄像机C2',value:'ys7:CS-C2',type:'c2'},{name:'萤石云摄像机C6',value:'ys7:CS-C6',type:'c6'}];
+  public deviceModeArr=[{name:'智能摄像头V20',value:'HUADI:VCW002',type:'v20'},{name:'智能摄像头V30',value:'www.ys7.com:DS-2DE2204IW-D3',type:'v30'},{name:'萤石云摄像机C6',value:'ys7:CS-C6',type:'c6'}];
   public customerArr;
   public isNetArr=[{name:'联网激活',value:1},{name:'不联网激活',value:0}];
   public isYs;
@@ -479,7 +482,6 @@ export class DeviceComponent {
   }
   /*设备激活*/
   deviceToAc(form){
-    console.log(form)
     let urlSearchParams = new URLSearchParams();
     if(form.deviceMode==''){alert('请选择设备型号');return;}
     if(form.customer==''){alert('请选择客户账号');return;}
@@ -493,13 +495,21 @@ export class DeviceComponent {
     if(form.code){urlSearchParams.append('validateCode', form.code); }
     if(form.isNet){urlSearchParams.append('isActive', 'true'); }
     if(!form.isNet){urlSearchParams.append('isActive', 'false'); }
-    if(form.description){urlSearchParams.append('description', form.description);}
+    urlSearchParams.append('description', form.description)
     let params = urlSearchParams.toString();
-    console.log(params)
- /*   this.deviceHttp.post('/api/v1.0/device/add ',params)
-      .subscribe(
-        req => {if(req['code']=="200"){ alert('回收成功');this.getDeviceList(this.page);} else{ alert(req['message']);}}
-      );*/
+    this.deviceHttp.post('/api/v1.0/device/add ',params)
+      .subscribe(req => {
+          if(req['code']=='200'){ alert('激活成功！'); }
+          else if(req['code']=='401'){
+            window.localStorage.removeItem('smartContent');
+            this.cameraService.isLoggedIn=false;
+            alert('请重新登录');
+            var url = '/login';
+            let navigationExtras: NavigationExtras = { queryParamsHandling: 'preserve', preserveFragment: false};
+            this.router.navigate([url], navigationExtras);
+          }
+          else{ alert(req['message']) }
+        });
   }
 
 /*-------------A类函数结束----------------*/

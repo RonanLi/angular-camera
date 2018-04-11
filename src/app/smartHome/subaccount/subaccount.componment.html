@@ -53,7 +53,7 @@
               <div class="fun">
                 <input *ngIf="power.forbidden&&list.statusCode=='正常'" class="btn btn-danger" type="button" value="锁定" (click)="single('禁用',list.customerId)">
                 <input *ngIf="power.active&&list.statusCode=='禁用'" class="btn btn-info" type="button" value="解锁" (click)="single('正常',list.customerId)">
-                <input *ngIf="power.edit" type="button" class="btn btn-success" [value]="list.edt?'取消':'编辑'" (click)="list.edt=!list.edt;this.mask=!this.mask;editData.linkman=list.linkman;editData.phone=list.phone;editData.description=list.description">
+                <input *ngIf="power.edit" type="button" class="btn btn-success" [value]="list.edt?'取消':'编辑'" (click)="list.edt=!list.edt;this.mask=!this.mask;editData.linkman=list.linkman;editData.phone=list.phone;editData.description=list.description;editData.role=list.roleNameArray">
               </div>
               <!--编辑表单-->
               <div class="editForm" *ngIf="list.edt">
@@ -75,7 +75,7 @@
                   <div class="form-group ">
                     <div class="codeBox clearfix">
                       <label class="control-label"><i class="red">*</i>联系人：</label>
-                      <input required type="text" #linkman="ngModel" [(ngModel)]="editData.linkman" name="linkman" [value]='list.linkman' autocomplete="off">
+                      <input required type="text" #linkman="ngModel" [(ngModel)]="editData.linkman" name="linkman" [value]='list.linkman' placeholder="联系人名称长度不超过8位" maxlength="8" autocomplete="off">
                     </div>
                   </div>
                   <div class="form-group ">
@@ -115,7 +115,7 @@
               <div class="form-group ">
                 <div>
                   <label class="control-label"><i class="red">*</i>公司名称：</label>
-                  <input required type="text" #customerName="ngModel" [(ngModel)]="addData.customerName" name="customerName" placeholder="请输入公司名称" autocomplete="off">
+                  <input required type="text" #customerName="ngModel" [(ngModel)]="addData.customerName" name="customerName" placeholder="公司名称不超过8位" maxlength="8" autocomplete="off">
                   <div *ngIf='form.submitted && (!customerName.valid)' class="text-danger">公司名称不能为空</div>
                 </div>
               </div>
@@ -137,7 +137,7 @@
               <div class="form-group ">
                 <div class="codeBox clearfix">
                   <label class="control-label"><i class="red">*</i>联系人：</label>
-                  <input required type="text" #linkman="ngModel" [(ngModel)]="addData.linkman" name="linkman" placeholder="请输入联系人名称" autocomplete="off">
+                  <input required type="text" #linkman="ngModel" [(ngModel)]="addData.linkman" name="linkman" placeholder="联系人名称长度不超过8位" maxlength="8" autocomplete="off">
                   <div *ngIf='form.submitted && (!linkman.valid)' class="text-danger">联系人不能为空</div>
                 </div>
               </div>

@@ -110,6 +110,7 @@ p select.form-control:not([size]):not([multiple]){display:inline-block;height:ca
 .imgBig span{font-size: 30px;cursor: pointer;color: #999;}
 /*客户管理*/
 .customerListT>div,.customerListC .list-group-item>div{ width:13.5%; }
+.customerListTC>div,.customerListCC .list-group-item>div{ width:11.5%; }
 .customerListT>div label{margin:0;cursor: pointer;}
 .btnBox{margin:10px 0;padding:10px; line-height: 30px; border-radius: 5px; font-size: 18px;background: #2e8b79;color: #fff;overflow: hidden;}
 .btnBox .btn{float: right;margin-left:10px;}
